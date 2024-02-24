@@ -21,7 +21,7 @@ Calculation of natural origin content of cosmetic product according to formulati
 Editing calculations if you need.
 Adding new raw materials in a database.
 Editing raw materials.
-Future functionalities:
 
+Future functionalities:
 Direct links of raw material for easier gathering of additional information.
 Exporting document with calculation results.
