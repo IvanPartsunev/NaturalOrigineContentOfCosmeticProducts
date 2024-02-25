@@ -1,0 +1,47 @@
+{% for field in form %}
+    {% if field.widget_type == "text" %}
+        <label for="{{ field.id_for_label }}">
+            {{ field.label }}
+            <input
+                    type="{{ field.widget_type }}"
+                    name="{{ field.html_name }}"
+                    id="{{ field.id_for_label }}"
+                    value="{{ field.initial|default:"" }}"
+                    class="text-field"
+            >
+        </label>
+
+    {% elif field.widget_type == "select" %}
+        <label for="{{ field.id_for_label }}">
+            {{ field.label }}
+            <select
+                    name="{{ field.html_name }}"
+                    id="{{ field.id_for_label }}"
+                    class="select-field"
+            >
+                {% for choice in field.subwidgets %}
+                    <option
+                            class="option"
+                            value="{{ choice.data.value }}"
+                            {% if field.initial == choice.data.value %} selected {% endif %}
+                    >
+                        {{ choice.choice_label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+    {% elif field.widget_type == "number" %}
+        <label for="{{ field.id_for_label }}">
+            {{ field.label }}
+            <input
+                    type="{{ field.widget_type }}"
+                    name="{{ field.html_name }}"
+                    id="{{ field.id_for_label }}"
+                    value="{{ field.initial|default:"" }}"
+                    class="number-field"
+            >
+        </label>
+    {% endif %}
+
+{% endfor %}

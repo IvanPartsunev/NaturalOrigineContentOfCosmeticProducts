@@ -1,0 +1,22 @@
+{% extends "base.html" %}}
+{% load static %}
+
+{% block load_styles %}
+{#    <link rel="stylesheet" href="{% static 'css/color-schemes/update-color-scheme.css' %}">#}
+{% endblock %}
+
+{% block content %}
+
+    <h1>Update raw material</h1>
+    
+    {% include "includes/raw_materials_selector.html" %}
+
+    
+    <form name="update_raw_material" action="{% url 'update_raw_material' object.pk %}" method="post">
+        {% include "includes/create-update-form-render.html" %}
+        
+        <button name="button">Update</button>
+        {% csrf_token %}
+    </form>
+
+{% endblock %}
