@@ -1,9 +1,18 @@
-from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView
 
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
+
+
+class RawMaterialsView(ListView):
+    model = RawMaterial
+    template_name = "raw_material/raw-materials.html"
+    paginate_by = 3
+
+
+class DetailsRawMaterialView(DetailView):
+    queryset = RawMaterial.objects.all()
+    template_name = "raw_material/raw-materials.html"
 
 
 class CreateRawMaterialView(CreateView):
@@ -35,3 +44,9 @@ class UpdateRawMaterialView(UpdateView):
         context["existing_materials"] = RawMaterial.objects.all()
 
         return context
+
+
+
+
+
+

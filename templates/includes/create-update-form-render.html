@@ -8,6 +8,7 @@
                     id="{{ field.id_for_label }}"
                     value="{{ field.initial|default:"" }}"
                     class="text-field"
+                    {% if field.required %}{{ field }}{% endif %}
             >
         </label>
 
