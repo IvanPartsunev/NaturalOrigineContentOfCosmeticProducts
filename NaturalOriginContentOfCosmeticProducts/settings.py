@@ -8,7 +8,6 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 INSTALLED_APPS = [
 
     # django build in apps
@@ -22,9 +21,11 @@ INSTALLED_APPS = [
     # third party apps
 
     # project apps
-    'NaturalOriginContentOfCosmeticProducts.raw_materials',
-    'NaturalOriginContentOfCosmeticProducts.calculate_noi',
+    'NaturalOriginContentOfCosmeticProducts.raw_materials.apps.RawMaterialConfig',
+    'NaturalOriginContentOfCosmeticProducts.calculate_noi.apps.CalculateNoiConfig',
+    'NaturalOriginContentOfCosmeticProducts.accounts.apps.UserAccountConfig',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -98,3 +99,5 @@ STATICFILES_DIRS = (
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "accounts.CompanyAccountModel"
