@@ -7,7 +7,7 @@ from django.db import models
 from NaturalOriginContentOfCosmeticProducts.accounts.managers import NaturalOriginAccountManager
 
 
-class CompanyAccountModel(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
+class AccountModel(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     email = models.EmailField(
         _("email address"),
         max_length=150,
@@ -44,10 +44,10 @@ class CompanyAccountModel(auth_models.AbstractBaseUser, auth_models.PermissionsM
     REQUIRED_FIELDS = ["company_name",]
 
     def __str__(self):
-        return self.email
+        return self.company_name
 
 
-class UserProfile(models.Model):
+class AccountProfileModel(models.Model):
 
     first_name = models.CharField(
         _("first name"),
@@ -69,13 +69,13 @@ class UserProfile(models.Model):
     )
 
     company_logo = models.URLField(
-        _("company website"),
+        _("company logo"),
         blank=True,
         null=True,
     )
 
     company = models.OneToOneField(
-        CompanyAccountModel,
+        AccountModel,
         primary_key=True,
         on_delete=models.CASCADE,
     )
