@@ -1,4 +1,7 @@
 from django.contrib.auth import forms as auth_forms, get_user_model
+from django import forms
+
+from NaturalOriginContentOfCosmeticProducts.accounts.models import AccountProfileModel
 
 UserModel = get_user_model()
 
@@ -16,4 +19,11 @@ class AccountUpdateForm(auth_forms.UserChangeForm):
     class Meta(auth_forms.UserChangeForm.Meta):
         model = UserModel
         fields = "__all__"
+
+
+class AccountProfileForm(forms.ModelForm):
+    class Meta:
+        model = AccountProfileModel
+        fields = "__all__"
+
 

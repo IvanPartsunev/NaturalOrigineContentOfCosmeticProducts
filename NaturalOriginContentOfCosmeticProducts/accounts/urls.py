@@ -1,0 +1,11 @@
+from django.urls import path
+
+from NaturalOriginContentOfCosmeticProducts.accounts.views import AccountCreateView, AccountProfileUpdateView, \
+    AccountLoginView, account_logout
+
+urlpatterns = (
+    path("registation/", AccountCreateView.as_view(), name="account_registration"),
+    path("update_profile/<int:pk>", AccountProfileUpdateView.as_view(), name="account_profile_update"),
+    path("login/", AccountLoginView.as_view(), name="account_login"),
+    path("logout/", account_logout, name="account_logout"),
+)
