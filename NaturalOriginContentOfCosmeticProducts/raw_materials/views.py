@@ -1,33 +1,38 @@
 from django.contrib.auth import mixins as auth_mixins
+from django.urls import reverse_lazy
 from django.views import generic as views
+from django.views.generic.edit import FormMixin
+
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
 
-class RawMaterialsView(views.ListView):
-    model = RawMaterial
-    template_name = "raw_material/raw-materials.html"
-    paginate_by = 3
-
-
-class DetailsRawMaterialView(views.DetailView):
-    queryset = RawMaterial.objects.all()
-    template_name = "raw_material/raw-materials.html"
-
-
-class CreateRawMaterialView(auth_mixins.LoginRequiredMixin, views.CreateView):
+class RawMaterialCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
     form_class = RawMaterialForm
     template_name = "raw_material/create_raw_material.html"
     success_url = "index.html"
 
 
-class UpdateRawMaterialView(auth_mixins.LoginRequiredMixin, views.UpdateView):
+class RawMaterialListView(views.ListView):
+    model = RawMaterial
+    template_name = "raw_material/list-of-raw-material.html"
+    paginate_by = 5
+    ordering = ["trade_name"]
+
+
+class RawMaterialDetailsView(FormMixin, views.DetailView):
+    queryset = RawMaterial.objects.all()
+    form_class = RawMaterialForm
+    template_name = "raw_material/details-of-raw-material.html"
+    success_url = reverse_lazy("details_raw_material")
+
+
+class RawMaterialUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     queryset = RawMaterial.objects.all()
     form_class = RawMaterialForm
     template_name = "raw_material/update_raw_material.html"
-    # TODO make success url to redirect to raw material details if
-    #  raw material is successfully updated and to return back to form if not.
+    # TODO make success url to redirect to raw material details.
 
     def get_object(self, queryset=None):
         initital_pk = self.request.GET.get("raw_material")
@@ -46,7 +51,8 @@ class UpdateRawMaterialView(auth_mixins.LoginRequiredMixin, views.UpdateView):
         return context
 
 
-
+class RawMaterialDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+    pass
 
 
 

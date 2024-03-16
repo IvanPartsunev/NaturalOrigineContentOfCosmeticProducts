@@ -1,0 +1,24 @@
+{
+  "name": "naturalorigincontentofcosmeticproducts",
+  "version": "1.0.0",
+  "description": "I created this project as a tool for calculating \"Natural origin content\" of cosmetic products according to requirements of ISO 16128.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/IvanPartsunev/NaturalOrigineContentOfCosmeticProducts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IvanPartsunev/NaturalOrigineContentOfCosmeticProducts/issues"
+  },
+  "homepage": "https://github.com/IvanPartsunev/NaturalOrigineContentOfCosmeticProducts#readme",
+  "devDependencies": {
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  }
+}

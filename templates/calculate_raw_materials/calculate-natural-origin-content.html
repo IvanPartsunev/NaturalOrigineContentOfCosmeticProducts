@@ -9,14 +9,14 @@
     <form id="base_form" action="{% url 'calculate_noi' %}" method="post">
         {{ formset.management_form }}
 
-        <div class="container" id="container">
-
-
+        <div id="container">
+        
             {% for form in formset %}
-                <div>
+                <div id="{{ form.prefix }}">
                     {{ form }}
                 </div>
             {% endfor %}
+        
         </div>
         {% csrf_token %}
         <button id="calculate" type="submit">Submit</button>
@@ -26,7 +26,6 @@
     <button id="add-row">Add row</button>
     <button id="remove-row">Remove row</button>
 
-
-    {#    <script src="{% static 'js/index.js' %}"></script>#}
+    <script src="{% static 'JS/bundle.js' %}"></script>
 
 {% endblock %}

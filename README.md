@@ -17,8 +17,11 @@ The Project will be maintained and contributed only by the author.
 Functionality of the project:
 
 Profile in which to store your information.
-Calculation of natural origin content of cosmetic product according to formulation.
-Editing calculations if you need.
+User will be able to store the full formulation in the database for further editing
+or save only the result for natural origin content of your product.
+This option is given because cosmetic product formulations are intellectual property
+and users may not want to store them out of a company database.
+
 Adding new raw materials in a database.
 Editing raw materials.
 

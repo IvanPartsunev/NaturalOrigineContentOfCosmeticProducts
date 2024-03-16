@@ -12,14 +12,14 @@
     {% block load_styles %}{% endblock %}
 </head>
 <body>
-{% include "includes/navigation.html" %}
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
-<div>
-    {% block more %}
-    {% endblock %}
-</div>
+    {% include "includes/navigation.html" %}
+{#    <div class="container">#}
+        {% block content %}
+        {% endblock %}
+{#    </div>#}
+    <div>
+        {% block more %}
+        {% endblock %}
+    </div>
 </body>
 </html>

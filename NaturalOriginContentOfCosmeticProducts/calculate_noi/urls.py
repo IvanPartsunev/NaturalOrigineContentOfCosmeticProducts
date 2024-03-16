@@ -1,7 +1,7 @@
 from django.urls import path
 
-from NaturalOriginContentOfCosmeticProducts.calculate_noi.views import CalculateNaturalOriginContent
+from NaturalOriginContentOfCosmeticProducts.calculate_noi.views import CalculateNaturalOriginContentView
 
 urlpatterns = (
-    path("", CalculateNaturalOriginContent.as_view(), name="calculate_noi"),
+    path("", CalculateNaturalOriginContentView.as_view(), name="calculate_noi"),
 )

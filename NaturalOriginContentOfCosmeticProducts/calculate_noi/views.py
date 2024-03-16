@@ -5,7 +5,7 @@ from django.views.generic import FormView
 from NaturalOriginContentOfCosmeticProducts.calculate_noi.forms import CalculateNaturalOriginContentForm, MyFormSet
 
 
-class CalculateNaturalOriginContent(FormView):
+class CalculateNaturalOriginContentView(FormView):
     template_name = "calculate_raw_materials/calculate-natural-origin-content.html"
     form_class = CalculateNaturalOriginContentForm
     success_url = reverse_lazy("index")

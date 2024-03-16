@@ -1,7 +1,0 @@
-{% extends "base.html" %}
-
-{% block content %}
-    {% for object in object_list %}
-        <p><a href="{% url 'details_raw_material' object.pk %}">{{ object.trade_name }}</a></p>
-    {% endfor %}
-{% endblock %}
