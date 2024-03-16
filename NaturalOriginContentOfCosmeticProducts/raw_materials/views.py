@@ -1,28 +1,27 @@
-from django.views.generic import CreateView, UpdateView, ListView, DetailView
-
+from django.views import generic as view
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
 
-class RawMaterialsView(ListView):
+class RawMaterialsView(view.ListView):
     model = RawMaterial
     template_name = "raw_material/raw-materials.html"
     paginate_by = 3
 
 
-class DetailsRawMaterialView(DetailView):
+class DetailsRawMaterialView(view.DetailView):
     queryset = RawMaterial.objects.all()
     template_name = "raw_material/raw-materials.html"
 
 
-class CreateRawMaterialView(CreateView):
+class CreateRawMaterialView(view.CreateView):
 
     form_class = RawMaterialForm
     template_name = "raw_material/create_raw_material.html"
     success_url = "index.html"
 
 
-class UpdateRawMaterialView(UpdateView):
+class UpdateRawMaterialView(view.UpdateView):
     queryset = RawMaterial.objects.all()
     form_class = RawMaterialForm
     template_name = "raw_material/update_raw_material.html"
