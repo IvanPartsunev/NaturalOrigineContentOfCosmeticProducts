@@ -8,6 +8,7 @@
             <li><a href="{% url "create_raw_material" %}">Create RM</a></li>
             <li><a href="{% url "raw_materials" %}">List RM</a></li>
             <li><a href="{% url "calculate_noi" %}">Calculate</a></li>
+            <li><a href="{% url "account_profile_details" pk=user.pk %}">Profile</a></li>
         {% endif %}
     </ul>
 </nav>

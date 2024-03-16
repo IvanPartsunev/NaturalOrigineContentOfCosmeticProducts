@@ -1,8 +1,8 @@
 {% block content %}
-    <form action="{% url "account_profile_update" pk=object.pk %}" method="post">
+    <form action="{% url 'account_profile_update' pk=object.pk %}" method="post">
         {{ form.as_p }}
         {% csrf_token %}
         <button>Save</button>
-        <button><a href="{% url "index" %}"></a>Finish later</button>
+        <button><a href="{% url 'account_profile_details' pk=object.pk %}">Cancel</a></button>
     </form>
 {% endblock %}

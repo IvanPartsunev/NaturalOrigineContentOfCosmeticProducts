@@ -1,27 +1,28 @@
-from django.views import generic as view
+from django.contrib.auth import mixins as auth_mixins
+from django.views import generic as views
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
 
-class RawMaterialsView(view.ListView):
+class RawMaterialsView(views.ListView):
     model = RawMaterial
     template_name = "raw_material/raw-materials.html"
     paginate_by = 3
 
 
-class DetailsRawMaterialView(view.DetailView):
+class DetailsRawMaterialView(views.DetailView):
     queryset = RawMaterial.objects.all()
     template_name = "raw_material/raw-materials.html"
 
 
-class CreateRawMaterialView(view.CreateView):
+class CreateRawMaterialView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
     form_class = RawMaterialForm
     template_name = "raw_material/create_raw_material.html"
     success_url = "index.html"
 
 
-class UpdateRawMaterialView(view.UpdateView):
+class UpdateRawMaterialView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     queryset = RawMaterial.objects.all()
     form_class = RawMaterialForm
     template_name = "raw_material/update_raw_material.html"

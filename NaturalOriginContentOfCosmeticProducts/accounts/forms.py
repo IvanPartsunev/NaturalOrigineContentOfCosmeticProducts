@@ -24,6 +24,11 @@ class AccountUpdateForm(auth_forms.UserChangeForm):
 class AccountProfileForm(forms.ModelForm):
     class Meta:
         model = AccountProfileModel
-        fields = "__all__"
+        fields = (
+            "first_name",
+            "last_name",
+            "company_website",
+            "company_logo"
+        )
 
 

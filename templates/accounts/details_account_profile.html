@@ -1,0 +1,10 @@
+{% block content %}
+
+    <img src="{{ object.company_logo }}" alt="Logo">
+    <div id="company-name">{{ object.company.company_name }}</div>
+    <div id="company-user">{{ object.get_full_name }}</div>
+    
+    <button><a href="{% url 'account_profile_update' pk=object.pk %}">Update</a></button>
+    
+	
+{% endblock %}
