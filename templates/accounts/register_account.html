@@ -1,3 +1,5 @@
+{% extends "base.html" %}}
+
 {% block content %}
     <form action="{% url "account_registration" %}" method="post">
         {{ form.as_p }}

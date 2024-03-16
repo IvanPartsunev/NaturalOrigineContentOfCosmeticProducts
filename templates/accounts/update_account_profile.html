@@ -1,3 +1,5 @@
+{% extends "base.html" %}}
+
 {% block content %}
     <form action="{% url 'account_profile_update' pk=object.pk %}" method="post">
         {{ form.as_p }}
