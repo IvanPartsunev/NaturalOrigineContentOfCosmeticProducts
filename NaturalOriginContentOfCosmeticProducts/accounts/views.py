@@ -25,6 +25,13 @@ class AccountLoginView(auth_views.LoginView):
     template_name = "accounts/login_account.html"
     redirect_authenticated_user = True
 
+    def get_success_url(self):
+        next_url = self.request.POST.get("next") or self.request.GET.get("next")
+        if next_url and next_url.startswith("/"):
+            return next_url
+
+        return super().get_success_url()
+
 
 def account_logout(request):
     logout(request)
