@@ -1,5 +1,5 @@
 from django.contrib.auth import mixins as auth_mixins
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 from django.views.generic.edit import FormMixin
 
@@ -32,23 +32,28 @@ class RawMaterialUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     queryset = RawMaterial.objects.all()
     form_class = RawMaterialForm
     template_name = "raw_material/update_raw_material.html"
-    # TODO make success url to redirect to raw material details.
 
-    def get_object(self, queryset=None):
-        initital_pk = self.request.GET.get("raw_material")
+    def get_success_url(self):
+        return reverse("details_raw_material", kwargs={"pk": self.object.pk})
 
-        if self.request.method == "GET" and initital_pk:
-            obj = RawMaterial.objects.get(pk=initital_pk)
-            return obj
-        else:
-            return super().get_object(queryset)
+    # def get_object(self, queryset=None):
+    #     initital_pk = self.request.GET.get("raw_material")
+    #
+    #     if self.request.method == "GET" and initital_pk:
+    #         obj = RawMaterial.objects.get(pk=initital_pk)
+    #         return obj
+    #     else:
+    #         return super().get_object(queryset)
+    #
+    # def get_context_data(self, **kwargs):
+    #
+    #     context = super().get_context_data(**kwargs)
+    #     context["existing_materials"] = RawMaterial.objects.all()
+    #
+    #     return context
 
-    def get_context_data(self, **kwargs):
 
-        context = super().get_context_data(**kwargs)
-        context["existing_materials"] = RawMaterial.objects.all()
 
-        return context
 
 
 class RawMaterialDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
