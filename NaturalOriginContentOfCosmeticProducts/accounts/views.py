@@ -12,7 +12,7 @@ from NaturalOriginContentOfCosmeticProducts.accounts.models import AccountModel,
 class AccountCreateView(views.CreateView):
     queryset = AccountModel.objects.all()
     form_class = AccountCreateForm
-    template_name = "accounts/register_account.html"
+    template_name = "accounts/account_register.html"
     success_url = reverse_lazy("account_profile_update")
 
     def form_valid(self, form):
@@ -22,7 +22,7 @@ class AccountCreateView(views.CreateView):
 
 
 class AccountLoginView(auth_views.LoginView):
-    template_name = "accounts/login_account.html"
+    template_name = "accounts/account_login.html"
     redirect_authenticated_user = True
 
     def get_success_url(self):
@@ -33,20 +33,20 @@ class AccountLoginView(auth_views.LoginView):
         return super().get_success_url()
 
 
-def account_logout(request):
+def account_logout_view(request):
     logout(request)
     return redirect('index')
 
 
 class AccountProfileDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
     queryset = AccountProfileModel.objects.all().prefetch_related("company")
-    template_name = "accounts/details_account_profile.html"
+    template_name = "accounts/account_profile_details.html"
 
 
 class AccountProfileUpdateView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.UpdateView):
     queryset = AccountProfileModel.objects.all().prefetch_related("company")
     form_class = AccountProfileForm
-    template_name = "accounts/update_account_profile.html"
+    template_name = "accounts/account_profile_update.html"
 
     def get_success_url(self):
         return reverse("account_profile_details", kwargs={"pk": self.object.pk})

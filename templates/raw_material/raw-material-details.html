@@ -1,0 +1,17 @@
+{% extends "base.html" %}}
+
+{% block content %}
+
+    <div>
+        <h3>{{ object.trade_name }}</h3>
+        <p>Inci: {{ object.inci_name }}</p>
+        <p>Type: {{ object.material_type }}</p>
+        <p>Noi: {{ object.natural_origin_content }}%</p>
+        <p>Last updated: {{ object.edited_on }}</p>
+    </div>
+    {% if user.is_authenticated %}
+    	<button><a href="{% url 'raw_material_update' pk=object.pk %}">Update</a></button>
+    {% endif %} 
+    
+    
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block load_styles %}
+{#    <link rel="stylesheet" href="{% static 'css/color-schemes/create-color-scheme.css' %}">#}
+{% endblock %}
+
+{% block content %}
+
+    <h1>Create raw material</h1>
+    <form name="create_raw_material" action="{% url 'raw_material_create' %}" method="post">
+        {% include "includes/create-update-form-render.html" %}
+{#            {{ form.as_p }}#}
+        <button>Create</button>
+
+        {% csrf_token %}
+    </form>
+
+{% endblock %}

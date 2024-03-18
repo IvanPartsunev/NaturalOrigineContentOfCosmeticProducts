@@ -6,7 +6,7 @@ from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMateri
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
 
-class CalculateNaturalOriginContentForm(RawMaterialForm):
+class CalculateNaturalContentForm(RawMaterialForm):
     MIN_RAW_MATERIAL_CONTENT = 0
     MAX_RAW_MATERIAL_CONTENT = 100
 
@@ -36,4 +36,4 @@ class CalculateNaturalOriginContentForm(RawMaterialForm):
             field.label = ""
 
 
-MyFormSet = formset_factory(CalculateNaturalOriginContentForm, extra=1)
+MyFormSet = formset_factory(CalculateNaturalContentForm, extra=1)

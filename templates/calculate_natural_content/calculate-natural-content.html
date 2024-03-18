@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block load_styles %}
+    {#    <link rel="stylesheet" href="{% static 'css/color-schemes/create-color-scheme.css' %}">#}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <form id="base_form" action="{% url 'calculate_noi' %}" method="post">
+        {{ formset.management_form }}
+
+        <div id="container">
+
+            {% for form in formset %}
+                <div id="{{ form.prefix }}">
+                    {% include "includes/raw_materials_selector.html" %}
+                    {{ form }}
+                </div>
+            {% endfor %}
+
+        </div>
+        {% csrf_token %}
+        <button id="calculate" type="submit">Submit</button>
+    </form>
+
+
+    <button id="add-row">Add row</button>
+    <button id="remove-row">Remove row</button>
+
+    <script src="{% static 'JS/calculateNaturalOrigin.js' %}"></script>
+    {% include "includes/autofill_calculate_natural_content.html" %}
+
+{% endblock %}

@@ -1,14 +1,13 @@
-<form name="select_form" method="get">
-    <label for="materials">Select raw material:</label>
-    <select name="raw_material"
-            id="materials"
-            onchange="this.form.submit()"
-            class="select-field"
-    >
-        <option value="">-------</option>
-        {% for material in existing_materials %}
-            <option value="{{ material.pk }}">{{ material.trade_name }}</option>
-        {% endfor %}
-    </select>
-    {% csrf_token %}
-</form>
+<label for="select_material">Select raw material:</label>
+<select name="raw_material"
+        id="select_material"
+        class="select-field"
+>
+    <option value="">-------</option>
+    {% for material in existing_materials %}
+        <option value="{{ material.pk }}">
+            {{ material.trade_name }}
+        </option>
+
+    {% endfor %}
+</select>
