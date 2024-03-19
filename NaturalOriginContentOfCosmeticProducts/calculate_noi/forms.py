@@ -36,4 +36,6 @@ class CalculateNaturalContentForm(RawMaterialForm):
             field.label = ""
 
 
+
+
 MyFormSet = formset_factory(CalculateNaturalContentForm, extra=1)

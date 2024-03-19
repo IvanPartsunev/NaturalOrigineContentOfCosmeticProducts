@@ -4,7 +4,8 @@
             const materialId = $(this).val();
             const parentElement = $(this).parent();
             const inputFields = parentElement.find("input");
-            const selectField = parentElement.find("select[placeholder='Type:']")
+            const selectField = parentElement.find("select[id^='id']")
+            console.log(selectField)
 
             $.ajax({
                 url: "{% url 'raw_material_autofill' %}",

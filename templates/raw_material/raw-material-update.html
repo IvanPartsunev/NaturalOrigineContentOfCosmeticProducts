@@ -9,12 +9,12 @@
 
     <h1>Update raw material</h1>
     <form name="select_form" method="get">
-        {% include "includes/raw_materials_selector.html" %}
+        {% include "includes/raw-material-selector.html" %}
         {% csrf_token %}
     </form>
     
     <form name="update_raw_material" action="{% url 'raw_material_update' object.pk %}" method="post">
-        {% include "includes/create-update-form-render.html" %}
+        {% include "includes/raw-material-form-render.html" %}
         
         <button name="button">Update</button>
         {% csrf_token %}

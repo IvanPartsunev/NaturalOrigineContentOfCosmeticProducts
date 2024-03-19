@@ -14,8 +14,9 @@
 
             {% for form in formset %}
                 <div id="{{ form.prefix }}">
-                    {% include "includes/raw_materials_selector.html" %}
+                    {% include "includes/raw-material-selector.html" %}
                     {{ form }}
+{#                    {% include "includes/raw-material-form-render.html" %}#}
                 </div>
             {% endfor %}
 
@@ -29,6 +30,6 @@
     <button id="remove-row">Remove row</button>
 
     <script src="{% static 'JS/calculateNaturalOrigin.js' %}"></script>
-    {% include "includes/autofill_calculate_natural_content.html" %}
+    {% include "includes/calculate-natural-content-autofill.html" %}
 
 {% endblock %}

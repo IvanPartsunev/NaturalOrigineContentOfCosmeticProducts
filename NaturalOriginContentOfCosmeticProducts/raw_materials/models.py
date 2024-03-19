@@ -40,3 +40,4 @@ class RawMaterial(models.Model):
 
     def __str__(self):
         return self.trade_name
+
