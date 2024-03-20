@@ -14,7 +14,6 @@ class CalculateNaturalContentView(view.FormView):
 
     def post(self, request, *args, **kwargs):
         formset = MyFormSet(request.POST)
-        test = formset.forms
         if formset.is_valid() and any(form.cleaned_data for form in formset):
             return self.form_valid(formset)
         else:
@@ -28,9 +27,14 @@ class CalculateNaturalContentView(view.FormView):
         return context
 
     def form_valid(self, formset):
+        all_raw_materials = RawMaterial.objects.values_list("trade_name", flat=True)
         for form in formset:
-            pass
-        return render(self.request, self.success_url)
+            if form.cleaned_data.get("current_trade_name") not in all_raw_materials:
+                form.save()
+            else:
+                continue
+
+        return super().form_valid(formset)
 
 
 def get_material_data_for_autofill(request):

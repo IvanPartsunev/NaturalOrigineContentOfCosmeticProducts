@@ -17,6 +17,8 @@
                     inputFields.eq(0).val(data["name"]);
                     inputFields.eq(1).val(data["inci"]);
                     selectField.find("option[value='" + data["type"] + "']").prop("selected", true);
+                    console.log(inputFields)
+                    console.log(inputFields.eq(3).val(data["nat_content"]))
                     inputFields.eq(3).val(data["nat_content"]);
                 }
             });

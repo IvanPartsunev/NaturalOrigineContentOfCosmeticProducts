@@ -9,8 +9,8 @@
 
     <h1>Create raw material</h1>
     <form name="create_raw_material" action="{% url 'raw_material_create' %}" method="post">
-        {% include "includes/raw-material-form-render.html" %}
-{#            {{ form.as_p }}#}
+{#        {% include "includes/raw-material-form-render.html" %}#}
+            {{ form.as_p }}
         <button>Create</button>
 
         {% csrf_token %}

@@ -1,6 +1,8 @@
+import re
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.forms import formset_factory
+from django.forms import formset_factory, BaseFormSet
 
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
@@ -9,6 +11,8 @@ from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMater
 class CalculateNaturalContentForm(RawMaterialForm):
     MIN_RAW_MATERIAL_CONTENT = 0
     MAX_RAW_MATERIAL_CONTENT = 100
+
+    current_trade_name = forms.CharField()
 
     raw_material_content = forms.IntegerField(
         label="Content in %",
@@ -21,7 +25,7 @@ class CalculateNaturalContentForm(RawMaterialForm):
     class Meta(RawMaterialForm.Meta):
         model = RawMaterial
         fields = [
-            "trade_name",
+            "current_trade_name",
             "inci_name",
             "raw_material_content",
             "material_type",
@@ -35,7 +39,22 @@ class CalculateNaturalContentForm(RawMaterialForm):
             field.widget.attrs.update({'placeholder': field.label})
             field.label = ""
 
+    def clean_current_trade_name(self):
+        data = self.cleaned_data.get("current_trade_name")
+        split_data = re.findall(self.REGEX_PATTERN, data)
+        cleared_trade_name = " ".join(x.upper() for x in split_data)
 
+        if not cleared_trade_name:
+            raise ValidationError('Invalid Trade name')
+        return cleared_trade_name
+
+    def save(self, commit=True):
+        RawMaterial.objects.create(
+            trade_name=self.cleaned_data.get("current_trade_name"),
+            inci_name=self.cleaned_data.get("inci_name"),
+            material_type=self.cleaned_data.get("material_type"),
+            natural_origin_content=self.cleaned_data.get("natural_origin_content"),
+        )
 
 
 MyFormSet = formset_factory(CalculateNaturalContentForm, extra=1)
