@@ -2,8 +2,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator, MinLeng
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from NaturalOriginContentOfCosmeticProducts.core.mixins import CreateUpdateMixin
 
-class RawMaterial(models.Model):
+
+class RawMaterial(CreateUpdateMixin):
     MAX_NATURAL_ORIGIN_CONTENT = 100
     MIN_NATURAL_ORIGIN_CONTENT = 50
 
@@ -34,9 +36,6 @@ class RawMaterial(models.Model):
         blank=False,
         null=False
     )
-
-    created_on = models.DateField(auto_now_add=True)
-    edited_on = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.trade_name
