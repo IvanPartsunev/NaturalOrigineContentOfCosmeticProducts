@@ -4,11 +4,21 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.forms import formset_factory, BaseFormSet
 
+from NaturalOriginContentOfCosmeticProducts.calculate_noi.models import Product
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
 
-class CalculateNaturalContentForm(RawMaterialForm):
+class ProductCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = [
+            "product_name",
+        ]
+
+
+class ProductCalculateNaturalContentForm(RawMaterialForm):
     MIN_RAW_MATERIAL_CONTENT = 0
     MAX_RAW_MATERIAL_CONTENT = 100
 
@@ -57,4 +67,4 @@ class CalculateNaturalContentForm(RawMaterialForm):
         )
 
 
-MyFormSet = formset_factory(CalculateNaturalContentForm, extra=1)
+MyFormSet = formset_factory(ProductCalculateNaturalContentForm, extra=1)

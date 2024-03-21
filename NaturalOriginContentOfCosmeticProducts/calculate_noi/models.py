@@ -1,6 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
+from NaturalOriginContentOfCosmeticProducts.accounts.models import AccountModel
 from NaturalOriginContentOfCosmeticProducts.core.mixins import CreateUpdateMixin
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
@@ -22,8 +23,18 @@ class Product(CreateUpdateMixin):
         null=True,
     )
 
+    owner = models.ForeignKey(
+        AccountModel,
+        on_delete=models.RESTRICT,
+    )
+
 
 class ProductFormula(CreateUpdateMixin):
+    description = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+    )
 
     product = models.ForeignKey(
         Product,
@@ -50,9 +61,9 @@ class ProductFormulaRawMaterial(models.Model):
         null=False,
     )
 
-    raw_material = models.OneToOneField(
+    raw_material = models.ForeignKey(
         RawMaterial,
-        on_delete=models.CASCADE,
+        on_delete=models.RESTRICT,
         blank=False,
         null=False,
     )

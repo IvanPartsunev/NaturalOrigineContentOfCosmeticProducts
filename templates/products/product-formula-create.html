@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>{{ product_name }}</h3>
+    <form action="{% url 'product_formula_create' %}" method="post">
+        {{ form }}
+        {% csrf_token %}
+        <button>Calculate</button>
+    </form>
+{% endblock %}

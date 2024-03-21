@@ -5,6 +5,6 @@ urlpatterns = (
     path("admin/", admin.site.urls),
     path("", include("NaturalOriginContentOfCosmeticProducts.core.urls")),
     path("raw-materials/", include("NaturalOriginContentOfCosmeticProducts.raw_materials.urls")),
-    path("calculate_noi/", include("NaturalOriginContentOfCosmeticProducts.calculate_noi.urls")),
+    path("product/", include("NaturalOriginContentOfCosmeticProducts.calculate_noi.urls")),
     path("accounts/", include("NaturalOriginContentOfCosmeticProducts.accounts.urls")),
 )

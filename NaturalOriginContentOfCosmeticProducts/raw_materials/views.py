@@ -1,4 +1,5 @@
 from django.contrib.auth import mixins as auth_mixins
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 from django.views.generic.edit import FormMixin
@@ -10,13 +11,13 @@ from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMater
 class RawMaterialCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
     form_class = RawMaterialForm
-    template_name = "raw_material/raw-material-create.html"
+    template_name = "raw_materials/raw-material-create.html"
     success_url = reverse_lazy("index")
 
 
 class RawMaterialListView(views.ListView):
     model = RawMaterial
-    template_name = "raw_material/raw-material-list.html"
+    template_name = "raw_materials/raw-material-list.html"
     paginate_by = 5
     ordering = ["trade_name"]
 
@@ -24,14 +25,16 @@ class RawMaterialListView(views.ListView):
 class RawMaterialDetailsView(FormMixin, views.DetailView):
     queryset = RawMaterial.objects.all()
     form_class = RawMaterialForm
-    template_name = "raw_material/raw-material-details.html"
-    success_url = reverse_lazy("raw_material_details")
+    template_name = "raw_materials/raw-material-details.html"
+
+    def form_valid(self, form):
+        return HttpResponseRedirect(reverse("product_details"), {"pk": self.object.pk})
 
 
 class RawMaterialUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     queryset = RawMaterial.objects.all()
     form_class = RawMaterialForm
-    template_name = "raw_material/raw-material-update.html"
+    template_name = "raw_materials/raw-material-update.html"
 
     def get_success_url(self):
         return reverse("raw_material_details", kwargs={"pk": self.object.pk})

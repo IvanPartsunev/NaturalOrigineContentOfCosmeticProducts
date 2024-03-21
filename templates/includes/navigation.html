@@ -8,7 +8,9 @@
         {% else %}
             <li><a href="{% url "account_logout" %}">Logout</a></li>
             <li><a href="{% url "raw_material_create" %}">Create RM</a></li>
-            <li><a href="{% url "calculate_noi" %}">Calculate</a></li>
+            <li><a href="{% url "product_calculate_noc" %}">Calculate</a></li>
+            <li><a href="{% url "product_create" %}">Create product</a></li>
+            <li><a href="{% url "product_list" %}">List of products</a></li>
             <li><a href="{% url "account_profile_details" pk=user.pk %}">Profile</a></li>
         {% endif %}
     </ul>

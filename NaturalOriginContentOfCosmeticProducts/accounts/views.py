@@ -1,4 +1,3 @@
-from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
@@ -13,7 +12,7 @@ class AccountCreateView(views.CreateView):
     queryset = AccountModel.objects.all()
     form_class = AccountCreateForm
     template_name = "accounts/account_register.html"
-    success_url = reverse_lazy("account_profile_update")
+    success_url = reverse_lazy("account_profile")
 
     def form_valid(self, form):
         result = super().form_valid(form)

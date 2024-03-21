@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="natural_origin_content_db@localhost" uuid="f3f46d75-1b24-4e3e-9d0c-e7344afc5423">
+    <data-source source="LOCAL" name="natural_origin_content_db@localhost" uuid="f243a963-59f9-4a1b-ad3f-74cfe367c794">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/natural_origin_content_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="Django default" uuid="c4231de3-64a6-4dfb-9361-acffd9578aa8">
+    <data-source source="LOCAL" name="Django default" uuid="41544673-1e88-4855-9702-efd991452231">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
