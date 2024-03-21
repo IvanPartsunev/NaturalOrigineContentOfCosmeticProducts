@@ -1,3 +1,4 @@
+from django.forms import formset_factory
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
@@ -31,11 +32,14 @@ class ProductCreateView(views.CreateView):
 
 
 class ProductDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.prefetch_related("formulas")
     template_name = "products/product-details.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        last_formula = self.object.formulas.last()
+        context["latest_formula"] = last_formula
 
         product_name = self.object.product_name
         product_id = self.object.pk
@@ -129,7 +133,7 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
         form.instance.product_id = product_id
         form.save()
 
-        formula_description = form.instance.description
+        formula_description = form.instance.description or None
         formula_id = form.instance.pk
 
         self.request.session["formula_description"] = formula_description
@@ -138,8 +142,28 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
         return super().form_valid(form)
 
 
+class ProductFormulaDetailView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
+    queryset = ProductFormula.objects.all().prefetch_related("formula__raw_material")
+    template_name = "products/product-formula-details.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        product_id = self.request.session.get("product_id")
+        product = get_object_or_404(Product, pk=product_id)
+
+        product_formula = self.object
+        raw_materials = product_formula.formula.all().select_related("raw_material") or None
+        related_raw_materials = {raw_material: raw_material.raw_material for raw_material in raw_materials}
+
+        context['related_raw_materials'] = related_raw_materials
+        context['product'] = product
+
+        return context
+
+
 class ProductFormulaDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DeleteView):
-    queryset = Product.objects.all()
-    template_name = "products/product-delete.html"
+    queryset = ProductFormula.objects.all().prefetch_related("formula__raw_material")
+    template_name = "products/product-formula-details.html"
     success_url = reverse_lazy("index")
 

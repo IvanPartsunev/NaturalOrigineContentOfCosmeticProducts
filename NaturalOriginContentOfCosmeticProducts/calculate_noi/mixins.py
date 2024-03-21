@@ -30,16 +30,21 @@ class CalculateSaveMixin:
         all_raw_materials = RawMaterial.objects.all()
         formula_id = self.request.session.get("formula_id")
         formula = ProductFormula.objects.get(pk=formula_id)
+        formula_content = []
         for raw_material in raw_materials:
             raw_material_content = raw_material.cleaned_data.get("raw_material_content")
             raw_material_trade_name = raw_material.cleaned_data.get("current_trade_name")
             raw_material_object = all_raw_materials.get(trade_name=raw_material_trade_name)
 
-            ProductFormulaRawMaterial.objects.create(
-                raw_material_content=raw_material_content,
-                formula=formula,
-                raw_material=raw_material_object,
+            formula_content.append(
+                ProductFormulaRawMaterial(
+                    raw_material_content=raw_material_content,
+                    formula=formula,
+                    raw_material=raw_material_object,
+                )
             )
+
+        ProductFormula.objects.bulk_create(formula_content)
 
     def calculate_product_natural_content(self, raw_materials):
         product_raw_natural_content = []

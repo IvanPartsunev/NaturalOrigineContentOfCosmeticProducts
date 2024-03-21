@@ -41,8 +41,12 @@ class ProductFormula(CreateUpdateMixin):
         on_delete=models.CASCADE,
         blank=False,
         null=False,
+        related_name="formulas",
     )
 
+    def __str__(self):
+        return f"Formula fro {self.product}"
+    
 
 class ProductFormulaRawMaterial(models.Model):
 
@@ -56,9 +60,9 @@ class ProductFormulaRawMaterial(models.Model):
     formula = models.ForeignKey(
         ProductFormula,
         on_delete=models.CASCADE,
-        related_name="formula",
         blank=False,
         null=False,
+        related_name="formula",
     )
 
     raw_material = models.ForeignKey(
@@ -66,6 +70,9 @@ class ProductFormulaRawMaterial(models.Model):
         on_delete=models.RESTRICT,
         blank=False,
         null=False,
+        related_name="raw_materials"
     )
 
+    def __str__(self):
+        return f"Raw material {self.formula}"
 

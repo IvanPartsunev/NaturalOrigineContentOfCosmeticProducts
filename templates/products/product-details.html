@@ -4,5 +4,10 @@
     {{ object.product_name }}
     {{ object.natural_content }}
     
-    <button><a href="{% url 'product_formula_create' %}">Create formula</a></button>
+    <div><a href="{% url 'product_formula_details' pk=latest_formula.pk %}">Latest formulation: {{ latest_formula.created_on|date:"d.m.Y" }}</a></div>
+    <div>Description: {{ latest_formula.description|default_if_none:"" }}</div>
+    
+    
+    
+    <button><a href="{% url 'product_formula_details' pk=object.pk %}">Create formula</a></button>
 {% endblock %}
