@@ -82,5 +82,7 @@ class AccountProfileModel(models.Model):
 
     @property
     def get_full_name(self):
+        if not self.first_name or not self.last_name:
+            return "Name not entered. Update profile."
         full_name = f"{self.first_name} {self.last_name}"
         return full_name.strip()

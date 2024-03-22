@@ -3,18 +3,29 @@
 {% block content %}
     
     <div>
-        <p>{{ product.product_name }}</p>
+        <h3>{{ product.product_name }}</h3>
         <p>{{ object.description|default_if_none:"" }}</p>
-        {% for formula_material, raw_material in related_raw_materials.items %}
-            <div>
-                <p>{{ raw_material.trade_name }}</p>
-                <p>{{ raw_material.inci_name }}</p>
-                <p>{{ formula_material.raw_material_content }}</p>
-                <p>{{ raw_material.natural_origin_content }}</p>
-                <p>{{ raw_material.material_type }}</p>
-            </div>
-        {% endfor %}
-        <p>Natural content in %: {{ product.natural_content }}</p>
+    
+        {% if related_raw_materials %}
+            
+        	{% for formula_material, raw_material in related_raw_materials.items %}
+                <div>
+                    <p>{{ raw_material.trade_name }}</p>
+                    <p>{{ raw_material.inci_name }}</p>
+                    <p>{{ formula_material.raw_material_content }}</p>
+                    <p>{{ raw_material.natural_origin_content }}</p>
+                    <p>{{ raw_material.material_type }}</p>
+                </div>
+            {% endfor %}
+            
+        {% else %}
+            
+            <button><a href="{% url 'product_calculate_noc' %}">Calculate</a></button>
+            
+        {% endif %} 
+        
+        <p>Natural content in %: {{ product.natural_content|default_if_none:"Not calculated" }}</p>
+        
     </div>
 
 {% endblock %}

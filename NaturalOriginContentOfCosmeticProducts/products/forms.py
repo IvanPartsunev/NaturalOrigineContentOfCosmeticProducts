@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.forms import formset_factory, BaseFormSet
 
-from NaturalOriginContentOfCosmeticProducts.calculate_noi.models import Product
+from NaturalOriginContentOfCosmeticProducts.products.models import Product
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 

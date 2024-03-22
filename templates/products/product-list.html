@@ -4,15 +4,11 @@
 	    {% for object in object_list %}
 
         <div>
-            <p>
-                <a href="{% url 'product_details' object.pk %}">{{ object.trade_name }}</a>
-            </p>
-            <p>Product name: {{ object.product_name }}</p>
+
+            <h3>Product name: {{ object.product_name }}</h3>
             <p>Natural origin content: {{ object.natural_content }} %</p>
             {% if user.is_authenticated %}
-                <button>
-                    <a href="{% url 'product_delete' object.pk %}">Delete</a>
-                </button>
+                
                 <button>
                     <a href="{% url 'product_details' object.pk %}">View</a>
                 </button>

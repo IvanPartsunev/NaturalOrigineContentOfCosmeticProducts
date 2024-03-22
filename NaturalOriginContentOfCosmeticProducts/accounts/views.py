@@ -12,7 +12,7 @@ class AccountCreateView(views.CreateView):
     queryset = AccountModel.objects.all()
     form_class = AccountCreateForm
     template_name = "accounts/account_register.html"
-    success_url = reverse_lazy("account_profile")
+    success_url = reverse_lazy("index")
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -26,8 +26,9 @@ class AccountLoginView(auth_views.LoginView):
 
     def get_success_url(self):
         next_url = self.request.POST.get("next") or self.request.GET.get("next")
-        if next_url and next_url.startswith("/"):
-            return next_url
+
+        if "/accounts" in next_url:
+            return reverse("index")
 
         return super().get_success_url()
 

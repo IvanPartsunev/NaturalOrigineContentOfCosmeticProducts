@@ -24,7 +24,7 @@ INSTALLED_APPS = [
 
     # project apps
     'NaturalOriginContentOfCosmeticProducts.raw_materials.apps.RawMaterialConfig',
-    'NaturalOriginContentOfCosmeticProducts.calculate_noi.apps.CalculateNoiConfig',
+    'NaturalOriginContentOfCosmeticProducts.products.apps.ProductsConfig',
     'NaturalOriginContentOfCosmeticProducts.accounts.apps.UserAccountConfig',
 ]
 

@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import get_object_or_404
 
-from NaturalOriginContentOfCosmeticProducts.calculate_noi.models import Product, ProductFormula, \
+from NaturalOriginContentOfCosmeticProducts.products.models import Product, ProductFormula, \
     ProductFormulaRawMaterial
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
@@ -9,6 +9,7 @@ from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMater
 class CalculateSaveMixin:
     MINIMUM_SUM_OF_CONTENT = 100
     MAXIMUM_SUM_OF_CONTENT = 103
+    CALCULATION_ERROR_MESSAGE = "Sum of raw material's content should be between 100% and 103%!"
 
     @staticmethod
     def save_not_existing_raw_materials(formset):
@@ -30,21 +31,17 @@ class CalculateSaveMixin:
         all_raw_materials = RawMaterial.objects.all()
         formula_id = self.request.session.get("formula_id")
         formula = ProductFormula.objects.get(pk=formula_id)
-        formula_content = []
+
         for raw_material in raw_materials:
             raw_material_content = raw_material.cleaned_data.get("raw_material_content")
             raw_material_trade_name = raw_material.cleaned_data.get("current_trade_name")
             raw_material_object = all_raw_materials.get(trade_name=raw_material_trade_name)
 
-            formula_content.append(
-                ProductFormulaRawMaterial(
-                    raw_material_content=raw_material_content,
-                    formula=formula,
-                    raw_material=raw_material_object,
-                )
-            )
-
-        ProductFormula.objects.bulk_create(formula_content)
+            ProductFormulaRawMaterial(
+                raw_material_content=raw_material_content,
+                formula=formula,
+                raw_material=raw_material_object,
+            ).save()
 
     def calculate_product_natural_content(self, raw_materials):
         product_raw_natural_content = []
@@ -58,7 +55,7 @@ class CalculateSaveMixin:
             calculated = content_in_formulation * natural_origin_content / 100
             product_raw_natural_content.append(calculated)
 
-        if self.MAXIMUM_SUM_OF_CONTENT < sum_off_raw_materials_content < self.MINIMUM_SUM_OF_CONTENT:
+        if sum_off_raw_materials_content > self.MAXIMUM_SUM_OF_CONTENT or sum_off_raw_materials_content < self.MINIMUM_SUM_OF_CONTENT:
             return None
 
         product_natural_content = (sum(product_raw_natural_content) / sum_off_raw_materials_content) * 100
@@ -71,7 +68,9 @@ class OwnerRequiredMixin(AccessMixin):
     permission_denied_message = "You are not authorized to open this page!"
 
     def dispatch(self, request, *args, **kwargs):
+        # TODO Fix this to work also for formulas
         product = Product.objects.filter(pk=kwargs.get('pk', None)).first()
+
         if request.user.pk != product.owner_id:
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)

@@ -9,7 +9,7 @@
 
 {% block content %}
     <h3>{{ product_name }}</h3>
-    <h4>{{ description }}</h4>
+{#    <h4>{{ description }}</h4>#}
     <form id="base_form" action="{% url 'product_calculate_noc' %}" method="post">
         {{ formset.management_form }}
     
@@ -19,7 +19,6 @@
                 <div id="{{ form.prefix }}">
                     {% include "includes/raw-material-selector.html" %}
                     {{ form }}
-{#                    {% include "includes/raw-material-form-render.html" %}#}
                 </div>
             {% endfor %}
 

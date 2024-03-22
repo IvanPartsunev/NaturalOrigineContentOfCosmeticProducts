@@ -1,14 +1,12 @@
-from django.forms import formset_factory
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
-from django.contrib.auth import views as auth_views, mixins as auth_mixins
+from django.contrib.auth import mixins as auth_mixins
 
-from NaturalOriginContentOfCosmeticProducts.calculate_noi.forms import ProductCalculateNaturalContentForm, MyFormSet, \
+from NaturalOriginContentOfCosmeticProducts.products.forms import ProductCalculateNaturalContentForm, MyFormSet, \
     ProductCreateForm
-from NaturalOriginContentOfCosmeticProducts.calculate_noi.mixins import CalculateSaveMixin, OwnerRequiredMixin
-from NaturalOriginContentOfCosmeticProducts.calculate_noi.models import Product, ProductFormula, \
-    ProductFormulaRawMaterial
+from NaturalOriginContentOfCosmeticProducts.products.mixins import CalculateSaveMixin, OwnerRequiredMixin
+from NaturalOriginContentOfCosmeticProducts.products.models import Product, ProductFormula
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
 
@@ -16,11 +14,9 @@ class ProductCreateView(views.CreateView):
     queryset = Product.objects.all()
     form_class = ProductCreateForm
     template_name = "products/product-create.html"
-    success_url = reverse_lazy("index")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        self.request.session["product_id"] = kwargs.get("pk")
         return context
 
     def get_success_url(self):
@@ -63,14 +59,14 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
 class ProductDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DeleteView):
     queryset = Product.objects.all()
     template_name = "products/product-delete.html"
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("product_list")
 
 
 class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
 
-    template_name = "products/calculate-natural-content.html"
+    template_name = "products/product-calculate-natural-content.html"
     form_class = ProductCalculateNaturalContentForm
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("product_list")
 
     def post(self, request, *args, **kwargs):
         formset = MyFormSet(request.POST)
@@ -104,13 +100,11 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
             return render(self.request, self.template_name, {
                 "formset": formset,
                 "existing_materials": existing_materials,
-                "error": "Sum of raw material's content should be 100% or above!"
+                "error": self.CALCULATION_ERROR_MESSAGE,
             })
 
         self.save_natural_origin_content(product_natural_content)
         self.save_formula_recipe(formset)
-
-        self.request.session.clear()
 
         return super().form_valid(formset)
 
@@ -128,41 +122,43 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
         return context
 
     def form_valid(self, form):
+        form.instance.owner = self.request.user
         product_id = self.request.session.get("product_id")
 
         form.instance.product_id = product_id
         form.save()
 
-        formula_description = form.instance.description or None
-        formula_id = form.instance.pk
-
-        self.request.session["formula_description"] = formula_description
-        self.request.session["formula_id"] = formula_id
+        self.request.session["formula_description"] = form.instance.description
+        self.request.session["formula_id"] = form.instance.pk
 
         return super().form_valid(form)
 
 
-class ProductFormulaDetailView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
+class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.DetailView):
     queryset = ProductFormula.objects.all().prefetch_related("formula__raw_material")
     template_name = "products/product-formula-details.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        self.request.session["formula_description"] = self.object.description
+        self.request.session["formula_id"] = self.object.pk
+
         product_id = self.request.session.get("product_id")
         product = get_object_or_404(Product, pk=product_id)
 
         product_formula = self.object
         raw_materials = product_formula.formula.all().select_related("raw_material") or None
-        related_raw_materials = {raw_material: raw_material.raw_material for raw_material in raw_materials}
+        if raw_materials:
+            related_raw_materials = {raw_material: raw_material.raw_material for raw_material in raw_materials}
+            context['related_raw_materials'] = related_raw_materials
 
-        context['related_raw_materials'] = related_raw_materials
         context['product'] = product
 
         return context
 
 
-class ProductFormulaDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DeleteView):
+class ProductFormulaDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     queryset = ProductFormula.objects.all().prefetch_related("formula__raw_material")
     template_name = "products/product-formula-details.html"
     success_url = reverse_lazy("index")

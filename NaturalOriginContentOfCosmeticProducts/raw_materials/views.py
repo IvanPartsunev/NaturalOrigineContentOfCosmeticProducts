@@ -12,7 +12,14 @@ class RawMaterialCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
     form_class = RawMaterialForm
     template_name = "raw_materials/raw-material-create.html"
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("raw_material_list")
+
+    def form_valid(self, form):
+        material_type = form.cleaned_data.get("material_type")
+        if material_type == "NN":
+            form.instance.natural_origin_content = 0
+
+        return super().form_valid(form)
 
 
 class RawMaterialListView(views.ListView):

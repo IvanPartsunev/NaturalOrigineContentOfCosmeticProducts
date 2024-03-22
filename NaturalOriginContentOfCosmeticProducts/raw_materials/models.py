@@ -7,7 +7,7 @@ from NaturalOriginContentOfCosmeticProducts.core.mixins import CreateUpdateMixin
 
 class RawMaterial(CreateUpdateMixin):
     MAX_NATURAL_ORIGIN_CONTENT = 100
-    MIN_NATURAL_ORIGIN_CONTENT = 50
+    MIN_NATURAL_ORIGIN_CONTENT = 0
 
     class NaturalTypeChoices(models.TextChoices):
         NATURAL = "NA", _("Natural")

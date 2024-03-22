@@ -44,14 +44,19 @@ class ProductFormula(CreateUpdateMixin):
         related_name="formulas",
     )
 
+    owner = models.ForeignKey(
+        AccountModel,
+        on_delete=models.RESTRICT,
+    )
+
     def __str__(self):
-        return f"Formula fro {self.product}"
+        return f"Formula for {self.product}"
     
 
 class ProductFormulaRawMaterial(models.Model):
 
     raw_material_content = models.DecimalField(
-        max_digits=4,
+        max_digits=5,
         decimal_places=2,
         blank=False,
         null=False,

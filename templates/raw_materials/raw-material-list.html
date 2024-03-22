@@ -5,9 +5,9 @@
     {% for object in object_list %}
 
         <div>
-            <p>
+            <h3>
                 <a href="{% url 'raw_material_details' object.pk %}">{{ object.trade_name }}</a>
-            </p>
+            </h3>
             <p>Inci: {{ object.inci_name }}</p>
             <p>noI: {{ object.natural_origin_content }} %</p>
             {% if user.is_authenticated %}

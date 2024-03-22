@@ -44,7 +44,7 @@ class RawMaterialForm(forms.ModelForm):
 
         cleared_natural_origin_content = int(data)
 
-        if not cleared_natural_origin_content:
-            raise ValidationError('Invalid value for Ion')
+        if cleared_natural_origin_content is None:
+            raise ValidationError('Invalid value for natural origin content')
 
         return cleared_natural_origin_content
