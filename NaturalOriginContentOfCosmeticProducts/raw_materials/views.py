@@ -1,9 +1,11 @@
 from django.contrib.auth import mixins as auth_mixins
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 from django.views.generic.edit import FormMixin
 
+from NaturalOriginContentOfCosmeticProducts.core.forms import SearchForm
 from NaturalOriginContentOfCosmeticProducts.core.mixins import StaffRequiredMixin
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
@@ -24,10 +26,21 @@ class RawMaterialCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 
 class RawMaterialListView(views.ListView):
-    queryset = RawMaterial.objects.filter(is_deleted=False)
     template_name = "raw_materials/raw-material-list.html"
     paginate_by = 5
     ordering = ["trade_name"]
+
+    def get_queryset(self):
+        queryset = RawMaterial.objects.filter(is_deleted=False)
+        search_query = self.request.GET.get("search_field")
+        if search_query:
+            queryset = queryset.filter(Q(trade_name__icontains=search_query) | Q(inci_name__icontains=search_query))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = SearchForm(self.request.GET)
+        return context
 
 
 class RawMaterialDetailsView(FormMixin, views.DetailView):

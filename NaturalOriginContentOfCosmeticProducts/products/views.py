@@ -3,6 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 from django.contrib.auth import mixins as auth_mixins
 
+from NaturalOriginContentOfCosmeticProducts.core.forms import SearchForm
 from NaturalOriginContentOfCosmeticProducts.products.forms import ProductCalculateNaturalContentForm, MyFormSet, \
     ProductCreateForm
 from NaturalOriginContentOfCosmeticProducts.products.mixins import CalculateSaveMixin, OwnerRequiredMixin
@@ -53,7 +54,15 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
 
     def get_queryset(self):
         queryset = Product.objects.filter(owner_id=self.request.user.pk)
+        search_query = self.request.GET.get("search_field")
+        if search_query:
+            queryset = queryset.filter(product_name__icontains=search_query)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = SearchForm(self.request.GET)
+        return context
 
 
 class ProductUpdateView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.UpdateView):
