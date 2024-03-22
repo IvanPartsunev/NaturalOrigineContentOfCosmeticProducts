@@ -25,8 +25,11 @@ class Product(CreateUpdateMixin):
 
     owner = models.ForeignKey(
         AccountModel,
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return self.product_name
 
 
 class ProductFormula(CreateUpdateMixin):
@@ -46,14 +49,14 @@ class ProductFormula(CreateUpdateMixin):
 
     owner = models.ForeignKey(
         AccountModel,
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
-        return f"Formula for {self.product}"
+        return f"{self.product} formula"
     
 
-class ProductFormulaRawMaterial(models.Model):
+class ProductFormulaRawMaterial(CreateUpdateMixin):
 
     raw_material_content = models.DecimalField(
         max_digits=5,
@@ -75,9 +78,20 @@ class ProductFormulaRawMaterial(models.Model):
         on_delete=models.RESTRICT,
         blank=False,
         null=False,
-        related_name="raw_materials"
+        related_name="raw_materials",
     )
 
     def __str__(self):
-        return f"Raw material {self.formula}"
+        return f"Raw material for {self.formula}"
 
+
+def formatted_edited_on(self, obj):
+    return obj.edited_on.strftime("%d-%m-%Y")
+
+formatted_edited_on.short_description = "Edited On"
+
+
+def formatted_created_on(self, obj):
+    return obj.created_on.strftime("%d-%m-%Y")
+
+formatted_created_on.short_description = "Created On"

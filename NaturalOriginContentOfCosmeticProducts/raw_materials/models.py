@@ -17,11 +17,11 @@ class RawMaterial(CreateUpdateMixin):
     trade_name = models.CharField(
         unique=True,
         blank=False,
-        null=False
+        null=False,
     )
     inci_name = models.CharField(
         blank=False,
-        null=False
+        null=False,
     )
 
     material_type = models.CharField(
@@ -34,7 +34,13 @@ class RawMaterial(CreateUpdateMixin):
             MinValueValidator(MIN_NATURAL_ORIGIN_CONTENT)
         ],
         blank=False,
-        null=False
+        null=False,
+    )
+
+    is_deleted = models.BooleanField(
+        default=False,
+        blank=False,
+        null=False,
     )
 
     def __str__(self):

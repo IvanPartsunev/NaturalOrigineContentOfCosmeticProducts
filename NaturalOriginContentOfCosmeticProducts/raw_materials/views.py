@@ -4,6 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 from django.views.generic.edit import FormMixin
 
+from NaturalOriginContentOfCosmeticProducts.core.mixins import StaffRequiredMixin
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
@@ -23,7 +24,7 @@ class RawMaterialCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 
 class RawMaterialListView(views.ListView):
-    model = RawMaterial
+    queryset = RawMaterial.objects.filter(is_deleted=False)
     template_name = "raw_materials/raw-material-list.html"
     paginate_by = 5
     ordering = ["trade_name"]
@@ -63,6 +64,14 @@ class RawMaterialUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
         return context
 
 
-class RawMaterialDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
-    pass
+class RawMaterialDeleteView(auth_mixins.LoginRequiredMixin, StaffRequiredMixin, views.DeleteView):
+    queryset = RawMaterial.objects.all()
+    template_name = "raw_materials/raw-material-delete.html"
+    success_url = reverse_lazy("raw_material_list")
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.is_deleted = True
+        self.object.save()
+        return HttpResponseRedirect(success_url)
 

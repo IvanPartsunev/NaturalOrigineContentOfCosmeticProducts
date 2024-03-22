@@ -18,13 +18,15 @@
                 </div>
             {% endfor %}
             
+            <button><a href="{% url 'product_formula_delete' pk=object.pk %}">Delete</a></button>
+            
         {% else %}
             
             <button><a href="{% url 'product_calculate_noc' %}">Calculate</a></button>
             
         {% endif %} 
         
-        <p>Natural content in %: {{ product.natural_content|default_if_none:"Not calculated" }}</p>
+        <p>Product natural content in %: {{ product.natural_content|default_if_none:"Not calculated" }}</p>
         
     </div>
 

@@ -56,6 +56,16 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
         return queryset
 
 
+class ProductUpdateView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.UpdateView):
+    queryset = Product.objects.all()
+    template_name = "products/product-update.html"
+    form_class = ProductCreateForm
+    success_url = reverse_lazy("product_details")
+
+    def get_success_url(self):
+        return reverse("product_details", kwargs={"pk": self.object.pk})
+
+
 class ProductDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DeleteView):
     queryset = Product.objects.all()
     template_name = "products/product-delete.html"
@@ -163,3 +173,5 @@ class ProductFormulaDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView)
     template_name = "products/product-formula-details.html"
     success_url = reverse_lazy("index")
 
+    def get_success_url(self):
+        return reverse("product_details", kwargs={"pk": self.request.session.get("product_id")})

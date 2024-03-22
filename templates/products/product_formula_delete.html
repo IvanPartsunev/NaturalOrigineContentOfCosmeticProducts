@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <h3>Confirm Delete</h3>
+    <p>Are you sure you want to delete formula?</p>
+    <form action="{% url 'product_formula_delete_delete' pk=object.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Yes</button>
+    </form>
+    <button><a href="{% url "index" %}">No</a></button>
+
+{% endblock %}

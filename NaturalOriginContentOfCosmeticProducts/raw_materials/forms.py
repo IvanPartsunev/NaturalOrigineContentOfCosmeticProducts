@@ -12,7 +12,12 @@ class RawMaterialForm(forms.ModelForm):
 
     class Meta:
         model = RawMaterial
-        exclude = ["created_on", "edited_on"]
+        fields = [
+            "trade_name",
+            "inci_name",
+            "material_type",
+            "natural_origin_content",
+        ]
 
         labels = {
             "trade_name": "Trade name:",

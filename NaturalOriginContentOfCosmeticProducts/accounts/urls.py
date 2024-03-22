@@ -7,6 +7,6 @@ urlpatterns = (
     path("registation/", AccountCreateView.as_view(), name="account_registration"),
     path("login/", AccountLoginView.as_view(), name="account_login"),
     path("logout/", account_logout_view, name="account_logout"),
-    path("profile_update/<int:pk>", AccountProfileUpdateView.as_view(), name="account_profile_update"),
-    path("profile_details/<int:pk>", AccountProfileDetailsView.as_view(), name="account_profile_details"),
+    path("<int:pk>/profile_update/", AccountProfileUpdateView.as_view(), name="account_profile_update"),
+    path("<int:pk>/profile_details/", AccountProfileDetailsView.as_view(), name="account_profile_details"),
 )

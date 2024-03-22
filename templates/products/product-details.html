@@ -10,9 +10,10 @@
                 formulation: {{ latest_formula.created_on|date:"d.m.Y" }}</a></div>
             <div>Description: {{ latest_formula.description|default_if_none:"" }}</div>
         {% else %}
-            <button><a href="{% url 'product_formula_create' %}">Create formula</a></button>
+            
         {% endif %}
     </div>
+    <button><a href="{% url 'product_formula_create' %}">Create formula</a></button>
     <button><a href="{% url 'product_delete' object.pk %}">Delete</a></button>
 
     

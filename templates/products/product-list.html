@@ -9,9 +9,8 @@
             <p>Natural origin content: {{ object.natural_content }} %</p>
             {% if user.is_authenticated %}
                 
-                <button>
-                    <a href="{% url 'product_details' object.pk %}">View</a>
-                </button>
+                <button><a href="{% url 'product_details' object.pk %}">View</a></button>
+                <button><a href="{% url 'product_update' object.pk %}">Update</a></button>
             {% endif %}
         </div>
         
