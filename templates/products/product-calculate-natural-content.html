@@ -3,11 +3,13 @@
 {% load static %}
 
 {% block load_styles %}
-    {#    <link rel="stylesheet" href="{% static 'css/color-schemes/create-color-scheme.css' %}">#}
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
 {% endblock %}
 
 {% block content %}
+    
     <h3>{{ product_name }}</h3>
 {#    <h4>{{ description }}</h4>#}
     <form id="base_form" action="{% url 'product_calculate_noc' %}" method="post">
@@ -31,7 +33,7 @@
     <button id="add-row">Add row</button>
     <button id="remove-row">Remove row</button>
 
-    <script src="{% static 'JS/calculateNaturalOrigin.js' %}"></script>
+    <script src="{% static 'js/calculateNaturalOrigin.js' %}"></script>
     {% include "includes/calculate-natural-content-autofill.html" %}
 
 {% endblock %}

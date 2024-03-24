@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    Hello!
+    {% if user.is_authenticated %}
+        <div><a href="{% url 'raw_material_create' %}">Create Raw material</a></div>
+        <div><a href="{% url "raw_material_list" %}">Raw materials</a></div>
+        <div><a href="{% url 'product_create' %}">Create product</a></div>
+        <div><a href="{% url 'product_list' %}">My products</a></div>
+    {% else %}
+        <div><a href="{% url "raw_material_list" %}">Raw materials</a></div>
+    {% endif %}
+
 {% endblock %}

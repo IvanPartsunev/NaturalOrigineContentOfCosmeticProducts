@@ -27,11 +27,11 @@ class RawMaterialCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 class RawMaterialListView(views.ListView):
     template_name = "raw_materials/raw-material-list.html"
-    paginate_by = 5
+    paginate_by = 10
     ordering = ["trade_name"]
 
     def get_queryset(self):
-        queryset = RawMaterial.objects.filter(is_deleted=False)
+        queryset = RawMaterial.objects.filter(is_deleted=False).order_by("trade_name")
         search_query = self.request.GET.get("search_field")
         if search_query:
             queryset = queryset.filter(Q(trade_name__icontains=search_query) | Q(inci_name__icontains=search_query))

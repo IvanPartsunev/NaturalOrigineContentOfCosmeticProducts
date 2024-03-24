@@ -1,0 +1,50 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header, footer {
+    padding: 1em;
+}
+
+main {
+    display: flex;
+    position: relative;
+    min-height: 80vh;
+    padding-inline: 0.5em;
+}
+
+main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('../img/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+a {
+    display: block;
+    text-align: center;
+    width: 100%;
+    text-decoration: none;
+    color: rgb(84, 84, 84, 1);
+}
+
+li {
+    width: 100%;
+    list-style: none;
+}
+
+
+
+

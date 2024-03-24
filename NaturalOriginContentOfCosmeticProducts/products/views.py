@@ -53,7 +53,7 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
     ordering = ["product_name"]
 
     def get_queryset(self):
-        queryset = Product.objects.filter(owner_id=self.request.user.pk)
+        queryset = Product.objects.filter(owner_id=self.request.user.pk).order_by("product_name")
         search_query = self.request.GET.get("search_field")
         if search_query:
             queryset = queryset.filter(product_name__icontains=search_query)

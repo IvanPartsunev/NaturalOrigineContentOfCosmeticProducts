@@ -4,22 +4,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Natorium</title>
-{#    <link rel="stylesheet" href="{% static "css/index.css" %}">#}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    {% block load_styles %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Origin Content</title>
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')
+    </style>
+    <script src="https://kit.fontawesome.com/58eaeed2de.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<header>
     {% include "includes/navigation.html" %}
-
+</header>
+<main>
+    <div class="container">
         {% block content %}
         {% endblock %}
-
-    <div>
-        {% block more %}
-        {% endblock %}
     </div>
+</main>
+<footer>
+    <p>CONTENT
+        Calendar of festivities
+        New assets
+        The most popular content
+        Search trends
+        Blog</p>
+    <p>INFORMATION
+        Pricing
+        About us
+        Press room
+        API
+        Jobs
+        Sell your content
+        Freepik brand guidelines</p>
+    <p>
+        Pricing
+        About us
+        Press room
+        API
+        Jobs
+        Sell your content
+        Freepik brand guidelines</p>
+</footer>
 </body>
 </html>

@@ -1,5 +1,20 @@
-<form method="get">
-    {{ search_form }}
-    {% csrf_token %}
-    <button>Search</button>
-</form>
+<div class="search">
+    <form method="get">
+        
+        <label for="{{ search_form.field.id_for_label }}">
+            {{ field.label }}
+            <input
+                    type="{{ search_form.field.widget_type }}"
+                    name="{{ search_form.field.html_name }}"
+                    id="{{ search_form.field.id_for_label }}"
+                    value="{{ field.initial|default:"" }}"
+                    placeholder="Search..."
+                    class="search-field box-shadow"
+            >
+        </label>
+        
+        {% csrf_token %}
+        <button class="search-button box-shadow"><i class="fa-solid fa-magnifying-glass fa-sm"></i></button>
+        
+    </form>
+</div>
