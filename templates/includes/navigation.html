@@ -5,12 +5,13 @@
         <a href="{% url 'index' %}"><img class="site-logo" src="{% static 'img/web-site-logo.png' %}" alt=""></a>
     </div>
     
-    <ul class="gradient-border-1 box-shadow">
+    <ul class="gradient-border-3 box-shadow-inset">
         {% if not user.is_authenticated %}
             <li class="gradient-pype-2"><a href="{% url 'account_registration' %}">Register</a></li>
             <li class="gradient-pype-2"><a href="{% url 'account_login' %}?next={{ request.path }}">Login</a></li>
         {% else %}
             <li class="gradient-pype-2"><a href="{% url 'product_list' %}">{{ user.company_name }}</a></li>
+            <li class="gradient-pype-2"><a href="{% url "raw_material_list" %}">Raw materials</a></li>
             <li class="gradient-pype-2"><a href="{% url 'account_profile_details' pk=user.pk %}">Profile</a></li>
             <li class="gradient-pype-2"><a href="{% url 'account_logout' %}">Logout</a></li>
         {% endif %}

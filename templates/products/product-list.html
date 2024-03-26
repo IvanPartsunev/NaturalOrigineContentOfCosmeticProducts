@@ -1,25 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
+
     {% include  "includes/search-bar.html" %}
-    
-    {% for object in object_list %}
 
-        <div class="list-elem">
+    <div class="holder">
+        <h2>Products</h2>
+        <div class="btn-2 box-shadow-inset"><a href="{% url 'product_create' %}">Create</a></div>
+    </div>
 
-            <h3>Product name: {{ object.product_name }}</h3>
-            <p>Natural origin content: {{ object.natural_content }} %</p>
-            {% if user.is_authenticated %}
-                
-                <button class="btn gradient-border-1 box-shadow"><a href="{% url 'product_details' object.pk %}">View</a></button>
-                <button class="btn gradient-border-1 box-shadow"><a href="{% url 'product_update' object.pk %}">Update</a></button>
-                
-            {% endif %}
-        
-        </div>
+    <div class="container">
 
-    {% endfor %}
+        {% for object in object_list %}
+
+            <div class="list-elem">
+                <div class="info-container">
+                    <h4>{{ object.product_name }}</h4>
+                    <p class="border-bottom"></p>
+                    <p>Natural origin content:</p>
+                    <p class="gradient-border-circle box-shadow-inset"> {{ object.natural_content|default_if_none:"n/a" }}
+                        %</p>
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="btn-container">
+                        <button class="btn gradient-border-3 box-shadow-inset">
+                            <a href="{% url 'product_details' object.pk %}">Details</a>
+                        </button>
+                        <button class="btn gradient-border-3 box-shadow-inset">
+                            <a href="{% url 'product_update' object.pk %}">Update</a>
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+
+        {% endfor %}
+    </div>
+
 
     {% if object_list %}
         {% include "includes/paginator.html" %}

@@ -50,3 +50,9 @@ class AccountProfileUpdateView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixi
 
     def get_success_url(self):
         return reverse("account_profile_details", kwargs={"pk": self.object.pk})
+
+
+class AccountProfileDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DeleteView):
+    queryset = AccountModel.objects.all()
+    template_name = "accounts/account-confirm-delete.html"
+    success_url = reverse_lazy("index")

@@ -31,7 +31,6 @@ function addRow() {
 
 function removeRow() {
     const current_form = document.querySelector("#container").lastElementChild;
-    console.log(current_form)
     const totalForms = document.querySelector(('#id_form-TOTAL_FORMS'))
     if (current_form.id !== "form-0" && totalForms.value > 1) {
         totalForms.value = Number(totalForms.value) - 1

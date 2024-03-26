@@ -1,28 +1,130 @@
-div.container {
+main {
     display: flex;
+    flex: 1 1 auto;
+    padding: 0 2em 1em 3em;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+}
+
+main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('../img/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.container {
+    display: flex;
+    min-height: 80%;
     width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.card {
+    display: flex;
     flex-direction: column;
     align-items: center;
+    width: 60%;
+    padding: 3em;
+    gap: 5em;
+    border-radius: 1em;
+    background: white;
 }
 
 .list-elem {
     display: flex;
-    width: 50%;
+    flex: 1 0 24%;
+    max-width: 24%;
     flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
+    font-size: calc(0.7vw + 0.7vh);
     padding: 1em;
     gap: 0.1em;
-    margin: 0.5em 0 0 0;
-    border: 1px solid rgb(84, 84, 84, 0.4);
     border-radius: 1em;
-    box-shadow: 0 0 0.2em 0 rgba(0,0,0,0.1);
+    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.7);
     background-color: white;
 }
 
+div.list-elem p:last-of-type {
+    margin-bottom: 3em;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    min-height: 85%;
+    align-items: center;
+    text-align: center;
+}
+
+.name-info {
+    padding: 0.5em 1em 0.5em 1em;
+    flex: 1 1;
+    min-width: 30%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    font-weight: 600;
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
+    linear-gradient(0deg, rgba(157, 63, 251, 0.7) 0%, rgba(252, 70, 107, 0.7) 100%) border-box;
+    border-radius: 1em;
+    border: 2px solid transparent;
+}
+
+.holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 1em;
+    margin-block: 1em;
+    width: 100%;
+}
+
+h2  {
+    font-size: calc(1vw + 1vh);
+    margin-bottom: 1em;
+    width: 100%;
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+}
+
 @media (max-width: 800px) {
+    main {
+        align-items: center;
+        padding-inline: 0;
+    }
+
     .list-elem {
         width: 100%;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .list-elem {
+        min-width: 95%;
+        justify-content: center;
+    }
+
+    .card {
+        width: 80%;
     }
 }
 

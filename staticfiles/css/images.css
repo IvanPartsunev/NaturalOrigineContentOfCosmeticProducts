@@ -1,9 +1,31 @@
 img.site-logo {
-    width: 350px;
+    width: 400px;
     height: auto;
 }
 
 img.company-logo {
-    width: 150px;
+    width: 170px;
     height: auto;
+    padding: 1em;
+}
+
+@media (max-width: 800px) {
+    img.site-logo {
+        width: 250px;
+        padding-bottom: 0.3em;
+    }
+
+    img.company-logo {
+        width: 140px;
+    }
+}
+
+@media (max-width: 300px) {
+    img.site-logo {
+        width: 150px;
+    }
+
+    img.company-logo {
+        width: 120px;
+    }
 }

@@ -27,13 +27,14 @@
         </div>
         <div>{{ error }}</div>
         {% csrf_token %}
-        <button id="calculate" type="submit">Calculate</button>
+        <button class="btn gradient-border-3 box-shadow-inset" id="calculate" type="submit">Calculate</button>
     </form>
 
-    <button id="add-row">Add row</button>
-    <button id="remove-row">Remove row</button>
+    <button class="btn gradient-border-3 box-shadow-inset" id="add-row">Add row</button>
+    <button class="btn gradient-border-3 box-shadow-inset" id="remove-row">Remove row</button>
 
     <script src="{% static 'js/calculateNaturalOrigin.js' %}"></script>
+    
     {% include "includes/calculate-natural-content-autofill.html" %}
 
 {% endblock %}

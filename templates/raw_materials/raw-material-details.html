@@ -10,7 +10,7 @@
         <p>Last updated: {{ object.edited_on }}</p>
     </div>
     {% if user.is_authenticated %}
-    	<button><a href="{% url 'raw_material_update' pk=object.pk %}">Edit</a></button>
+    	<button class="btn gradient-border-3 box-shadow-inset"><a href="{% url 'raw_material_update' pk=object.pk %}">Edit</a></button>
     {% endif %}
     
 {% endblock %}

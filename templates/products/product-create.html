@@ -4,6 +4,6 @@
     <form action="{% url 'product_create' %}" method="post">
         {{ form }}
         {% csrf_token %}
-        <button>Create</button>
+        <button class="btn gradient-border-3 box-shadow-inset">Create</button>
     </form>
 {% endblock %}

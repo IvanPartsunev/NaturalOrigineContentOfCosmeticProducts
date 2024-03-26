@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+    
     <h3>Confirm Delete</h3>
     <p>Are you sure you want to delete formula?</p>
     <form action="{% url 'product_formula_delete_delete' pk=object.pk %}" method="post">
         {% csrf_token %}
-        <button type="submit">Yes</button>
+        <button class="btn gradient-border-3 box-shadow-inset" type="submit">Yes</button>
     </form>
-    <button><a href="{% url "index" %}">No</a></button>
-
+    <button class="btn gradient-border-3 box-shadow-inset">
+        <a href="{% url "index" %}">No</a>
+    </button>
+    
 {% endblock %}

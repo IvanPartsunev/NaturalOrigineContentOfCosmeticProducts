@@ -5,6 +5,6 @@
     <form action="{% url 'product_formula_create' %}" method="post">
         {{ form }}
         {% csrf_token %}
-        <button>Calculate</button>
+        <button class="btn gradient-border-3 box-shadow-inset">Calculate</button>
     </form>
 {% endblock %}

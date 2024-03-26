@@ -18,11 +18,15 @@
                 </div>
             {% endfor %}
             
-            <button><a href="{% url 'product_formula_delete' pk=object.pk %}">Delete</a></button>
+            <button class="btn gradient-border-3 box-shadow-inset">
+                <a href="{% url 'product_formula_delete' pk=object.pk %}">Delete</a>
+            </button>
             
         {% else %}
             
-            <button><a href="{% url 'product_calculate_noc' %}">Calculate</a></button>
+            <button class="btn gradient-border-3 box-shadow-inset">
+                <a href="{% url 'product_calculate_noc' %}">Calculate</a>
+            </button>
             
         {% endif %} 
         

@@ -49,7 +49,7 @@ class ProductDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, vie
 
 class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
     template_name = "products/product-list.html"
-    paginate_by = 5
+    paginate_by = 12
     ordering = ["product_name"]
 
     def get_queryset(self):

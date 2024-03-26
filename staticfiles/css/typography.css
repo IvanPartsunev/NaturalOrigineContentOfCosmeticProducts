@@ -1,19 +1,19 @@
 html {
-    font: 14px/1.4 "Encode Sans Expanded", sans-serif;
+    font: 16px/1.4 "Encode Sans Expanded", sans-serif;
     font-weight: 400;
     font-style: normal;
     color: rgb(84, 84, 84, 1);
 }
 
-@media (min-width: 600px) and (max-width: 1199px){
+@media (max-width: 800px) {
     html {
-        font: 16px/1.4 "Encode Sans Expanded", sans-serif;
+        font: 14px/1.4 "Encode Sans Expanded", sans-serif;
     }
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 300px) {
     html {
-        font: 18px/1.4 "Encode Sans Expanded", sans-serif;
+        font: 12px/1.4 "Encode Sans Expanded", sans-serif;
     }
 }
 
@@ -21,14 +21,6 @@ input,
 select,
 button {
     font: inherit;
-}
-
-h3 {
-    min-width: 100%;
-}
-
-p {
-    min-width: 100%;
 }
 
 footer {

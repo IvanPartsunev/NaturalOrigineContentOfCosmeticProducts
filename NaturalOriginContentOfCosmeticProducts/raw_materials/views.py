@@ -27,7 +27,7 @@ class RawMaterialCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 class RawMaterialListView(views.ListView):
     template_name = "raw_materials/raw-material-list.html"
-    paginate_by = 10
+    paginate_by = 12
     ordering = ["trade_name"]
 
     def get_queryset(self):

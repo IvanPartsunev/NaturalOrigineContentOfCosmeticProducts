@@ -3,21 +3,19 @@
     <div class="holder">
         <div class="card box-shadow">
             <div class="info-container">
-                <h2>Delete</h2>
-                <p>Are you sure you want to delete:</p>
+                <h3>Delete</h3>
                 <p class="border-bottom"></p>
-                <p class="name-info">{{ object.product_name }}</p>
+                <p>Are you sure you want to delete your profile? All information will be lost!</p>
             </div>
-            <form action="{% url 'product_delete' pk=object.pk %}" method="post">
+            <form action="{% url 'account_profile_delete' pk=object.pk %}" method="post">
                 {% csrf_token %}
                 <div class="btn-container">
                     <button class="btn gradient-border-3 box-shadow-inset" type="submit"><a>Yes</a></button>
                     <div class="btn gradient-border-3 box-shadow-inset">
-                        <a href="{% url "product_list" %}">No</a>
+                        <a href="{% url "raw_material_list" %}">No</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
 {% endblock %}

@@ -2,17 +2,28 @@
 {% load static %}}
 
 {% block content %}
-    
-    {% if object.company_logo %}
-    	<img class="company-logo" src="{{ object.company_logo }}" alt="Logo">
-    {% else %}
-        <img class="company-logo" src="{% static 'img/company-logo.png' %}" alt="Logo">
-    {% endif %} 
-    
-    <div id="company-name">{{ object.company.company_name }}</div>
-    <div id="company-user">{{ object.get_full_name }}</div>
-    
-    <button><a href="{% url 'account_profile_update' pk=object.pk %}">Update</a></button>
-    
-	
+    <div class="holder">
+        <div class="card box-shadow">
+            {% if object.company_logo %}
+                <img class="company-logo gradient-border-circle box-shadow" src="{{ object.company_logo }}" alt="Logo">
+            {% else %}
+                <img class="company-logo gradient-border-circle box-shadow" src="{% static 'img/company-logo.png' %}" alt="Logo">
+            {% endif %}
+
+            <div class="info-container">
+                <h4 id="company-name">{{ object.company.company_name }}</h4>
+                <p class="border-bottom"></p>
+                <p id="company-user">{{ object.get_full_name }}</p>
+            </div>
+            <div class="btn-container">
+                <button class="btn gradient-border-3 box-shadow-inset">
+                    <a href="{% url 'account_profile_update' pk=object.pk %}">Update</a>
+                </button>
+                 <button class="btn gradient-border-3 box-shadow-inset">
+                    <a href="{% url 'account_profile_delete' pk=object.pk %}">Delete</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
