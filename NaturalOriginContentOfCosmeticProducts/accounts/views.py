@@ -23,7 +23,10 @@ class AccountCreateView(views.CreateView):
 class AccountLoginView(auth_views.LoginView):
     template_name = "accounts/account_login.html"
     redirect_authenticated_user = True
-
+    success_url = reverse_lazy("index")
+    
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
     def get_success_url(self):
         next_url = self.request.POST.get("next") or self.request.GET.get("next")
 
@@ -35,7 +38,7 @@ class AccountLoginView(auth_views.LoginView):
 
 def account_logout_view(request):
     logout(request)
-    return redirect('index')
+    return redirect('account_login')
 
 
 class AccountProfileDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):

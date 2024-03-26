@@ -14,6 +14,25 @@ document.querySelector("#select_material")
 
 // Base Functions:
 
+const fieldContainers = document.querySelectorAll('.field-container');
+fieldContainers.forEach(container => {
+  if (container.querySelector('[id*="trade_name"]') || container.querySelector('[id*="inci_name"]')) {
+    container.classList.add('large-fields');
+  }
+});
+
+fieldContainers.forEach(container => {
+  if (container.querySelector('[id*="raw_material_content"]') || container.querySelector('[id*="natural_origin_content"]')) {
+    container.classList.add('small-fields');
+  }
+});
+
+fieldContainers.forEach(container => {
+  if (container.querySelector('[id*="material_type"]')) {
+    container.classList.add('type-fields');
+  }
+});
+
 function addRow() {
     const baseForm = document.querySelectorAll("div[id^=form-]");
     const lastForm = baseForm.item(baseForm.length - 1);
@@ -47,7 +66,7 @@ function changeFormElementsIds(form) {
     const newId = Number(id[1]) + 1;
     form.id = `${baseId}-${newId}`;
 
-    const elements = form.querySelectorAll("input, select[placeholder='Type:']");
+    const elements = form.querySelectorAll("input, select[id^='id_form']");
     elements.forEach((e) => {
         let initialId = e.id.split("-");
         let initialName = e.name.split("-");
@@ -58,7 +77,7 @@ function changeFormElementsIds(form) {
 }
 
 function removeErrors(form) {
-    const errors = form.querySelectorAll(".errorlist")
+    const errors = form.querySelectorAll(".error-list-2")
     if (errors.length > 0) {
         errors.forEach((err) => err.remove());
     }

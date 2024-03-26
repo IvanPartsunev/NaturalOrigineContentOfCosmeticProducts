@@ -2,26 +2,36 @@
     $(document).ready(function () {
         $(document).on("change", "#select_material", function () {
             const materialId = $(this).val();
-            const parentElement = $(this).parent();
-            const inputFields = parentElement.find("input");
-            const selectField = parentElement.find("select[id^='id']")
-            console.log(selectField)
 
-            $.ajax({
-                url: "{% url 'raw_material_autofill' %}",
-                type: "GET",
-                data: {
-                    "raw_material_id": materialId
-                },
-                success: function (data) {
-                    inputFields.eq(0).val(data["name"]);
-                    inputFields.eq(1).val(data["inci"]);
-                    selectField.find("option[value='" + data["type"] + "']").prop("selected", true);
-                    console.log(inputFields)
-                    console.log(inputFields.eq(3).val(data["nat_content"]))
-                    inputFields.eq(3).val(data["nat_content"]);
-                }
-            });
+            if (materialId !== "") {
+                const parentElement = $(this).parent().parent().parent();
+                const inputFields = parentElement.find("input");
+                const selectField = parentElement.find("select[id^='id_form']");
+
+                $.ajax({
+                    url: "{% url 'raw_material_autofill' %}",
+                    type: "GET",
+                    data: {
+                        "raw_material_id": materialId
+                    },
+                    success: function (data) {
+                        inputFields.eq(0).val(data["name"]);
+                        inputFields.eq(1).val(data["inci"]);
+                        selectField.find("option[value='" + data["type"] + "']").prop("selected", true);
+                        inputFields.eq(3).val(data["nat_content"]);
+
+                        setTimeout(function () {
+                            document.getElementById('select_material').selectedIndex = 0;
+                        }, 500);
+                    }
+                });
+            }
         });
+    });
+
+    $(document).ready(function () {
+        const defaultOptionText = "Select";
+
+        $("select[id*='material_type'] option[value='']").text(defaultOptionText);
     });
 </script>

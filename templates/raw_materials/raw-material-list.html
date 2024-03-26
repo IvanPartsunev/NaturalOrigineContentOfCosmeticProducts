@@ -33,9 +33,7 @@
                     </div>
                 {% endif %}
                 {% if user.is_staff %}
-                    <button class="btn gradient-border-3 box-shadow-inset">
-                        <a href="{% url 'raw_material_delete' pk=object.pk %}">Delete</a>
-                    </button>
+                        <a class="raw-material-delete" href="{% url 'raw_material_delete' pk=object.pk %}"><i class="fa-solid fa-trash-can"></i></a>
                 {% endif %}
             </div>
 

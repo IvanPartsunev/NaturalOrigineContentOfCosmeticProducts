@@ -1,13 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-    <h3>Confirm Delete</h3>
-    <p>Are you sure you want to delete {{ object.product_name }}?</p>
-    <form action="{% url 'raw_material_delete' pk=object.pk %}" method="post">
-        {% csrf_token %}
-        <button class="btn gradient-border-3 box-shadow-inset" type="submit">Yes</button>
-    </form>
-    <button class="btn gradient-border-3 box-shadow-inset">
-        <a href="{% url "raw_material_list" %}">No</a>
-    </button>
-
+    <div class="holder">
+        <div class="card box-shadow">
+            <div class="info-container">
+                <h2>Delete</h2>
+                <p>Are you sure you want to delete:</p>
+                <p class="border-bottom"></p>
+                <p class="name-info">{{ object.trade_name }}</p>
+            </div>
+            <form action="{% url 'raw_material_delete' pk=object.pk %}" method="post">
+                {% csrf_token %}
+                <div class="btn-container">
+                    <button class="btn gradient-border-3 box-shadow-inset" type="submit"><a>Yes</a></button>
+                    <div class="btn gradient-border-3 box-shadow-inset">
+                        <a href="{% url "raw_material_list" %}">No</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
+

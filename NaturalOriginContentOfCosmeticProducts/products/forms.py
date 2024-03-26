@@ -22,10 +22,12 @@ class ProductCalculateNaturalContentForm(RawMaterialForm):
     MIN_RAW_MATERIAL_CONTENT = 0
     MAX_RAW_MATERIAL_CONTENT = 100
 
-    current_trade_name = forms.CharField()
+    current_trade_name = forms.CharField(
+        label="Trade name"
+    )
 
     raw_material_content = forms.IntegerField(
-        label="Content in %",
+        label="%",
         validators=[
             MinValueValidator(MIN_RAW_MATERIAL_CONTENT),
             MaxValueValidator(MAX_RAW_MATERIAL_CONTENT),

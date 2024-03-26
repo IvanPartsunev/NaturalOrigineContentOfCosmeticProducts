@@ -1,0 +1,116 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+    border-radius: 1em;
+    width: 100%;
+    background-color: white;
+    margin-top: 1em;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 0.2em;
+    border-radius: 0.5em;
+    overflow: hidden;
+}
+
+
+
+.form-row:focus-within {
+    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.2);
+}
+
+.field-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+.large-fields {
+    flex: 1 1 25%;
+    width: 25%;
+}
+
+.small-fields {
+    flex: 1 1 10%;
+    width: 10%;
+}
+
+.small-fields > input::placeholder {
+    text-align: right;
+}
+
+.large-fields input:focus,
+.small-fields input:focus {
+    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.3) inset;
+    border-radius: 0.3em;
+}
+
+.type-fields {
+    width: 10%;
+}
+
+.raw-material-field {
+    width: 10%;
+}
+
+.field-container select,
+.field-container input {
+    height: 1.8em;
+    padding-inline: 0.5em;
+    width: 100%;
+    border: none;
+    background-color: white;
+}
+
+.field-container select:focus,
+.field-container input:focus {
+    border-radius: 0.1em;
+    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.3) inset;
+}
+
+.form-field::placeholder {
+    font-size: calc(0.7vw + 0.7vh);
+}
+
+.form-field:focus {
+    border: none;
+    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.5);
+}
+
+.form-field:focus::placeholder {
+    opacity: 50%;
+}
+
+.error-list {
+    padding: 0.1em 0 0 1em;
+    font-size: calc(0.4vw + 0.4vh);
+    color: rgba(248, 67, 67, 0.8);
+    width: 50%;
+    right: 0;
+}
+
+.error-list-2 {
+    padding: 0 0 0.3em 0.5em;
+    font-size: 0.7em;
+    color: rgba(248, 67, 67, 0.8);
+    width: 100%;
+    right: 0;
+}
+
+#add-row,
+#remove-row {
+    margin-top: 2em;
+    max-width: 30%;
+}
+
+#calculate {
+    margin-top: 1em;
+}

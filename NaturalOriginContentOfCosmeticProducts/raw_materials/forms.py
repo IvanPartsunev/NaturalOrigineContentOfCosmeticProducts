@@ -20,10 +20,10 @@ class RawMaterialForm(forms.ModelForm):
         ]
 
         labels = {
-            "trade_name": "Trade name:",
-            "inci_name": "INCI:",
-            "material_type": "Type:",
-            "natural_origin_content": "Natural origin content in %:"
+            "trade_name": "Trade name",
+            "inci_name": "INCI",
+            "material_type": "Type",
+            "natural_origin_content": "noc %"
         }
 
     def clean_trade_name(self):

@@ -43,6 +43,7 @@ main::before {
 
 .list-elem {
     display: flex;
+    position: relative;
     flex: 1 0 24%;
     max-width: 24%;
     flex-wrap: wrap;
@@ -99,6 +100,12 @@ h2  {
 
 h4 {
     text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .list-elem {
+        min-width: 48%;
+    }
 }
 
 @media (max-width: 800px) {

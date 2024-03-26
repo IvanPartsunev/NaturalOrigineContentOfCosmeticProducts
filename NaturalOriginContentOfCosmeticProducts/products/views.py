@@ -119,7 +119,7 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
             return render(self.request, self.template_name, {
                 "formset": formset,
                 "existing_materials": existing_materials,
-                "error": self.CALCULATION_ERROR_MESSAGE,
+                "calculation_error": self.CALCULATION_ERROR_MESSAGE,
             })
 
         self.save_natural_origin_content(product_natural_content)
@@ -175,6 +175,13 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.DetailView)
         context['product'] = product
 
         return context
+
+
+class ProductFormulaUpdateView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+    queryset = ProductFormula.objects.all()
+    template_name = "products/product-formula-update.html"
+    success_url = reverse_lazy("index")
+    fields = ["__all__"]
 
 
 class ProductFormulaDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):

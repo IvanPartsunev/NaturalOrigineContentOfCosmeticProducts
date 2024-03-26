@@ -7,19 +7,16 @@
 }
 
 .btn {
-    padding: 0.2em 0.8em 0.2em 0.8em;
-    flex: 1;
-    max-width: 45%;
+    padding: 0.3em 1em 0.3em 1em;
+    flex: 1 1;
+    min-width: 20%;
     justify-content: center;
     align-items: center;
+    font-size: 0.8em;
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
     linear-gradient(0deg, rgba(235, 246, 255, 0.7) 0%, rgba(59, 178, 184, 0.7) 0%, rgba(66, 230, 149, 0.7) 70%) border-box;
     border-radius: 0.5em;
     border: 2px solid transparent;
-}
-
-.btn:hover {
-    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn a {
@@ -39,9 +36,45 @@
     border: 2px solid transparent;
 }
 
+.btn:hover,
+.btn-2:hover {
+    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.5);
+}
+
+.raw-material-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 65%;
+    left: 80%;
+    transform: translate(0, -50%);
+    border-radius: 50%;
+    height: 3em;
+    width: auto;
+    aspect-ratio: 1;
+    padding: 0.1em;
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
+    linear-gradient(0deg, rgba(157, 63, 251, 0.7) 0%, rgba(252, 70, 107, 0.7) 100%) border-box;
+    border: 2px solid transparent;
+}
+
+.raw-material-delete:hover,
+.raw-material-delete:active {
+    min-height: 30%;
+    z-index: 100;
+}
+
 @media (max-width: 800px) {
     .btn {
         max-width: 30%;
         border: 1px solid transparent;
+    }
+
+    .raw-material-delete {
+        border: 1px solid transparent;
+        font-size: 1.2em;
+        height: 30%;
+        left: 88%;
     }
 }

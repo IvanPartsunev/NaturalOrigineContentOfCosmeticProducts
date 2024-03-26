@@ -1,9 +1,29 @@
 {% extends "base.html" %}}
 
 {% block content %}
-    <form action="{% url "account_registration" %}" method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button class="btn gradient-border-3 box-shadow-inset">Register</button>
-    </form>
+    <div class="holder">
+        <h3>Register</h3>
+        <form class="form-container" action="{% url "account_registration" %}" method="post">
+            {% for field in form %}
+                <input
+                        type="{{ field.widget_type }}"
+                        name="{{ field.html_name }}"
+                        id="{{ field.id_for_label }}"
+                        value="{{ field.initial|default:"" }}"
+                        placeholder="{{ field.label }}:"
+                        class="form-field box-shadow-inset"
+                >
+                {% if field.errors %}
+                    <ul class="error-list">
+                        {% for error in field.errors %}
+                            <li><i class="fa-solid fa-arrow-right"></i>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+
+            {% csrf_token %}
+            <button class="btn-2 box-shadow-inset" id="register-button">Register</button>
+        </form>
+    </div>
 {% endblock %}

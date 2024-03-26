@@ -1,9 +1,8 @@
-<label for="select_material">Select raw material:</label>
+<div class="select-field">
 <select name="raw_material"
         id="select_material"
-        class="select-field"
 >
-    <option value="">-------</option>
+    <option value="">Select</option>
     {% for material in existing_materials %}
         <option value="{{ material.pk }}">
             {{ material.trade_name }}
@@ -11,3 +10,4 @@
 
     {% endfor %}
 </select>
+</div>

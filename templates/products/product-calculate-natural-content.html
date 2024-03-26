@@ -3,38 +3,60 @@
 {% load static %}
 
 {% block load_styles %}
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
 {% endblock %}
 
 {% block content %}
-    
-    <h3>{{ product_name }}</h3>
-{#    <h4>{{ description }}</h4>#}
-    <form id="base_form" action="{% url 'product_calculate_noc' %}" method="post">
-        {{ formset.management_form }}
-    
-        <div id="container">
-
-            {% for form in formset %}
-                <div id="{{ form.prefix }}">
-                    {% include "includes/raw-material-selector.html" %}
-                    {{ form }}
-                </div>
-            {% endfor %}
-
+    <div class="holder">
+        <div class="info-container">
+            <h2>{{ product_name }}</h2>
+            <p class="border-bottom"></p>
+            <p>{{ description }}</p>
+            <p class="border-bottom"></p>
         </div>
-        <div>{{ error }}</div>
-        {% csrf_token %}
-        <button class="btn gradient-border-3 box-shadow-inset" id="calculate" type="submit">Calculate</button>
-    </form>
 
-    <button class="btn gradient-border-3 box-shadow-inset" id="add-row">Add row</button>
-    <button class="btn gradient-border-3 box-shadow-inset" id="remove-row">Remove row</button>
 
+        <form class="form-container box-shadow" id="base_form" action="{% url 'product_calculate_noc' %}" method="post">
+            {{ formset.management_form }}
+
+            <div class="form-container" id="container">
+
+                {% for form in formset %}
+                    <div class="form-row box-shadow" id="{{ form.prefix }}">
+                        <div class="field-container raw-material-field">
+                            {% include "includes/raw-material-selector.html" %}
+                        </div>
+                        {% for field in form %}
+                            <div class="field-container">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.errors %}
+                                    <ul class="error-list-2">
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div>{{ error }}</div>
+            {% csrf_token %}
+            <button class="btn-2" id="calculate" type="submit">Calculate</button>
+        </form>
+
+        <div class="btn-container" id="calc-container">
+            <button class="btn box-shadow-inset" id="add-row">Add row</button>
+            <button class="btn box-shadow-inset" id="remove-row">Remove row</button>
+        </div>
+    </div>
     <script src="{% static 'js/calculateNaturalOrigin.js' %}"></script>
-    
+
     {% include "includes/calculate-natural-content-autofill.html" %}
 
 {% endblock %}

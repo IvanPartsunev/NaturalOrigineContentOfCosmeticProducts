@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from NaturalOriginContentOfCosmeticProducts.products.views import ProductCalculateNaturalContentView, \
     ProductCreateView, ProductDeleteView, ProductDetailsView, ProductListView, ProductFormulaCreateView, \
-    ProductFormulaDetailView, ProductUpdateView, ProductFormulaDeleteView
+    ProductFormulaDetailView, ProductUpdateView, ProductFormulaDeleteView, ProductFormulaUpdateView
 
 urlpatterns = (
     path("list/", ProductListView.as_view(), name="product_list"),
@@ -15,6 +15,7 @@ urlpatterns = (
         [
             path("create/", ProductFormulaCreateView.as_view(), name="product_formula_create"),
             path("<int:pk>/details/", ProductFormulaDetailView.as_view(), name="product_formula_details"),
+            path("<int:pk>/update/", ProductFormulaUpdateView.as_view(), name="product_formula_update"),
             path("<int:pk>/delete/", ProductFormulaDeleteView.as_view(), name="product_formula_delete"),
         ],
     )),
