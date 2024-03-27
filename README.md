@@ -14,17 +14,26 @@ Users will be able to get help using a contact form in a Contact section or dire
 
 The Project will be maintained and contributed only by the author.
 
-Functionality of the project:
+# Functionality of the project:
 
-Profile in which to store your information.
-User will be able to store the full formulation in the database for further editing
-or save only the result for natural origin content of your product.
-This option is given because cosmetic product formulations are intellectual property
-and users may not want to store them out of a company database.
+Free to use a database with all raw materials registered in the site.
 
 Adding new raw materials in a database.
 Editing raw materials.
 
-Future functionalities:
+Users are able to create a profile where to calculate natural origin content of products and store them.
+Users are able to store the full formulation in the database.
+Only the newest one is displayed.
+
+# Future functionalities:
+
+Users will be able
+to choose to save only the result for natural origin content of your product or whole formula for further editing.
+This option will be given because cosmetic product formulations are intellectual property
+and users may not want to store them out of a company database.
+
+User will be able to update existing formulations.
+
 Direct links of raw material for easier gathering of additional information.
+
 Exporting document with calculation results.
