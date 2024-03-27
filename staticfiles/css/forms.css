@@ -18,9 +18,12 @@
     margin-top: 0.2em;
     border-radius: 0.5em;
     overflow: hidden;
+    transition: 0.7s box-shadow ease;
 }
 
-
+.form-row:hover {
+    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.1);
+}
 
 .form-row:focus-within {
     box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.2);
@@ -32,7 +35,6 @@
     width: 100%;
 }
 
-
 .large-fields {
     flex: 1 1 25%;
     width: 25%;
@@ -43,16 +45,6 @@
     width: 10%;
 }
 
-.small-fields > input::placeholder {
-    text-align: right;
-}
-
-.large-fields input:focus,
-.small-fields input:focus {
-    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.3) inset;
-    border-radius: 0.3em;
-}
-
 .type-fields {
     width: 10%;
 }
@@ -61,32 +53,55 @@
     width: 10%;
 }
 
+.small-fields > input::placeholder {
+    text-align: right;
+}
+
+.large-fields input,
+.small-fields input,
+.type-fields select,
+.raw-material-field select {
+    padding-block: 0.1em;
+    border: none;
+    transition: 0.4s box-shadow ease;
+}
+
+.large-fields input:focus,
+.small-fields input:focus {
+    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.3) inset;
+}
+
+.small-fields input {
+    text-align: right;
+}
+
 .field-container select,
 .field-container input {
     height: 1.8em;
     padding-inline: 0.5em;
     width: 100%;
-    border: none;
+    border-right: 1px solid rgb(84, 84, 84, 0.3);
     background-color: white;
+    transition: 0.3s box-shadow ease;
 }
 
 .field-container select:focus,
 .field-container input:focus {
-    border-radius: 0.1em;
     box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.3) inset;
 }
 
-.form-field::placeholder {
-    font-size: calc(0.7vw + 0.7vh);
+.field-container select:focus::placeholder,
+.field-container input:focus::placeholder {
+    opacity: 50%;
+}
+
+.field-container select {
+    color: rgb(84, 84, 84, 0.8);
 }
 
 .form-field:focus {
     border: none;
     box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.5);
-}
-
-.form-field:focus::placeholder {
-    opacity: 50%;
 }
 
 .error-list {
@@ -95,6 +110,7 @@
     color: rgba(248, 67, 67, 0.8);
     width: 50%;
     right: 0;
+    border-top: 1px solid rgb(84, 84, 84, 0.3);
 }
 
 .error-list-2 {
@@ -103,6 +119,16 @@
     color: rgba(248, 67, 67, 0.8);
     width: 100%;
     right: 0;
+    border-top: 1px solid rgb(84, 84, 84, 0.3);
+}
+
+input[id*=natural_origin_content] {
+    border: none;
+    border-radius: 0 7px 7px 0;
+}
+
+#select_material {
+    border-radius: 7px 0 0 7px;
 }
 
 #add-row,
@@ -113,4 +139,10 @@
 
 #calculate {
     margin-top: 1em;
+}
+
+@media (max-width: 800px) {
+    .form-container {
+        padding: 1em 0.2em 1em 0.2em;
+    }
 }

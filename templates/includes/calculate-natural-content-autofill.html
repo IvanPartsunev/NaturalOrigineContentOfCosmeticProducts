@@ -4,6 +4,7 @@
             const materialId = $(this).val();
 
             if (materialId !== "") {
+                const currentElement = $(this)
                 const parentElement = $(this).parent().parent().parent();
                 const inputFields = parentElement.find("input");
                 const selectField = parentElement.find("select[id^='id_form']");
@@ -21,8 +22,8 @@
                         inputFields.eq(3).val(data["nat_content"]);
 
                         setTimeout(function () {
-                            document.getElementById('select_material').selectedIndex = 0;
-                        }, 500);
+                            currentElement[0].selectedIndex = 0;
+                        }, 450);
                     }
                 });
             }

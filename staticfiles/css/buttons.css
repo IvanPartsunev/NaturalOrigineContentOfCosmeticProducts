@@ -1,7 +1,7 @@
 .btn-container {
     display: flex;
     min-width: 100%;
-    max-height: 14%;
+    max-height: 15%;
     justify-content: center;
     gap: 0.2em;
 }
@@ -17,6 +17,7 @@
     linear-gradient(0deg, rgba(235, 246, 255, 0.7) 0%, rgba(59, 178, 184, 0.7) 0%, rgba(66, 230, 149, 0.7) 70%) border-box;
     border-radius: 0.5em;
     border: 2px solid transparent;
+    transition: box-shadow 0.3s ease;
 }
 
 .btn a {
@@ -33,12 +34,19 @@
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
     linear-gradient(0deg, rgba(157, 63, 251, 0.7) 0%, rgba(252, 70, 107, 0.7) 100%) border-box;
     border-radius: 1em;
+    box-shadow: inset 0 0 0.2em 0 rgba(0, 0, 0, 0.8), 0 0 0.3em 0 rgba(0, 0, 0, 0.1);
     border: 2px solid transparent;
+    transition: box-shadow 0.3s ease, 0.3s scale;
 }
 
 .btn:hover,
 .btn-2:hover {
-    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 0.1em 0 rgba(0, 0, 0, 0.1), 0 0 0.4em 0 rgba(0, 0, 0, 0.8);
+}
+
+.btn:active,
+.btn-2:active {
+    transform: scale(1.2);
 }
 
 .raw-material-delete {
@@ -47,8 +55,8 @@
     align-items: center;
     position: absolute;
     top: 65%;
-    left: 80%;
-    transform: translate(0, -50%);
+    left: 85%;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
     height: 3em;
     width: auto;
@@ -57,12 +65,16 @@
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
     linear-gradient(0deg, rgba(157, 63, 251, 0.7) 0%, rgba(252, 70, 107, 0.7) 100%) border-box;
     border: 2px solid transparent;
+    transition: 0.3s transform ease, 0.2s box-shadow;
 }
 
-.raw-material-delete:hover,
+.raw-material-delete:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.5);
+}
+
 .raw-material-delete:active {
-    min-height: 30%;
-    z-index: 100;
+    transform: translate(-50%, -50%) scale(1.5);
 }
 
 @media (max-width: 800px) {

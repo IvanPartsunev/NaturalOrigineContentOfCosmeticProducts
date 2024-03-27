@@ -6,31 +6,34 @@ document.querySelector("#add-row")
 document.querySelector("#remove-row")
     .addEventListener("click", () => removeRow())
 
-document.querySelector("#select_material")
-    .addEventListener("change", (e) => {
-        const form = e.currentTarget.parentElement
-        removeErrors(form)
-    })
+// document.querySelector("#select_material")
+//     .addEventListener("change", (e) => {
+//         const form = e.currentTarget.parentElement
+//         removeErrors(form)
+//     })
+
+// document.querySelector("input[id*='raw_material_content']")
+//     .addEventListener("change", () => sumContent())
 
 // Base Functions:
 
 const fieldContainers = document.querySelectorAll('.field-container');
 fieldContainers.forEach(container => {
-  if (container.querySelector('[id*="trade_name"]') || container.querySelector('[id*="inci_name"]')) {
-    container.classList.add('large-fields');
-  }
+    if (container.querySelector('[id*="trade_name"]') || container.querySelector('[id*="inci_name"]')) {
+        container.classList.add('large-fields');
+    }
 });
 
 fieldContainers.forEach(container => {
-  if (container.querySelector('[id*="raw_material_content"]') || container.querySelector('[id*="natural_origin_content"]')) {
-    container.classList.add('small-fields');
-  }
+    if (container.querySelector('[id*="raw_material_content"]') || container.querySelector('[id*="natural_origin_content"]')) {
+        container.classList.add('small-fields');
+    }
 });
 
 fieldContainers.forEach(container => {
-  if (container.querySelector('[id*="material_type"]')) {
-    container.classList.add('type-fields');
-  }
+    if (container.querySelector('[id*="material_type"]')) {
+        container.classList.add('type-fields');
+    }
 });
 
 function addRow() {
@@ -56,6 +59,21 @@ function removeRow() {
         current_form.remove()
     }
 }
+
+// function sumContent() {
+//     const allContentFields = document.querySelectorAll("input[id*='raw_material_content']")
+//     let sum = 0
+//
+//     allContentFields.forEach(function (input) {
+//         console.log
+//         const value = parseFloat(input.value);
+//
+//         sum += value;
+//     });
+
+    // Display the result
+    // document.getElementById('result').innerText = "Sum: " + sum;
+// }
 
 // Helper functions:
 
