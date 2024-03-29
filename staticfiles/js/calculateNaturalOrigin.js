@@ -1,4 +1,4 @@
-// Event listeners:
+/* Event listeners: */
 
 document.querySelector("#add-row")
     .addEventListener("click", () => addRow())
@@ -6,16 +6,10 @@ document.querySelector("#add-row")
 document.querySelector("#remove-row")
     .addEventListener("click", () => removeRow())
 
-// document.querySelector("#select_material")
-//     .addEventListener("change", (e) => {
-//         const form = e.currentTarget.parentElement
-//         removeErrors(form)
-//     })
+document.querySelector("input[id*='raw_material_content']")
+    .addEventListener("change", () => sumContent())
 
-// document.querySelector("input[id*='raw_material_content']")
-//     .addEventListener("change", () => sumContent())
-
-// Base Functions:
+/* Add styles to elements*/
 
 const fieldContainers = document.querySelectorAll('.field-container');
 fieldContainers.forEach(container => {
@@ -36,6 +30,8 @@ fieldContainers.forEach(container => {
     }
 });
 
+/* Base Functions: */
+
 function addRow() {
     const baseForm = document.querySelectorAll("div[id^=form-]");
     const lastForm = baseForm.item(baseForm.length - 1);
@@ -44,6 +40,7 @@ function addRow() {
 
     changeFormElementsIds(cloneForm);
     removeErrors(cloneForm);
+    cloneForm.addEventListener("change", () => sumContent());
 
     const totalForms = document.querySelector(('#id_form-TOTAL_FORMS'));
     totalForms.value = Number(totalForms.value) + 1;
@@ -52,28 +49,17 @@ function addRow() {
 }
 
 function removeRow() {
-    const current_form = document.querySelector("#container").lastElementChild;
+    const currentForm = document.querySelector("#container").lastChild;
     const totalForms = document.querySelector(('#id_form-TOTAL_FORMS'))
-    if (current_form.id !== "form-0" && totalForms.value > 1) {
+    if (currentForm.id !== "form-0" && totalForms.value > 1) {
         totalForms.value = Number(totalForms.value) - 1
-        current_form.remove()
+        subtractContent(currentForm)
+        currentForm.classList.add("swing-out-top-bck")
+        currentForm.addEventListener("animationend", () => {
+            currentForm.remove();
+        });
     }
 }
-
-// function sumContent() {
-//     const allContentFields = document.querySelectorAll("input[id*='raw_material_content']")
-//     let sum = 0
-//
-//     allContentFields.forEach(function (input) {
-//         console.log
-//         const value = parseFloat(input.value);
-//
-//         sum += value;
-//     });
-
-    // Display the result
-    // document.getElementById('result').innerText = "Sum: " + sum;
-// }
 
 // Helper functions:
 
@@ -99,4 +85,22 @@ function removeErrors(form) {
     if (errors.length > 0) {
         errors.forEach((err) => err.remove());
     }
+}
+
+function sumContent() {
+    const allContentFields = document.querySelectorAll("input[id*='raw_material_content']")
+    const rmSum = Array.from(allContentFields).reduce((acc, curr) => {
+        return acc + Number(curr.value);
+    }, 0);
+    document.getElementById('rm_sum_result').innerText = String(rmSum);
+}
+
+function subtractContent(currentElem) {
+    const rmSum = document.querySelector("#rm_sum_result")
+    const currentElemId = currentElem.id
+    const subtractValueInput = document.querySelector(`#${currentElemId} div input[id*='raw_material_content']`)
+    const subtractValue = Number(subtractValueInput.value);
+    const currentRmSum = Number(rmSum.innerText);
+
+    rmSum.innerText = String(currentRmSum - subtractValue);
 }

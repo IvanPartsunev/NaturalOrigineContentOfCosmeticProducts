@@ -18,8 +18,9 @@
                     <h4>{{ object.product_name }}</h4>
                     <p class="border-bottom"></p>
                     <p>Natural origin content:</p>
-                    <p class="gradient-border-circle box-shadow-inset"> {{ object.natural_content|default_if_none:"n/a" }}
-                        %</p>
+                    <p class="gradient-border-circle box-shadow-inset">
+                        {{ object.natural_content|default_if_none:"n/a" }} %
+                    </p>
                 </div>
                 {% if user.is_authenticated %}
                     <div class="btn-container">
@@ -42,4 +43,6 @@
     {% else %}
         <p>No products are found.</p>
     {% endif %}
+
+    {% include "includes/entrance-animation.html" %}
 {% endblock %}

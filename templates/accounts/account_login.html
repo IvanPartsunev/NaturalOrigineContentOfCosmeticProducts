@@ -4,9 +4,11 @@
 
     <div class="holder">
         <h3>Login</h3>
-        <form class="form-container" action="{% url "account_login" %}" method="post">
+        <form class="small-form-container" action="{% url "account_login" %}" method="post">
+            
             <input type="hidden" name="next" value="{{ request.GET.next }}">
             {% for field in form %}
+                <div class="field-container form-row">
                 <input
                         type="{{ field.widget_type }}"
                         name="{{ field.html_name }}"
@@ -16,22 +18,19 @@
                         class="form-field box-shadow-inset"
                 >
                 {% if field.errors %}
-                    <ul class="error-list">
+                    <ul class="error-list-2">
                         {% for error in field.errors %}
                             <li><i class="fa-solid fa-arrow-right"></i> {{ error }}</li>
                         {% endfor %}
                     </ul>
                 {% endif %}
+                </div>
             {% endfor %}
-        
-            {% if form.error_messages.invalid_login %}
-                <ul class="error-list">
-                    {% for error in form.non_field_errors %}
-                        <li><i class="fa-solid fa-xmark"></i> {{ error }}</li>
-                    {% endfor %}
-                </ul>
+
+            {% if form.non_field_errors %}
+                <p class="error-list-2"><i class="fa-solid fa-xmark"></i> Invalid username or password.</p>
             {% endif %}
-        
+
             {% csrf_token %}
             <button class="btn-2 box-shadow-inset" id="login-button">Log in</button>
         </form>

@@ -1,0 +1,19 @@
+{% for field in form %}
+    <div class="field-container form-row">
+        <input
+                type="{{ field.widget_type }}"
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                value="{{ field.initial|default:"" }}"
+                placeholder="{{ field.label }}:"
+                class="form-field box-shadow-inset"
+        >
+        {% if field.errors %}
+            <ul class="error-list-2">
+                {% for error in field.errors %}
+                    <li><i class="fa-solid fa-arrow-right"></i> {{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endfor %}

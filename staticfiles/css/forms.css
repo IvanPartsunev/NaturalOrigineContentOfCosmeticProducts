@@ -9,6 +9,18 @@
     margin-top: 1em;
 }
 
+.small-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin-top: 1em;
+}
+
+.small-form-container button {
+    margin-top: 5em;
+}
+
 .form-row {
     display: flex;
     flex-wrap: wrap;
@@ -106,7 +118,7 @@
 
 .error-list {
     padding: 0.1em 0 0 1em;
-    font-size: calc(0.4vw + 0.4vh);
+    font-size: 0.6em;
     color: rgba(248, 67, 67, 0.8);
     width: 50%;
     right: 0;
@@ -137,12 +149,12 @@ input[id*=natural_origin_content] {
     max-width: 30%;
 }
 
-#calculate {
-    margin-top: 1em;
-}
-
 @media (max-width: 800px) {
     .form-container {
         padding: 1em 0.2em 1em 0.2em;
+    }
+
+    .small-form-container {
+        width: 80%;
     }
 }

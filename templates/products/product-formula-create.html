@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>{{ product_name }}</h3>
-    <form action="{% url 'product_formula_create' %}" method="post">
-        {{ form }}
-        {% csrf_token %}
-        <button class="btn gradient-border-3 box-shadow-inset">Calculate</button>
-    </form>
+    <div class="holder">
+        <h2>Create product formula for:</h2>
+        <div class="card-2 box-shadow gradient-border-4 scale-in-center">
+
+            <h3>{{ product_name }}</h3>
+            <div class="border-bottom"></div>
+
+            <form class="small-form-container" action="{% url 'product_formula_create' %}" method="post">
+                
+                {% include "includes/small-form-render.html" %}
+                
+                {% csrf_token %}
+                <button class="btn gradient-border-3 box-shadow-inset">Calculate</button>
+            </form>
+
+        </div>
+    </div>
 {% endblock %}

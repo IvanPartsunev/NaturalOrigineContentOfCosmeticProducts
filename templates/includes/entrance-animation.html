@@ -1,0 +1,9 @@
+<!-- Animate raw material and product appearance in list views -->
+
+<script>
+    $(document).ready(function () {
+        $(".list-elem").each(function (index) {
+            $(this).css("opacity", "0").delay(50 * index).animate({opacity:'1'})
+        });
+    });
+</script>

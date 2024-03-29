@@ -1,25 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div>
-        <h3>{{ object.product_name }}</h3>
-        <p>{{ object.natural_content|default_if_none:"" }}</p>
-
-        {% if latest_formula %}
-            <div><a href="{% url 'product_formula_details' pk=latest_formula.pk %}">Latest
-                formulation: {{ latest_formula.created_on|date:"d.m.Y" }}</a></div>
-            <div>Description: {{ latest_formula.description|default_if_none:"" }}</div>
-        {% else %}
-
-        {% endif %}
+    <div class="holder">
+        <h2>Product details:</h2>
+        <div class="card-2 box-shadow gradient-border-4 scale-in-center">
+            <h3>{{ object.product_name }}</h3>
+            <p class="gradient-border-circle box-shadow-inset">{{ object.natural_content|default_if_none:"n/a" }} %</p>
+            <div class="border-bottom"></div>
+        
+                {% if latest_formula %}
+                    <div>Description: {{ latest_formula.description|default_if_none:"" }}</div>
+                    <div class="border-bottom"></div>
+                    <div><a href="{% url 'product_formula_details' pk=latest_formula.pk %}">
+                        Created on: {{ latest_formula.created_on|date:"d.m.Y" }}</a>
+                    </div>
+                    <div class="border-bottom"></div>
+                {% else %}
+    
+                {% endif %}
+        
+            <div class="btn-container">
+                <button class="btn gradient-border-3 box-shadow-inset">
+                    <a href="{% url 'product_formula_create' %}">Create formula</a>
+                </button>
+                <button class="btn gradient-border-3 box-shadow-inset">
+                    <a href="{% url 'product_delete' object.pk %}">Delete</a>
+                </button>
+            </div>
+        
+        </div>
     </div>
-    <button class="btn gradient-border-3 box-shadow-inset">
-        <a href="{% url 'product_formula_create' %}">Create formula</a>
-    </button>
-    <button class="btn gradient-border-3 box-shadow-inset">
-        <a href="{% url 'product_delete' object.pk %}">Delete</a>
-    </button>
-
-
+    
+    <p><a href="{% url 'product_formula_update' pk=object.pk %}">All FORMULAS</a></p>
 
 {% endblock %}

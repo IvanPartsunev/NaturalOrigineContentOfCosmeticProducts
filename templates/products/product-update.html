@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form action="{% url 'product_update' pk=object.pk %}" method="post">
-        {{ form }}
-        {% csrf_token %}
-        <button class="btn gradient-border-3 box-shadow-inset">Update</button>
-    </form>
+    <div class="holder">
+        <div class="card-2 box-shadow gradient-border-4 scale-in-center">
+            <h3>New product name:</h3>
+            <div class="border-bottom"></div>
+            <form class="small-form-container" action="{% url 'product_update' pk=object.pk %}" method="post">
+                
+                {% include "includes/small-form-render.html" %}
+               
+                {% csrf_token %}
+                <button class="btn gradient-border-3 box-shadow-inset">Update</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

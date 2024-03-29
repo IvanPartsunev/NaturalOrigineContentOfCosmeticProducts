@@ -6,6 +6,12 @@
     box-sizing: border-box;
 }
 
+form input,
+textarea,
+select {
+    border: none;
+}
+
 input:focus, textarea:focus, select:focus {
     outline: none;
 }

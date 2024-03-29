@@ -35,6 +35,7 @@ class Product(CreateUpdateMixin):
 class ProductFormula(CreateUpdateMixin):
     description = models.CharField(
         max_length=255,
+        verbose_name="Formula description",
         blank=True,
         null=True,
     )

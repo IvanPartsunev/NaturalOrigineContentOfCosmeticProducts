@@ -22,13 +22,17 @@ class ProductCreateView(views.CreateView):
 
     def get_success_url(self):
         return reverse("product_details", kwargs={"pk": self.object.pk})
-    
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
 class ProductDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
+    """
+    The Flow of the project away comes to here, and session data for product is set here.
+    """
+
     queryset = Product.objects.prefetch_related("formulas")
     template_name = "products/product-details.html"
 
@@ -48,6 +52,10 @@ class ProductDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, vie
 
 
 class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
+    """
+    Start of creation or updating proces. Product session data is reset in this view.
+    """
+
     template_name = "products/product-list.html"
     paginate_by = 12
     ordering = ["product_name"]
@@ -57,11 +65,16 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
         search_query = self.request.GET.get("search_field")
         if search_query:
             queryset = queryset.filter(product_name__icontains=search_query)
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = SearchForm(self.request.GET)
+
+        self.request.session["product_name"] = None
+        self.request.session["product_id"] = None
+
         return context
 
 
@@ -69,7 +82,6 @@ class ProductUpdateView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, view
     queryset = Product.objects.all()
     template_name = "products/product-update.html"
     form_class = ProductCreateForm
-    success_url = reverse_lazy("product_details")
 
     def get_success_url(self):
         return reverse("product_details", kwargs={"pk": self.object.pk})
@@ -80,52 +92,13 @@ class ProductDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, view
     template_name = "products/product-delete.html"
     success_url = reverse_lazy("product_list")
 
-
-class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
-
-    template_name = "products/product-calculate-natural-content.html"
-    form_class = ProductCalculateNaturalContentForm
-    success_url = reverse_lazy("product_list")
-
     def post(self, request, *args, **kwargs):
-        formset = MyFormSet(request.POST)
-        if formset.is_valid() and any(form.cleaned_data for form in formset):
-            return self.form_valid(formset)
-        else:
-            existing_materials = RawMaterial.objects.all()
-            context = {
-                "formset": formset,
-                "existing_materials": existing_materials,
-                "product_name": self.request.session.get("product_name"),
-                "formula_description": self.request.session.get("formula_description")
-            }
-            return render(request, self.template_name, context)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["formset"] = MyFormSet()
-        context["existing_materials"] = RawMaterial.objects.all()
-        context["product_name"] = self.request.session.get("product_name")
-        context["formula_description"] = self.request.session.get("formula_description")
-        return context
-
-    def form_valid(self, formset):
-        self.save_not_existing_raw_materials(formset)
-
-        product_natural_content = self.calculate_product_natural_content(formset)
-
-        if not product_natural_content:
-            existing_materials = RawMaterial.objects.all()
-            return render(self.request, self.template_name, {
-                "formset": formset,
-                "existing_materials": existing_materials,
-                "calculation_error": self.CALCULATION_ERROR_MESSAGE,
-            })
-
-        self.save_natural_origin_content(product_natural_content)
-        self.save_formula_recipe(formset)
-
-        return super().form_valid(formset)
+        """
+        Clear session data for deleted formula
+        """
+        self.request.session["product_name"] = None
+        self.request.session["product_id"] = None
+        return super().post(request, *args, **kwargs)
 
 
 class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
@@ -133,6 +106,9 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
     template_name = "products/product-formula-create.html"
     success_url = reverse_lazy("product_calculate_noc")
     fields = ["description"]
+    labels = {
+        "description": "Formula description"
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -177,17 +153,77 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.DetailView)
         return context
 
 
-class ProductFormulaUpdateView(auth_mixins.LoginRequiredMixin, views.DeleteView):
-    queryset = ProductFormula.objects.all()
-    template_name = "products/product-formula-update.html"
-    success_url = reverse_lazy("index")
-    fields = ["__all__"]
+# class ProductFormulaUpdateView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+#     queryset = ProductFormula.objects.all()
+#     template_name = "products/product-calculate-natural-content.html"
+#     form_class = ProductCalculateNaturalContentForm
+#     success_url = reverse_lazy("index")
 
 
 class ProductFormulaDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     queryset = ProductFormula.objects.all().prefetch_related("formula__raw_material")
     template_name = "products/product-formula-details.html"
-    success_url = reverse_lazy("index")
 
     def get_success_url(self):
+        """
+        Clear session data for deleted formula
+        """
+        self.request.session["formula_description"] = None
+        self.request.session["formula_id"] = None
         return reverse("product_details", kwargs={"pk": self.request.session.get("product_id")})
+
+
+class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
+    """
+    This view is used to calculate and also update product formulations.
+
+    """
+
+    template_name = "products/product-calculate-natural-content.html"
+    form_class = ProductCalculateNaturalContentForm
+    success_url = reverse_lazy("product_list")
+
+    def get(self, request, *args, **kwargs):
+        formula_pk = kwargs.get("pk")
+        product_formula = ProductFormula.objects.get(pk=formula_pk).select_related()
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        formset = MyFormSet(request.POST)
+        if formset.is_valid() and any(form.cleaned_data for form in formset):
+            return self.form_valid(formset)
+        else:
+            existing_materials = RawMaterial.objects.all()
+            context = {
+                "formset": formset,
+                "existing_materials": existing_materials,
+                "product_name": self.request.session.get("product_name"),
+                "formula_description": self.request.session.get("formula_description")
+            }
+            return render(request, self.template_name, context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["formset"] = MyFormSet()
+        context["existing_materials"] = RawMaterial.objects.all()
+        context["product_name"] = self.request.session.get("product_name")
+        context["formula_description"] = self.request.session.get("formula_description")
+        return context
+
+    def form_valid(self, formset):
+        self.save_not_existing_raw_materials(formset)
+
+        product_natural_content = self.calculate_product_natural_content(formset)
+
+        if not product_natural_content:
+            existing_materials = RawMaterial.objects.all()
+            return render(self.request, self.template_name, {
+                "formset": formset,
+                "existing_materials": existing_materials,
+                "calculation_error": self.CALCULATION_ERROR_MESSAGE,
+            })
+
+        self.save_natural_origin_content(product_natural_content)
+        self.save_formula_recipe(formset)
+
+        return super().form_valid(formset)

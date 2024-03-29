@@ -3,23 +3,25 @@
 {% block content %}
     <div class="holder">
         <h3>Register</h3>
-        <form class="form-container" action="{% url "account_registration" %}" method="post">
+        <form class="small-form-container" action="{% url "account_registration" %}" method="post">
             {% for field in form %}
-                <input
-                        type="{{ field.widget_type }}"
-                        name="{{ field.html_name }}"
-                        id="{{ field.id_for_label }}"
-                        value="{{ field.initial|default:"" }}"
-                        placeholder="{{ field.label }}:"
-                        class="form-field box-shadow-inset"
-                >
-                {% if field.errors %}
-                    <ul class="error-list">
-                        {% for error in field.errors %}
-                            <li><i class="fa-solid fa-arrow-right"></i>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                <div class="field-container form-row">
+                    <input
+                            type="{{ field.widget_type }}"
+                            name="{{ field.html_name }}"
+                            id="{{ field.id_for_label }}"
+                            value="{{ field.initial|default:"" }}"
+                            placeholder="{{ field.label }}:"
+                            class="form-field box-shadow-inset"
+                    >
+                    {% if field.errors %}
+                        <ul class="error-list-2">
+                            {% for error in field.errors %}
+                                <li><i class="fa-solid fa-arrow-right"></i>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
             {% endfor %}
 
             {% csrf_token %}
