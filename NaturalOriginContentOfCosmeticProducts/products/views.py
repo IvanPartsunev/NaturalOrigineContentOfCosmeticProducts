@@ -1,3 +1,4 @@
+from django.forms import formset_factory
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
@@ -33,13 +34,14 @@ class ProductDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, vie
     The Flow of the project away comes to here, and session data for product is set here.
     """
 
-    queryset = Product.objects.prefetch_related("formulas")
+    queryset = Product.objects.prefetch_related("product")
     template_name = "products/product-details.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        last_formula = self.object.formulas.last()
+        """Obtain last formulation for the product"""
+        last_formula = self.object.product.last()
         context["latest_formula"] = last_formula
 
         product_name = self.object.product_name
@@ -185,8 +187,42 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
 
     def get(self, request, *args, **kwargs):
         formula_pk = kwargs.get("pk")
-        product_formula = ProductFormula.objects.get(pk=formula_pk).select_related()
-        return super().get(request, *args, **kwargs)
+        if not formula_pk:
+            return super().get(request, *args, **kwargs)
+
+        product_formula_data = (ProductFormula.objects
+                                .select_related("product")
+                                .prefetch_related("formula__raw_material")
+                                .get(pk=formula_pk))
+
+        initial_data = []
+
+        product = product_formula_data.product.product_name
+
+        product_formula = product_formula_data.formula.all()
+
+        for product in product_formula:
+            data = {
+                "current_trade_name": "",
+                "inci_name": "",
+                "raw_material_content": 0,
+                "material_type": "",
+                "natural_origin_content": 0,
+            }
+            raw_material = product.raw_material
+
+            data["current_trade_name"] = raw_material.trade_name
+            data["inci_name"] = raw_material.inci_name
+            data["raw_material_content"] = product.raw_material_content
+            data["material_type"] = raw_material.material_type
+            data["natural_origin_content"] = raw_material.natural_origin_content
+
+            initial_data.append(data)
+
+        GetFormSet = formset_factory(ProductCalculateNaturalContentForm, extra=0)
+        formset = GetFormSet(initial=initial_data)
+
+        return self.render_to_response(self.get_context_data(formset=formset))
 
     def post(self, request, *args, **kwargs):
         formset = MyFormSet(request.POST)
@@ -204,13 +240,28 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["formset"] = MyFormSet()
-        context["existing_materials"] = RawMaterial.objects.all()
-        context["product_name"] = self.request.session.get("product_name")
-        context["formula_description"] = self.request.session.get("formula_description")
+        existing_materials = RawMaterial.objects.all()
+        submitted_formset = kwargs.get("formset")
+
+        if self.request.method == "GET":
+            context["formset"] = submitted_formset if submitted_formset else MyFormSet()
+            context["existing_materials"] = existing_materials
+            context["product_name"] = self.request.session.get("product_name")
+            context["formula_description"] = self.request.session.get("formula_description")
+
+        elif self.request.method == "POST":
+            context["formset"] = submitted_formset if submitted_formset.is_valid() else MyFormSet()
+            context["existing_materials"] = existing_materials
+            context["product_name"] = self.request.session.get("product_name")
+            context["formula_description"] = self.request.session.get("formula_description")
+
         return context
 
     def form_valid(self, formset):
+        # TODO Product natural content to be saved in product formula, not directly in product.
+        #  In product natural content have to be saved manually, decided by the user.
+        #  Probably in update.
+
         self.save_not_existing_raw_materials(formset)
 
         product_natural_content = self.calculate_product_natural_content(formset)

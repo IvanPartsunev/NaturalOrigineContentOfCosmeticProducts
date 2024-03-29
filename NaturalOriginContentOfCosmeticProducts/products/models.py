@@ -40,12 +40,21 @@ class ProductFormula(CreateUpdateMixin):
         null=True,
     )
 
+    formula_natural_content = models.IntegerField(
+        validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0),
+        ],
+        blank=True,
+        null=True,
+    )
+
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
         blank=False,
         null=False,
-        related_name="formulas",
+        related_name="product",
     )
 
     owner = models.ForeignKey(
