@@ -9,6 +9,13 @@
     margin-top: 1em;
 }
 
+.formset-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1em;
+}
+
 .small-form-container {
     display: flex;
     flex-direction: column;
@@ -23,9 +30,7 @@
 
 .form-row {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
     width: 100%;
     margin-top: 0.2em;
     border-radius: 0.5em;
@@ -44,25 +49,25 @@
 .field-container {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     width: 100%;
+    position: relative;
 }
 
 .large-fields {
-    flex: 1 1 25%;
-    width: 25%;
+    flex: 1 1 27%;
 }
 
 .small-fields {
-    flex: 1 1 10%;
-    width: 10%;
+    flex: 1 1 5%;
 }
 
 .type-fields {
-    width: 10%;
+    flex: 1 1 15%;
 }
 
 .raw-material-field {
-    width: 10%;
+    flex: 1 1 5%;
 }
 
 .small-fields > input::placeholder {
@@ -116,6 +121,39 @@
     box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.5);
 }
 
+.add-field,
+.delete-field {
+    display: block;
+    width: 4%;
+    padding: 0.2em;
+}
+
+.add-field a,
+.delete-field a {
+    outline: none;
+    opacity: 0.5;
+    transition: 0.3s color ease, 0.3s opacity ease, 0.3s transform ease;
+}
+
+.delete-field a:hover,
+.delete-field a:focus {
+    opacity: 1;
+    transform: scale(1.1);
+    color: rgba(217, 27, 27, 0.8);
+}
+
+.add-field a:hover,
+.add-field a:focus {
+    opacity: 1;
+    transform: scale(1.1);
+    color: rgba(38, 145, 20, 0.8);
+}
+
+.noc-container p#noc-result:active,
+.delete-field a:active {
+    transform: scale(1.5);
+}
+
 .error-list {
     padding: 0.1em 0 0 1em;
     font-size: 0.6em;
@@ -134,19 +172,27 @@
     border-top: 1px solid rgb(84, 84, 84, 0.3);
 }
 
-input[id*=natural_origin_content] {
-    border: none;
-    border-radius: 0 7px 7px 0;
+.noc-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+    max-height: 10%;
+    padding-inline: 1em;
+    font-size: 0.7em;
+    gap: 1em;
+}
+
+.noc-container p#noc-result {
+    transition: 0.3s box-shadow ease, 0.3s transform ease;
+}
+
+.noc-container p#noc-result:hover {
+    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.8);
 }
 
 #select_material {
     border-radius: 7px 0 0 7px;
-}
-
-#add-row,
-#remove-row {
-    margin-top: 2em;
-    max-width: 30%;
 }
 
 @media (max-width: 800px) {
@@ -157,4 +203,9 @@ input[id*=natural_origin_content] {
     .small-form-container {
         width: 80%;
     }
+
+    .noc-container {
+        font-size: 1em;
+    }
+
 }

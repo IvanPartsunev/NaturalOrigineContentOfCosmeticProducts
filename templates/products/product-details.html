@@ -4,8 +4,10 @@
     <div class="holder">
         <h2>Product details:</h2>
         <div class="card-2 box-shadow gradient-border-4 scale-in-center">
-            <h3>{{ object.product_name }}</h3>
-            <p class="gradient-border-circle box-shadow-inset">{{ object.natural_content|default_if_none:"n/a" }} %</p>
+            <h3><a href="{% url 'product_formula_details' pk=object.pk %}">{{ object.product_name }}</a></h3>
+            <p class="gradient-border-circle box-shadow-inset">
+                {{ object.natural_content|default_if_none:"n/a" }} %
+            </p>
             <div class="border-bottom"></div>
         
                 {% if latest_formula %}
@@ -21,7 +23,7 @@
         
             <div class="btn-container">
                 <button class="btn gradient-border-3 box-shadow-inset">
-                    <a href="{% url 'product_formula_create' %}">Create formula</a>
+                    <a href="{% url 'product_formula_update' pk=object.pk %}?action=update">Update formula</a>
                 </button>
                 <button class="btn gradient-border-3 box-shadow-inset">
                     <a href="{% url 'product_delete' object.pk %}">Delete</a>
@@ -31,6 +33,4 @@
         </div>
     </div>
     
-    <p><a href="{% url 'product_formula_update' pk=object.pk %}">All FORMULAS</a></p>
-
 {% endblock %}

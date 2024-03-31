@@ -21,27 +21,52 @@ class CalculateSaveMixin:
                 form.save()
 
     def save_natural_origin_content(self, natural_content):
+
+        """
+        Save natural origin content to PRODUCT.
+        """
+
         product_id = self.request.session.get("product_id")
         product = get_object_or_404(Product, pk=product_id)
 
         product.natural_content = natural_content
         product.save()
 
-    def save_formula_recipe(self, raw_materials):
+    def save_formula_recipe(self, raw_materials, action, natural_content):
+
+        """
+        Save natural origin content and raw materials to the formula.
+        Delete old instances of the formula if formula is updated and rewrite the new formula.
+        """
+
         all_raw_materials = RawMaterial.objects.all()
         formula_id = self.request.session.get("formula_id")
-        formula = ProductFormula.objects.get(pk=formula_id)
+        action = action
+
+        formula = ProductFormula.objects.prefetch_related("formula__raw_material").get(pk=formula_id)
+        formula.formula_natural_content = natural_content
+        formula.save()
+
+        if action == "update":
+            formula_materials_to_delete = [material.id for material in formula.formula.all()]
+            ProductFormulaRawMaterial.objects.filter(id__in=formula_materials_to_delete).delete()
+
+        raw_material_objects = []
 
         for raw_material in raw_materials:
             raw_material_content = raw_material.cleaned_data.get("raw_material_content")
             raw_material_trade_name = raw_material.cleaned_data.get("current_trade_name")
             raw_material_object = all_raw_materials.get(trade_name=raw_material_trade_name)
 
-            ProductFormulaRawMaterial(
-                raw_material_content=raw_material_content,
-                formula=formula,
-                raw_material=raw_material_object,
-            ).save()
+            raw_material_objects.append(
+                ProductFormulaRawMaterial(
+                    raw_material_content=raw_material_content,
+                    formula=formula,
+                    raw_material=raw_material_object,
+                )
+            )
+
+        ProductFormulaRawMaterial.objects.bulk_create(raw_material_objects)
 
     def calculate_product_natural_content(self, raw_materials):
         product_raw_natural_content = []
@@ -64,7 +89,9 @@ class CalculateSaveMixin:
 
 
 class OwnerRequiredMixin(AccessMixin):
+
     """Verify that the current user has this product."""
+
     permission_denied_message = "You are not authorized to open this page!"
 
     def dispatch(self, request, *args, **kwargs):

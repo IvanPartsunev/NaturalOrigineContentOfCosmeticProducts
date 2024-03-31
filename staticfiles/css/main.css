@@ -67,7 +67,7 @@ main::before {
 }
 
 div.list-elem p:last-of-type {
-    margin-bottom: 3em;
+    margin-block: 1.5em;
 }
 
 .info-container {

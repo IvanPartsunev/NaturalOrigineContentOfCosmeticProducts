@@ -12,10 +12,11 @@
         </div>
 
 
-        <form class="form-container box-shadow scale-in-center" id="base_form" action="{% url 'product_calculate_noc' %}" method="post">
+        <form class="form-container box-shadow scale-in-center" id="base_form"
+              action="{% url 'product_calculate_noc' %}?action={{ action }}" method="post">
             {{ formset.management_form }}
-
-            <div class="form-container" id="container">
+            
+            <div class="formset-container" id="container">
 
                 {% for form in formset %}
                     <div class="form-row box-shadow swing-in-top-fwd" id="{{ form.prefix }}">
@@ -33,26 +34,45 @@
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
+
                             </div>
                         {% endfor %}
+                        <div class="delete-field">
+                            <a href="#" id="remove-row"><i class="fa-solid fa-circle-minus"></i></a>
+                        </div>
                     </div>
                 {% endfor %}
-
             </div>
-            <div>{{ error }}</div>
+            <div class="add-field">
+                <a href="#" id="add-row"><i class="fa-solid fa-circle-plus"></i></a>
+            </div>
+        
+            {% if error %}
+                <div class="border-bottom"></div>
+                <div>{{ error }}</div>
+            {% endif %}
+        
             {% csrf_token %}
-            <button class="btn-2" id="calculate" type="submit">Calculate</button>
+            <div class="noc-container">
+                <p>NOC:</p>
+                <p class="gradient-border-circle-2 box-shadow" id="noc-result">n/a %</p>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn-2" id="calculate" type="submit">Save</button>
+                <a class="btn-2" href="{% url 'product_list' %}">Don't save</a>
+            </div>
+            
+        
         </form>
         <div class="sum-container">
             <p>Total sum of raw materials:</p>
-            <p id="rm_sum_result">0</p>
+            <p id="rm-sum-result">0</p>
             <p>%</p>
         </div>
-        <div class="btn-container" id="calc-container">
-            <button class="btn box-shadow-inset" id="add-row">Add row</button>
-            <button class="btn box-shadow-inset" id="remove-row">Remove row</button>
-        </div>
+
     </div>
+    
     <script src="{% static 'js/calculateNaturalOrigin.js' %}"></script>
 
     {% include "includes/calculate-natural-content-autofill.html" %}

@@ -1,13 +1,37 @@
+/* On load events: */
+
+window.onload = () => {
+    sumContent();
+    calculateNatOriginContent();
+}
+
 /* Event listeners: */
 
 document.querySelector("#add-row")
     .addEventListener("click", () => addRow())
 
-document.querySelector("#remove-row")
-    .addEventListener("click", () => removeRow())
+document.querySelectorAll("a#remove-row > i").forEach((elem) => {
+    elem.addEventListener(
+        "click",
+        (event) => removeRow(
+            event.target
+                .parentElement
+                .parentElement
+                .parentElement
+        ))
+})
 
-document.querySelector("input[id*='raw_material_content']")
-    .addEventListener("change", () => sumContent())
+document.querySelector("#noc-result")
+    .addEventListener("click", () => calculateNatOriginContent())
+
+document.querySelectorAll("input[type='number']").forEach((elem) => {
+        elem.addEventListener("blur", () => calculateNatOriginContent())
+    })
+
+document.querySelectorAll("input[id*='raw_material_content']").forEach((elem) => {
+    elem.addEventListener("keyup", () => sumContent())
+})
+
 
 /* Add styles to elements*/
 
@@ -40,7 +64,7 @@ function addRow() {
 
     changeFormElementsIds(cloneForm);
     removeErrors(cloneForm);
-    cloneForm.addEventListener("change", () => sumContent());
+    addEventListeners(cloneForm)
 
     const totalForms = document.querySelector(('#id_form-TOTAL_FORMS'));
     totalForms.value = Number(totalForms.value) + 1;
@@ -48,16 +72,42 @@ function addRow() {
     document.querySelector("#container").appendChild(cloneForm);
 }
 
-function removeRow() {
-    const currentForm = document.querySelector("#container").lastChild;
+function removeRow(currForm) {
+    const currentForm = currForm
     const totalForms = document.querySelector(('#id_form-TOTAL_FORMS'))
+
     if (currentForm.id !== "form-0" && totalForms.value > 1) {
-        totalForms.value = Number(totalForms.value) - 1
-        subtractContent(currentForm)
-        currentForm.classList.add("swing-out-top-bck")
+        totalForms.value = Number(totalForms.value) - 1;
+
+        subtractContent(currentForm);
+
+        currentForm.classList.add("flip-out-hor-top")
         currentForm.addEventListener("animationend", () => {
             currentForm.remove();
+            calculateNatOriginContent();
         });
+    }
+}
+
+function calculateNatOriginContent() {
+    const rows = document.querySelectorAll(".form-row")
+    const sumRawMaterials = Number(document.querySelector("#rm-sum-result").innerText)
+
+    const rawResult = Array.from(rows).reduce((acc, curr) => {
+        const content = curr.querySelector("input[id*='raw_material_content']").value
+        const noc = curr.querySelector("input[id*='natural_origin_content']").value
+
+        const calcResult = content * noc / 100
+
+        return acc + calcResult
+
+    }, 0)
+
+    const result = Math.floor((rawResult / sumRawMaterials) * 100)
+    if (sumRawMaterials <= 103 && sumRawMaterials >= 100) {
+        document.querySelector("#noc-result").innerText = `${String(result)} %`
+    } else {
+        document.querySelector("#noc-result").innerText = "--- %"
     }
 }
 
@@ -92,15 +142,34 @@ function sumContent() {
     const rmSum = Array.from(allContentFields).reduce((acc, curr) => {
         return acc + Number(curr.value);
     }, 0);
-    document.getElementById('rm_sum_result').innerText = String(rmSum);
+    document.getElementById('rm-sum-result').innerText = String(rmSum);
 }
 
 function subtractContent(currentElem) {
-    const rmSum = document.querySelector("#rm_sum_result")
+    const rmSum = document.querySelector("#rm-sum-result")
     const currentElemId = currentElem.id
     const subtractValueInput = document.querySelector(`#${currentElemId} div input[id*='raw_material_content']`)
     const subtractValue = Number(subtractValueInput.value);
     const currentRmSum = Number(rmSum.innerText);
 
     rmSum.innerText = String(currentRmSum - subtractValue);
+}
+
+function addEventListeners(form) {
+    form.addEventListener("keyup", () => sumContent());
+    form.querySelectorAll("input[type='number']").forEach((elem) => {
+        elem.addEventListener("blur", () => calculateNatOriginContent())
+    })
+
+    form.lastElementChild
+        .querySelector("a#remove-row > i")
+        .addEventListener(
+            "click",
+            (event) => removeRow(
+                event.target
+                    .parentElement
+                    .parentElement
+                    .parentElement
+            )
+        );
 }

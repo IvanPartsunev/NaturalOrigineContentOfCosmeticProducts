@@ -1,37 +1,53 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
-    
-    <div>
-        <h3>{{ product.product_name }}</h3>
-        <p>{{ object.description|default_if_none:"" }}</p>
-    
-        {% if related_raw_materials %}
-            
-        	{% for formula_material, raw_material in related_raw_materials.items %}
-                <div>
-                    <p>{{ raw_material.trade_name }}</p>
-                    <p>{{ raw_material.inci_name }}</p>
-                    <p>{{ formula_material.raw_material_content }}</p>
-                    <p>{{ raw_material.natural_origin_content }}</p>
-                    <p>{{ raw_material.material_type }}</p>
-                </div>
-            {% endfor %}
-            
-            <button class="btn gradient-border-3 box-shadow-inset">
-                <a href="{% url 'product_formula_delete' pk=object.pk %}">Delete</a>
-            </button>
-            
-        {% else %}
-            
-            <button class="btn gradient-border-3 box-shadow-inset">
-                <a href="{% url 'product_calculate_noc' %}">Calculate</a>
-            </button>
-            
-        {% endif %} 
-        
-        <p>Product natural content in %: {{ product.natural_content|default_if_none:"Not calculated" }}</p>
-        
+    <div class="holder">
+        <div class="info-container">
+            <h2>{{ product_name }}</h2>
+            <p class="border-bottom"></p>
+            <p>Description: {{ formula_description }}</p>
+            <p class="border-bottom"></p>
+        </div>
+
+
+        <form class="form-container box-shadow scale-in-center" id="base_form"
+              action="{% url 'product_calculate_noc' %}" method="get">
+            {{ formset.management_form }}
+
+            <div class="formset-container" id="container">
+
+                {% for form in formset %}
+                    <div class="form-row box-shadow swing-in-top-fwd" id="{{ form.prefix }}">
+                        <div class="field-container raw-material-field">
+                        </div>
+                        {% for field in form %}
+                            <div class="field-container">
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% csrf_token %}
+            <div class="card-2">
+                <p>Natural origin content:</p>
+                <p class="gradient-border-circle box-shadow" id="noc-result">n/a %</p>
+            </div>
+        </form>
+
+        <div class="sum-container">
+            <p>Total sum of raw materials:</p>
+            <p id="rm-sum-result">0</p>
+            <p>%</p>
+        </div>
+
     </div>
+
+    <script src="{% static 'js/formulaDetails.js' %}"></script>
 
 {% endblock %}
