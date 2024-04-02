@@ -12,6 +12,7 @@
     justify-content: center;
     align-items: center;
     font-size: 0.8em;
+    padding-block: 0.3em;
     color: black;
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
     linear-gradient(0deg, rgba(235, 246, 255, 0.7) 0%, rgba(59, 178, 184, 0.7) 0%, rgba(66, 230, 149, 0.7) 70%) border-box;
@@ -26,6 +27,7 @@
     justify-content: center;
     align-items: center;
     font-size: 0.8em;
+    padding-block: 0.3em;
     color: black;
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
     linear-gradient(0deg, rgba(157, 63, 251, 0.7) 0%, rgba(252, 70, 107, 0.7) 100%) border-box;

@@ -9,7 +9,7 @@
         <div class="btn-container">
             <div class="btn-2 box-shadow-inset"><a href="{% url 'product_create' %}">Create</a></div>
         </div>
-        
+
     </div>
 
     <div class="container">
@@ -25,6 +25,7 @@
                         {{ object.natural_content|default_if_none:"n/a" }} %
                     </p>
                 </div>
+                <p class="border-bottom"></p>
                 {% if user.is_authenticated %}
                     <div class="btn-container">
                         <button class="btn gradient-border-3 box-shadow-inset">

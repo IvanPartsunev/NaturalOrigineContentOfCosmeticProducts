@@ -36,8 +36,13 @@
             {% csrf_token %}
             <div class="card-2">
                 <p>Natural origin content:</p>
-                <p class="gradient-border-circle box-shadow" id="noc-result">n/a %</p>
+                <p class="gradient-border-circle-2 box-shadow" id="noc-result">n/a %</p>
             </div>
+            
+            <div class="btn-container" id="details-btn-container">
+                <a class="btn-2" href="{% url 'product_formula_update' pk=request.session.product_id %}">Update</a>
+            </div>
+        
         </form>
 
         <div class="sum-container">
@@ -45,9 +50,9 @@
             <p id="rm-sum-result">0</p>
             <p>%</p>
         </div>
-
     </div>
 
+    <script src="{% static 'js/calculateNaturalOrigin.js' %}"></script>
     <script src="{% static 'js/formulaDetails.js' %}"></script>
 
 {% endblock %}

@@ -55,7 +55,7 @@
 }
 
 .large-fields {
-    flex: 1 1 27%;
+    flex: 1 1 26%;
 }
 
 .small-fields {
@@ -67,7 +67,7 @@
 }
 
 .raw-material-field {
-    flex: 1 1 5%;
+    flex: 1 1 8%;
 }
 
 .small-fields > input::placeholder {
@@ -122,14 +122,16 @@
 }
 
 .add-field,
-.delete-field {
+.delete-field,
+.info-row {
     display: block;
     width: 4%;
     padding: 0.2em;
 }
 
 .add-field a,
-.delete-field a {
+.delete-field a,
+.info-row a {
     outline: none;
     opacity: 0.5;
     transition: 0.3s color ease, 0.3s opacity ease, 0.3s transform ease;
@@ -149,8 +151,16 @@
     color: rgba(38, 145, 20, 0.8);
 }
 
+.info-row a:hover,
+.info-row a:focus {
+    opacity: 1;
+    transform: scale(1.1);
+    color: rgba(37, 75, 192, 0.8);
+}
+
 .noc-container p#noc-result:active,
-.delete-field a:active {
+.delete-field a:active,
+.info-row a:active {
     transform: scale(1.5);
 }
 
@@ -177,7 +187,7 @@
     justify-content: right;
     align-items: center;
     width: 100%;
-    max-height: 10%;
+    height: 10%;
     padding-inline: 1em;
     font-size: 0.7em;
     gap: 1em;
@@ -193,6 +203,10 @@
 
 #select_material {
     border-radius: 7px 0 0 7px;
+}
+
+div#details-btn-container {
+    margin: 3em 0 0 0;
 }
 
 @media (max-width: 800px) {

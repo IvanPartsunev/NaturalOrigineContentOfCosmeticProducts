@@ -9,11 +9,13 @@
             <div class="border-bottom"></div>
 
             <form class="small-form-container" action="{% url 'product_formula_create' %}" method="post">
-                
+
                 {% include "includes/small-form-render.html" %}
-                
+
                 {% csrf_token %}
-                <button class="btn gradient-border-3 box-shadow-inset">Calculate</button>
+                <div class="btn-container">
+                    <button class="btn gradient-border-3 box-shadow-inset">Calculate</button>
+                </div>
             </form>
 
         </div>

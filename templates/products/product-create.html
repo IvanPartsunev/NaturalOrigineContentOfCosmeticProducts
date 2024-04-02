@@ -6,11 +6,13 @@
             <h2>Create product</h2>
             <div class="border-bottom"></div>
             <form class="small-form-container" action="{% url 'product_create' %}" method="post">
-                
+
                 {% include "includes/small-form-render.html" %}
-                
+
                 {% csrf_token %}
-                <button class="btn gradient-border-3 box-shadow-inset">Create</button>
+                <div class="btn-container">
+                    <button class="btn gradient-border-3 box-shadow-inset">Create</button>
+                </div>
             </form>
         </div>
     </div>
