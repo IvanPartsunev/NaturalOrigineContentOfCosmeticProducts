@@ -39,20 +39,19 @@ class CalculateSaveMixin:
         Delete old instances of the formula if formula is updated and rewrite the new formula.
         """
 
-        all_raw_materials = RawMaterial.objects.all()
         formula_id = self.request.session.get("formula_id")
-        action = action
-
         formula = ProductFormula.objects.prefetch_related("formula__raw_material").get(pk=formula_id)
         formula.formula_natural_content = natural_content
         formula.save()
 
+        all_raw_materials = RawMaterial.objects.all()
+
         if action == "update":
+
             formula_materials_to_delete = [material.id for material in formula.formula.all()]
             ProductFormulaRawMaterial.objects.filter(id__in=formula_materials_to_delete).delete()
 
         raw_material_objects = []
-
         for raw_material in raw_materials:
             raw_material_content = raw_material.cleaned_data.get("raw_material_content")
             raw_material_trade_name = raw_material.cleaned_data.get("current_trade_name")

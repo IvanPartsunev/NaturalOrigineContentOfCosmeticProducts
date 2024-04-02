@@ -30,9 +30,6 @@ class ProductCreateView(views.CreateView):
 
 
 class ProductDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
-    """
-    The Flow of the project away comes to here, and session data for product is set here.
-    """
 
     queryset = Product.objects.prefetch_related("product")
     template_name = "products/product-details.html"
@@ -107,6 +104,10 @@ class ProductDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, view
 
 
 class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
+    """
+    View creates new product formula.
+    """
+
     queryset = ProductFormula.objects.all()
     template_name = "products/product-formula-create.html"
     success_url = reverse_lazy("product_calculate_noc")
@@ -122,15 +123,11 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
         return context
 
     def form_valid(self, form):
-        # TODO Instead of deleting old formulas, they should be saved and able to be displayed and update.
+        # TODO Instead of deleting old formula, formula "is_active" to be set to false,
+        #  and be available for update and reassign to product as main formula.
 
         form.instance.owner = self.request.user
         product_id = self.request.session.get("product_id")
-
-        old_formulation = ProductFormula.objects.filter(product_id=product_id, is_active=True).first()
-        if old_formulation:
-            old_formulation.is_active = False
-            old_formulation.delete()
 
         form.instance.product_id = product_id
         form.instance.is_active = True
@@ -270,6 +267,15 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
         action = self.request.GET.get("action")
 
         if formset.is_valid() and any(form.cleaned_data for form in formset):
+            # old_formulation = (ProductFormula.objects
+            #                    .select_related("product")
+            #                    .filter(product_id=product_id, is_active=True)
+            #                    .first())
+            #
+            # if old_formulation:
+            #     old_formulation.product.natural_content = "n/a %"
+            #     old_formulation.is_active = False
+            #     old_formulation.delete()
             return self.form_valid(formset)
         else:
             existing_materials = RawMaterial.objects.all()
@@ -306,8 +312,7 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
 
     def form_valid(self, formset):
         # TODO Product natural content to be saved in product formula, not directly in product.
-        #  In product natural content have to be saved manually, decided by the user.
-        #  Probably in update.
+        #  In product natural content have to be saved manually, decided by the user in product update.
 
         action = self.request.GET.get('action')
         self.save_not_existing_raw_materials(formset)
