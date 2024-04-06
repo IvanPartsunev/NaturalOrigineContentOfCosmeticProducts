@@ -57,11 +57,11 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
 
     template_name = "products/product-list.html"
     paginate_by = 12
-    ordering = ["product_name"]
+    ordering = ["created_on"]
 
     def get_queryset(self):
-        queryset = Product.objects.filter(owner_id=self.request.user.pk).order_by("product_name")
-        search_query = self.request.GET.get("search_field")
+        queryset = Product.objects.filter(owner_id=self.request.user.pk).order_by("created_on")
+        search_query = self.request.GET.get("search_query")
         if search_query:
             queryset = queryset.filter(product_name__icontains=search_query)
 
@@ -150,7 +150,8 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         product_formula_data = (ProductFormula.objects
                                 .select_related("product")
                                 .prefetch_related("formula__raw_material")
-                                .filter(product_id=product_id, is_active=True).first())
+                                .filter(product_id=product_id, is_active=True)
+                                .order_by("id").first())
 
         if not product_formula_data:
             return self.render_to_response(self.get_context_data())
@@ -164,6 +165,7 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
 
         for product in product_formula:
             data = {
+                "number": 0,
                 "current_trade_name": "",
                 "inci_name": "",
                 "raw_material_content": 0,
@@ -172,6 +174,7 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
             }
             raw_material = product.raw_material
 
+            data["number"] += 1
             data["current_trade_name"] = raw_material.trade_name
             data["inci_name"] = raw_material.inci_name
             data["raw_material_content"] = product.raw_material_content
@@ -184,6 +187,10 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         formset = GetFormSet(initial=initial_data)
 
         return self.render_to_response(self.get_context_data(formset=formset))
+
+    def post(self, request, *args, **kwargs):
+
+        return super().post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -230,7 +237,8 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
                                 .filter(product_id=product_id, is_active=True).first() or None)
 
         if not product_formula_data:
-            return self.render_to_response(self.get_context_data())
+            formset = MyFormSet()
+            return self.render_to_response(self.get_context_data(formset=formset))
 
         initial_data = []
 
@@ -257,25 +265,29 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
 
             initial_data.append(data)
 
-        GetFormSet = formset_factory(ProductCalculateNaturalContentForm, extra=0)
-        formset = GetFormSet(initial=initial_data)
+        formset = MyFormSet()
+
+        if initial_data:
+            GetFormSet = formset_factory(ProductCalculateNaturalContentForm, extra=0)
+            formset = GetFormSet(initial=initial_data)
 
         return self.render_to_response(self.get_context_data(formset=formset, action=action))
 
     def post(self, request, *args, **kwargs):
         formset = MyFormSet(request.POST)
+        product_id = kwargs.get("pk")
         action = self.request.GET.get("action")
 
         if formset.is_valid() and any(form.cleaned_data for form in formset):
-            # old_formulation = (ProductFormula.objects
-            #                    .select_related("product")
-            #                    .filter(product_id=product_id, is_active=True)
-            #                    .first())
-            #
-            # if old_formulation:
-            #     old_formulation.product.natural_content = "n/a %"
-            #     old_formulation.is_active = False
-            #     old_formulation.delete()
+            old_formulation = (ProductFormula.objects
+                               .select_related("product")
+                               .filter(product_id=product_id, is_active=True)
+                               .first())
+
+            if old_formulation:
+                old_formulation.product.natural_content = "n/a %"
+                old_formulation.is_active = False
+                old_formulation.delete()
             return self.form_valid(formset)
         else:
             existing_materials = RawMaterial.objects.all()
@@ -295,14 +307,14 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
         action = kwargs.get("action")
 
         if self.request.method == "GET":
-            context["formset"] = submitted_formset if submitted_formset else MyFormSet()
+            context["formset"] = submitted_formset
             context["existing_materials"] = existing_materials
             context["product_name"] = self.request.session.get("product_name")
             context["formula_description"] = self.request.session.get("formula_description")
             context["action"] = action
 
         elif self.request.method == "POST":
-            context["formset"] = submitted_formset if submitted_formset.is_valid() else MyFormSet()
+            context["formset"] = submitted_formset
             context["existing_materials"] = existing_materials
             context["product_name"] = self.request.session.get("product_name")
             context["formula_description"] = self.request.session.get("formula_description")

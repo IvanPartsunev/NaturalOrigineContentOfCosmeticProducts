@@ -9,7 +9,10 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["4b5e-87-118-169-61.ngrok-free.app", 'localhost']
+
+CSRF_TRUSTED_ORIGINS = ["https://4b5e-87-118-169-61.ngrok-free.app", 'https://localhost:8002']
+
 INSTALLED_APPS = [
 
     # django build in apps

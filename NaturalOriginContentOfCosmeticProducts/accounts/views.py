@@ -14,6 +14,12 @@ class AccountCreateView(views.CreateView):
     template_name = "accounts/account_register.html"
     success_url = reverse_lazy("index")
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse("index"))
+
+        return super().get(request, *args, **kwargs)
+
     def form_valid(self, form):
         result = super().form_valid(form)
         login(self.request, form.instance)
@@ -24,11 +30,12 @@ class AccountLoginView(auth_views.LoginView):
     template_name = "accounts/account_login.html"
     redirect_authenticated_user = True
     success_url = reverse_lazy("index")
-    
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+
     def get_success_url(self):
         next_url = self.request.POST.get("next") or self.request.GET.get("next")
+
+        if not next_url:
+            return super().get_success_url()
 
         if "/accounts" in next_url:
             return reverse("index")

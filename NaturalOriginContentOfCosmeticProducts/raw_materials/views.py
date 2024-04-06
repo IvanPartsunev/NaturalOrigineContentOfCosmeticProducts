@@ -32,14 +32,14 @@ class RawMaterialListView(views.ListView):
 
     def get_queryset(self):
         queryset = RawMaterial.objects.filter(is_deleted=False).order_by("trade_name")
-        search_query = self.request.GET.get("search_field")
+        search_query = self.request.GET.get("search_query")
         if search_query:
             queryset = queryset.filter(Q(trade_name__icontains=search_query) | Q(inci_name__icontains=search_query))
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["search_form"] = SearchForm(self.request.GET)
+        context["search_query"] = self.request.GET.get("search_query", "")
         return context
 
 
