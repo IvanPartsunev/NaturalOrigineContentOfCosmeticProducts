@@ -5,7 +5,8 @@
     max-width: 100%;
     padding: 1em 1em 0 1em;
     border-bottom: 1px solid rgb(84, 84, 84, 0.8);
-    box-shadow: 0 5px 5px -2px rgba(0,0,0,0.62);
+    border-radius: 0.3em;
+    box-shadow: 0 5px 5px -2px rgba(0, 0, 0, 0.62);
 }
 
 .site-logo-container {
@@ -25,6 +26,7 @@ nav ul li {
     align-items: center;
     white-space: nowrap;
     padding: 0 1em 0 1em;
+    background: none;
 }
 
 nav ul li:last-child {
@@ -32,7 +34,7 @@ nav ul li:last-child {
 }
 
 nav ul li a {
-    font-size: calc(0.6vw + 0.6vh);
+    font-size: calc(0.7vw + 0.7vh);
     transition: 0.2s color ease;
 }
 
@@ -42,9 +44,6 @@ nav ul li a:hover {
 
 
 @media (max-width: 800px) {
-    body {
-        padding: 0.2em;
-    }
 
     .navigation {
         justify-content: center;
@@ -58,6 +57,10 @@ nav ul li a:hover {
 
     nav ul li {
         padding: 0 0.5em 0 0.5em;
+    }
+
+    nav ul li a {
+        font-size: calc(1.2vw + 1.2vh);
     }
 }
 

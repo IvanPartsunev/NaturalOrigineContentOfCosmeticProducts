@@ -9,7 +9,7 @@
 .search-form {
     display: flex;
     width: 50%;
-    padding-block: 0.2em;
+    padding: 0.2em 0.5em;
     border-radius: 1em;
     background: white;
 }
@@ -18,7 +18,7 @@
     padding: 0.3em 0 0.3em 1em;
     width: 90%;
     border-radius: 1em 0 0 1em;
-    font-size: calc(0.6vw + 0.6vh);
+    font-size: calc(0.8vw + 0.8vh);
     color: rgb(84, 84, 84, 1);
     border: none;
     border-right: 1px solid rgb(84, 84, 84, 0.8);
@@ -39,5 +39,10 @@
 @media (max-width: 600px) {
     .search-form {
         width: 100%;
+    }
+
+    .search-field {
+        padding: 0.5em 0.5em;
+        font-size: calc(1.2vw + 1.2vh);
     }
 }

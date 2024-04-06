@@ -24,6 +24,10 @@ form {
     width: 100%;
 }
 
+label {
+    padding-inline: 0.5em;
+}
+
 a {
     display: block;
     width: 100%;
@@ -45,7 +49,7 @@ li {
 
 @media (max-width: 600px) {
     header, footer {
-        padding: 0.5em;
+        /*padding: 0.5em;*/
     }
 }
 
