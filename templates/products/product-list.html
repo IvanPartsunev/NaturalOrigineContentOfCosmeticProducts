@@ -7,7 +7,7 @@
     <div class="holder">
         <h2>Products</h2>
         <div class="btn-container">
-            <div class="btn-2 box-shadow-inset"><a href="{% url 'product_create' %}">Create</a></div>
+            <div class="btn-2"><a href="{% url 'product_create' %}">Create</a></div>
         </div>
 
     </div>
@@ -21,9 +21,11 @@
                     <h4>{{ object.product_name }}</h4>
                     <p class="border-bottom"></p>
                     <p>Natural origin content:</p>
-                    <p class="gradient-border-circle box-shadow-inset">
+                    <br>
+                    <p class="gradient-border-circle box-shadow">
                         {{ object.natural_content|default_if_none:"n/a" }} %
                     </p>
+                    <p>Updated on: {{ object.updated_on|date:"d.m.Y" }}</p>
                 </div>
                 <p class="border-bottom"></p>
                 {% if user.is_authenticated %}

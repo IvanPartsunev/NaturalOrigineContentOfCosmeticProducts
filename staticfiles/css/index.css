@@ -2,7 +2,15 @@
 
 @import url(typography.css);
 
+@import url(home.css);
+
 @import url(navigation.css);
+
+@import url(main.css);
+
+@import url(forms.css);
+
+@import url(search-bar.css);
 
 @import url(footer.css);
 
@@ -12,15 +20,11 @@
 
 @import url(buttons.css);
 
-@import url(main.css);
-
-@import url(search-bar.css);
-
-@import url(forms.css);
-
 @import url(animations.css);
 
 @import url(paginator.css);
+
+
 
 
 
