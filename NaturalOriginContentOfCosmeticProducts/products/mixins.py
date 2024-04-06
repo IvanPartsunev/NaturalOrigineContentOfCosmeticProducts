@@ -1,4 +1,5 @@
-from django.contrib.auth.mixins import AccessMixin
+from django.contrib.auth import mixins as auth_mixins
+from django.core import exceptions
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
@@ -89,16 +90,16 @@ class CalculateSaveMixin:
         return product_natural_content
 
 
-class OwnerRequiredMixin(AccessMixin):
+class OwnerRequiredMixin(auth_mixins.LoginRequiredMixin):
 
     """Verify that the current user has this product."""
 
-    permission_denied_message = "You are not authorized to open this page!"
+    owner_field = "owner_id"
 
-    def dispatch(self, request, *args, **kwargs):
-        # TODO Fix this to work also for formulas
-        product = Product.objects.filter(pk=kwargs.get('pk', None)).first()
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+        obj_user = getattr(obj, self.owner_field, None)
+        if obj_user != self.request.user.id:
+            raise exceptions.PermissionDenied
 
-        if request.user.pk != product.owner_id:
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
+        return obj

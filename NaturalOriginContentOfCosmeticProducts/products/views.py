@@ -12,7 +12,7 @@ from NaturalOriginContentOfCosmeticProducts.products.models import Product, Prod
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
 
-class ProductCreateView(views.CreateView):
+class ProductCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     queryset = Product.objects.all()
     form_class = ProductCreateForm
     template_name = "products/product-create.html"
@@ -29,7 +29,7 @@ class ProductCreateView(views.CreateView):
         return super().form_valid(form)
 
 
-class ProductDetailsView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
+class ProductDetailsView(OwnerRequiredMixin, views.DetailView):
 
     queryset = Product.objects.prefetch_related("product")
     template_name = "products/product-details.html"
@@ -77,7 +77,7 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
         return context
 
 
-class ProductUpdateView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.UpdateView):
+class ProductUpdateView(OwnerRequiredMixin, views.UpdateView):
     queryset = Product.objects.all()
     template_name = "products/product-update.html"
     form_class = ProductCreateForm
@@ -86,7 +86,7 @@ class ProductUpdateView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, view
         return reverse("product_details", kwargs={"pk": self.object.pk})
 
 
-class ProductDeleteView(OwnerRequiredMixin, auth_mixins.LoginRequiredMixin, views.DeleteView):
+class ProductDeleteView(OwnerRequiredMixin, views.DeleteView):
     queryset = Product.objects.all()
     template_name = "products/product-delete.html"
     success_url = reverse_lazy("product_list")
@@ -141,7 +141,7 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
         return super().form_valid(form)
 
 
-class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
+class ProductFormulaDetailView(OwnerRequiredMixin, views.FormView):
     template_name = "products/product-formula-details.html"
     form_class = ProductCalculateNaturalContentForm
     success_url = reverse_lazy("product_list")
@@ -207,7 +207,7 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         return context
 
 
-class ProductFormulaDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+class ProductFormulaDeleteView(OwnerRequiredMixin, views.DeleteView):
     queryset = ProductFormula.objects.all().prefetch_related("formula__raw_material")
     template_name = "products/product-formula-details.html"
 
@@ -220,7 +220,7 @@ class ProductFormulaDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView)
         return reverse("product_details", kwargs={"pk": self.request.session.get("product_id")})
 
 
-class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
+class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin, views.FormView):
     """
     This view is used to calculate and also update product formulations.
 
