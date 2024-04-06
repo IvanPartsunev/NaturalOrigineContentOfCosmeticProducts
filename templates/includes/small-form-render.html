@@ -1,11 +1,13 @@
 {% for field in form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
     <div class="field-container form-row">
+        
         <input
                 type="{{ field.widget_type }}"
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 value="{{ field.initial|default:"" }}"
-                placeholder="{{ field.label }}:"
+{#                placeholder="{{ field.label }}:"#}
                 class="form-field box-shadow-inset"
         >
         {% if field.errors %}

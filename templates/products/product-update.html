@@ -2,16 +2,16 @@
 
 {% block content %}
     <div class="holder">
+    <h2>Update product name:</h2>
         <div class="card-2 box-shadow gradient-border-4 scale-in-center">
-            <h3>Product name:</h3>
-            <div class="border-bottom"></div>
+            
             <form class="small-form-container" action="{% url 'product_update' pk=object.pk %}" method="post">
 
                 {% include "includes/small-form-render.html" %}
 
                 {% csrf_token %}
                 
-                <div class="btn-container">
+                <div class="small-button-container">
                     <button class="btn gradient-border-3 box-shadow-inset">Update</button>
                 </div>
                 

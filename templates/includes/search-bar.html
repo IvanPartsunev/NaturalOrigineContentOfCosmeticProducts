@@ -1,10 +1,10 @@
 <div class="search">
-    <form class="search-form box-shadow" method="get">
+    <form class="search-form box-shadow" role="search" method="get">
             <input
-                    type="{{ search_form.field.widget_type }}"
-                    name="{{ search_form.field.html_name }}"
+                    type="text"
+                    name="search_query"
                     id="{{ search_form.field.id_for_label }}"
-                    value="{{ field.initial|default:"" }}"
+                    value="{{ request.GET.search_query }}"
                     placeholder="Search..."
                     class="search-field"
             >

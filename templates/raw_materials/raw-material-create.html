@@ -1,19 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block load_styles %}
-{#    <link rel="stylesheet" href="{% static 'css/color-schemes/create-color-scheme.css' %}">#}
-{% endblock %}
-
 {% block content %}
+    <div class="holder">
 
-    <h1>Create raw material</h1>
-    <form name="create_raw_material" action="{% url 'raw_material_create' %}" method="post">
-{#        {% include "includes/raw-material-form-render.html" %}#}
-            {{ form.as_p }}
-        <button class="btn gradient-border-3 box-shadow-inset">Create</button>
+        <h2>Create raw material:</h2>
+        <div class="card-2">
 
-        {% csrf_token %}
-    </form>
+            <form class="card-3 box-shadow" name="create_raw_material" action="{% url 'raw_material_create' %}"
+                  method="post">
+                {% include "includes/small-form-render.html" %}
+                {% csrf_token %}
 
+                <div class="btn-container">
+                    <button class="btn-2">Create</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
 {% endblock %}

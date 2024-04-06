@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% include  "includes/search-bar.html" %}
+    {% include "includes/search-bar.html" %}
 
     <div class="holder">
         <h2>Products</h2>
@@ -32,7 +32,7 @@
                             <a href="{% url 'product_details' object.pk %}">Details</a>
                         </button>
                         <button class="btn gradient-border-3 box-shadow-inset">
-                            <a href="{% url 'product_update' object.pk %}">Update</a>
+                            <a href="{% url 'product_update' object.pk %}">Change Name</a>
                         </button>
                     </div>
                 {% endif %}

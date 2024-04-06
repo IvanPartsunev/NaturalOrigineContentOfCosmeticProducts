@@ -2,15 +2,26 @@
 
 {% block content %}
 
-    <div>
-        <h3>{{ object.trade_name }}</h3>
-        <p>Inci: {{ object.inci_name }}</p>
-        <p>Type: {{ object.material_type }}</p>
-        <p>Noi: {{ object.natural_origin_content }}%</p>
-        <p>Last updated: {{ object.edited_on }}</p>
+    <div class="holder">
+        <div class="card-2 gradient-border-4 box-shadow scale-in-center">
+            <h3>{{ object.trade_name }}</h3>
+            <p class="border-bottom"></p>
+            <p>Inci: {{ object.inci_name }}</p>
+            <p class="border-bottom"></p>
+            <p>Type: {{ object.material_type }}</p>
+            <p>Noi: {{ object.natural_origin_content }}%</p>
+            <p class="border-bottom"></p>
+            <div>Created on: {{ object.created_on|date:"d.m.Y" }}</div>
+            <div>Updated on: {{ object.edited_on|date:"d.m.Y" }}</div>
+
+
+            {% if user.is_authenticated %}
+                <p class="border-bottom"></p>
+                <div class="small-button-container">
+                    <button class="btn gradient-border-3 box-shadow-inset"><a
+                            href="{% url 'raw_material_update' pk=object.pk %}">Update</a></button>
+                </div>
+            {% endif %}
+        </div>
     </div>
-    {% if user.is_authenticated %}
-    	<button class="btn gradient-border-3 box-shadow-inset"><a href="{% url 'raw_material_update' pk=object.pk %}">Edit</a></button>
-    {% endif %}
-    
 {% endblock %}

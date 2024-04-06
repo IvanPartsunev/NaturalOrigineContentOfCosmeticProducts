@@ -5,7 +5,6 @@
         <a href="{% url 'index' %}"><img class="site-logo" src="{% static 'img/web-site-logo.png' %}" alt=""></a>
     </div>
     
-{#    <ul class="gradient-border-3 box-shadow-inset">#}
     <ul>
         {% if not user.is_authenticated %}
             <li class="gradient-pype-2"><a href="{% url 'account_registration' %}">Register</a></li>

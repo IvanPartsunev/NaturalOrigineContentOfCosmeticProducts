@@ -11,9 +11,16 @@
             {% endif %}
 
             <div class="info-container">
-                <h4 id="company-name">{{ object.company.company_name }}</h4>
+                <h2 id="company-name">{{ object.company.company_name|upper }}</h2>
                 <p class="border-bottom"></p>
-                <p id="company-user">{{ object.get_full_name }}</p>
+                <h4 id="company-user">{{ object.get_full_name }}</h4>
+                <p class="border-bottom"></p>
+                <a style="color: #0080ff" href="{{ object.company_website|default_if_none:"#" }}" id="company-user">
+                    {{ object.company_website|default_if_none:"No website entered. Update profile." }}
+                </a>
+                <p class="border-bottom"></p>
+                <p>Joined on: {{ user.date_joined|date:"d.m.Y" }}</p>
+                <p class="border-bottom"></p>
             </div>
             <div class="btn-container">
                 <button class="btn gradient-border-3 box-shadow-inset">
