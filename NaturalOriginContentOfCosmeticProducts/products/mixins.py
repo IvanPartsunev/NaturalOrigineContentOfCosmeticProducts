@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from NaturalOriginContentOfCosmeticProducts.products.models import Product, ProductFormula, \
     ProductFormulaRawMaterial
@@ -30,13 +31,14 @@ class CalculateSaveMixin:
         product = get_object_or_404(Product, pk=product_id)
 
         product.natural_content = natural_content
+        product.edited_on = timezone.now()
         product.save()
 
     def save_formula_recipe(self, raw_materials, action, natural_content):
 
         """
         Save natural origin content and raw materials to the formula.
-        Delete old instances of the formula if formula is updated and rewrite the new formula.
+        Delete old instances of the formula if formula is updated and save the new formula.
         """
 
         formula_id = self.request.session.get("formula_id")

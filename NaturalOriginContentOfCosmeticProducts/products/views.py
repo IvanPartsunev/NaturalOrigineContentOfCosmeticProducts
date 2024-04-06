@@ -129,6 +129,8 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
         form.instance.owner = self.request.user
         product_id = self.request.session.get("product_id")
 
+        ProductFormula.objects.get(product_id=product_id).delete()
+
         form.instance.product_id = product_id
         form.instance.is_active = True
         form.save()
@@ -303,7 +305,7 @@ class ProductCalculateNaturalContentView(CalculateSaveMixin, views.FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        existing_materials = RawMaterial.objects.all()
+        existing_materials = RawMaterial.objects.filter(is_deleted=False).order_by("trade_name")
         submitted_formset = kwargs.get("formset")
         action = kwargs.get("action")
 

@@ -90,7 +90,7 @@ form.card-3 {
     border-radius: 1em;
     box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.7);
     background-color: white;
-    transition: 0.1s box-shadow ease;
+    transition: 0.3s box-shadow ease;
 }
 
 .list-elem:hover {

@@ -25,7 +25,7 @@
                     <p class="gradient-border-circle box-shadow">
                         {{ object.natural_content|default_if_none:"n/a" }} %
                     </p>
-                    <p>Updated on: {{ object.updated_on|date:"d.m.Y" }}</p>
+                    <p>Updated on: {{ object.edited_on|date:"d.m.Y" }}</p>
                 </div>
                 <p class="border-bottom"></p>
                 {% if user.is_authenticated %}

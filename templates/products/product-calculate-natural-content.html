@@ -68,14 +68,16 @@
                 <button class="btn-2" id="calculate" type="submit">Save</button>
                 <a class="btn-2" href="{% url 'product_list' %}">Don't save</a>
             </div>
-
-
         </form>
+
         <div class="sum-container">
             <p>Total sum of raw materials:</p>
             <p id="rm-sum-result">0</p>
             <p>%</p>
         </div>
+        {% if calculation_error %}
+            <p>{{ calculation_error }}</p>
+        {% endif %}
 
     </div>
 
