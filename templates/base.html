@@ -24,28 +24,29 @@
     {% endblock %}
 </main>
 <footer>
-    <p>CONTENT
-        Calendar of festivities
-        New assets
-        The most popular content
-        Search trends
-        Blog</p>
-    <p>INFORMATION
-        Pricing
-        About us
-        Press room
-        API
-        Jobs
-        Sell your content
-        Freepik brand guidelines</p>
-    <p>
-        Pricing
-        About us
-        Press room
-        API
-        Jobs
-        Sell your content
-        Freepik brand guidelines</p>
+    <div id="about">
+        <section class="card-3 box-shadow">
+            <p><a href="{% url 'about' %}">About</a></p>
+            <p><a href="#">Terms</a></p>
+            <p><a href="#">Privacy</a></p>
+        </section>
+        <p>
+            © 2024 Natural Origin, Inc.
+        </p>
+    </div>
+    <div>
+        <p>Contacts:</p><br>
+        <p>Name: Ivan Partsunev</p>
+        <p>Email: ivan.partsunev@gmail.com</p>
+        <p>Phone: +359889972797</p>
+        <p>
+            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-telegram"></i>
+            <i class="fa-brands fa-tiktok"></i>
+        </p>
+    </div>
 </footer>
 </body>
 </html>

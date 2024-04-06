@@ -100,7 +100,7 @@ button#register-button {
 
 @media (max-width: 800px) {
     .btn {
-        max-width: 30%;
+        max-width: 40%;
         border: 1px solid transparent;
     }
 

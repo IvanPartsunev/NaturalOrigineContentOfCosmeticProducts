@@ -19,10 +19,18 @@
             <div class="formset-container" id="container">
 
                 {% for form in formset %}
+                    <div class="" id="formula-labels">
+                        {% if form.prefix == "form-0" %}
+                            <label for="row-num">#</label>
+                            {% for field in form %}
+                                {{ field.label_tag }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
 
                     <div class="form-row box-shadow swing-in-top-fwd" id="{{ form.prefix }}">
                         <div class="field-container small-fields">
-                            <input type="text" value="{{ form.initial.number }}.">
+                            <input type="text" value="{{ form.initial.number }}." id="row-num">
                         </div>
 
                         {% for field in form %}

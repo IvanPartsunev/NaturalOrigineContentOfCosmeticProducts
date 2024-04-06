@@ -18,7 +18,7 @@
     padding: 0.3em 0 0.3em 1em;
     width: 90%;
     border-radius: 1em 0 0 1em;
-    font-size: calc(0.8vw + 0.8vh);
+    font-size: 1em;
     color: rgb(84, 84, 84, 1);
     border: none;
     border-right: 1px solid rgb(84, 84, 84, 0.8);

@@ -163,9 +163,10 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         self.request.session["formula_id"] = product_formula_data.pk
         self.request.session["formula_description"] = product_formula_data.description
 
+        row_number = 1
         for product in product_formula:
             data = {
-                "number": 0,
+                "number": row_number,
                 "current_trade_name": "",
                 "inci_name": "",
                 "raw_material_content": 0,
@@ -174,7 +175,7 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
             }
             raw_material = product.raw_material
 
-            data["number"] += 1
+            row_number += 1
             data["current_trade_name"] = raw_material.trade_name
             data["inci_name"] = raw_material.inci_name
             data["raw_material_content"] = product.raw_material_content

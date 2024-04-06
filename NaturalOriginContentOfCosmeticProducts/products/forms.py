@@ -26,7 +26,9 @@ class ProductCalculateNaturalContentForm(RawMaterialForm):
         label="Trade name"
     )
 
-    raw_material_content = forms.IntegerField(
+    raw_material_content = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
         label="%",
         validators=[
             MinValueValidator(MIN_RAW_MATERIAL_CONTENT),

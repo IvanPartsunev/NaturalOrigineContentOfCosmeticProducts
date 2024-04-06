@@ -1,0 +1,21 @@
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 100%;
+    padding: 1em 1em 0.5em 1em;
+    font-size: 0.8em;
+    gap: 3em;
+    border-top: 1px solid rgb(84, 84, 84, 0.8);
+    box-shadow: 0 -3px 5px -2px rgba(0, 0, 0, 0.62);
+}
+
+#about {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+div#about p a {
+    text-align: start;
+}

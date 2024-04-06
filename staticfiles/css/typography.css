@@ -23,7 +23,11 @@ button {
     font: inherit;
 }
 
-footer {
-    border-top: 2px solid rgb(84, 84, 84, 1);
+.about {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
 }
+
+
 

@@ -1,0 +1,47 @@
+.pagination {
+    width: 30%;
+    align-self: center;
+    margin-right: 1.5em;
+}
+
+.step-links {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2em;
+    margin-top: 2em;
+    border-radius: 0.5em;
+    overflow: hidden;
+    background-color: white;
+}
+
+.step-links a,
+.step-links p {
+    width: 20%;
+    color: rgb(84, 84, 84, 0.8);
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s transform ease, 0.2s color ease;
+}
+
+.step-links a:hover {
+    color: rgba(0, 0, 0, 1);
+
+}
+
+.step-links a:active {
+    transform: scale(1.2);
+}
+
+.current a {
+    width: 100%;
+    align-self: center;
+}
+
+@media (max-width: 1000px) {
+    .pagination {
+        width: 90%;
+        margin-right: 0;
+    }
+}

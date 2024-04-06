@@ -47,12 +47,6 @@ li {
     list-style: none;
 }
 
-@media (max-width: 600px) {
-    header, footer {
-        /*padding: 0.5em;*/
-    }
-}
-
 
 
 

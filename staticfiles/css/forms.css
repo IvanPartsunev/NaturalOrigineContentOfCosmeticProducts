@@ -31,7 +31,6 @@
 .form-row {
     display: flex;
     justify-content: center;
-    width: 100%;
     margin-top: 0.2em;
     border-radius: 0.5em;
     overflow: hidden;
@@ -215,6 +214,31 @@
 div#details-btn-container {
     margin: 3em 0 0 0;
 }
+
+#formula-labels {
+    display: flex;
+    width: 100%;
+}
+
+#formula-labels label:nth-child(2),
+#formula-labels label:nth-child(3) {
+    flex: 1 1 26%;
+    margin-top: auto;
+}
+
+#formula-labels label:nth-child(5) {
+    flex: 1 1 15%;
+    margin-top: auto;
+}
+
+#formula-labels label:first-child,
+#formula-labels label:nth-child(4),
+#formula-labels label:last-child {
+    flex: 1 1 5%;
+    text-align: end;
+    margin-top: auto;
+}
+
 
 @media (max-width: 800px) {
     .form-container {

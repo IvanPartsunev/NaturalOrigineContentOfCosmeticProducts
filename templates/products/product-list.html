@@ -41,10 +41,11 @@
         {% endfor %}
     </div>
 
-
-    {% if object_list %}
+    {% if is_paginated %}
         {% include "includes/paginator.html" %}
-    {% else %}
+    {% endif %}
+
+    {% if not object_list %}
         <p>No products are found.</p>
     {% endif %}
 

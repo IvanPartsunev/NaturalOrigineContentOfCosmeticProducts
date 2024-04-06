@@ -15,8 +15,11 @@ def index(request):
     request.session["formula_description"] = None
     request.session["formula_id"] = None
 
-    return render(request, 'core/index.html')
+    return render(request, "core/index.html")
 
+
+def about(request):
+    return render(request, "core/about.html")
 
 def get_material_data_for_autofill(request):
 
