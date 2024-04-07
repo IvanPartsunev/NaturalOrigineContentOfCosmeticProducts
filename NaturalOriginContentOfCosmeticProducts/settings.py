@@ -7,9 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
-if DEBUG:
+if not DEBUG:
     ALLOWED_HOSTS = ["noccalculator.azurewebsites.net"]
 
     CSRF_TRUSTED_ORIGINS = ["https://noccalculator.azurewebsites.net"]
@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third party apps
-    'whitenoise.runserver_nostatic',
+    # 'whitenoise.runserver_nostatic',
+
     # project apps
     'NaturalOriginContentOfCosmeticProducts.raw_materials.apps.RawMaterialConfig',
     'NaturalOriginContentOfCosmeticProducts.products.apps.ProductsConfig',
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,7 +68,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NaturalOriginContentOfCosmeticProducts.wsgi.application'
 
-if DEBUG:
+if not DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -122,7 +123,7 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = BASE_DIR / 'static'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
