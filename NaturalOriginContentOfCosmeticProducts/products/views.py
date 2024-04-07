@@ -1,13 +1,15 @@
 from django.core import exceptions
 from django.forms import formset_factory
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 from django.contrib.auth import mixins as auth_mixins
 
+
 from NaturalOriginContentOfCosmeticProducts.core.forms import SearchForm
 from NaturalOriginContentOfCosmeticProducts.products.forms import ProductCalculateNaturalContentForm, MyFormSet, \
     ProductCreateForm
+from NaturalOriginContentOfCosmeticProducts.products.functions import export_pdf
 from NaturalOriginContentOfCosmeticProducts.products.mixins import CalculateSaveMixin, OwnerRequiredMixin
 from NaturalOriginContentOfCosmeticProducts.products.models import Product, ProductFormula
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
@@ -162,6 +164,24 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         if product_formula_data.owner_id != request.user.pk:
             raise exceptions.PermissionDenied
 
+        if request.GET.get('pdf_export'):
+            return export_pdf(product_formula_data)
+        else:
+            return self.render_html(product_formula_data, product_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        submitted_formset = kwargs.get("formset")
+
+        if self.request.method == "GET":
+            context["formset"] = submitted_formset if submitted_formset else MyFormSet()
+            context["product_name"] = self.request.session.get("product_name")
+            context["product_id"] = kwargs.get("product_pk")
+            context["formula_description"] = self.request.session.get("formula_description")
+
+        return context
+
+    def render_html(self, product_formula_data, product_id):
         initial_data = []
 
         product_formula = product_formula_data.formula.all()
@@ -194,18 +214,6 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         formset = GetFormSet(initial=initial_data)
 
         return self.render_to_response(self.get_context_data(formset=formset, product_pk=product_id))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        submitted_formset = kwargs.get("formset")
-
-        if self.request.method == "GET":
-            context["formset"] = submitted_formset if submitted_formset else MyFormSet()
-            context["product_name"] = self.request.session.get("product_name")
-            context["product_id"] = kwargs.get("product_pk")
-            context["formula_description"] = self.request.session.get("formula_description")
-
-        return context
 
 
 class ProductFormulaDeleteView(OwnerRequiredMixin, views.DeleteView):

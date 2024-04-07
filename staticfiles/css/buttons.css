@@ -98,6 +98,15 @@ button#register-button {
     min-width: 40%;
 }
 
+.pdf-icon {
+    font-size: 2.5em;
+    width: 1em;
+    height: auto;
+    position: absolute;
+    bottom: 5%;
+    right: 1%;
+}
+
 @media (max-width: 800px) {
     .btn {
         max-width: 40%;
