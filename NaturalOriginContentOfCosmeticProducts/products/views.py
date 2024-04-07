@@ -10,7 +10,7 @@ from NaturalOriginContentOfCosmeticProducts.core.forms import SearchForm
 from NaturalOriginContentOfCosmeticProducts.products.forms import ProductCalculateNaturalContentForm, MyFormSet, \
     ProductCreateForm
 from NaturalOriginContentOfCosmeticProducts.products.functions import export_pdf
-from NaturalOriginContentOfCosmeticProducts.products.mixins import CalculateSaveMixin, OwnerRequiredMixin
+from NaturalOriginContentOfCosmeticProducts.products.mixins import CalculateSaveMixin
 from NaturalOriginContentOfCosmeticProducts.products.models import Product, ProductFormula
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
@@ -32,7 +32,7 @@ class ProductCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
         return super().form_valid(form)
 
 
-class ProductDetailsView(OwnerRequiredMixin, views.DetailView):
+class ProductDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
 
     queryset = Product.objects.prefetch_related("product")
     template_name = "products/product-details.html"
@@ -80,7 +80,7 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
         return context
 
 
-class ProductUpdateView(OwnerRequiredMixin, views.UpdateView):
+class ProductUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     queryset = Product.objects.all()
     template_name = "products/product-update.html"
     form_class = ProductCreateForm
@@ -89,7 +89,7 @@ class ProductUpdateView(OwnerRequiredMixin, views.UpdateView):
         return reverse("product_details", kwargs={"pk": self.object.pk})
 
 
-class ProductDeleteView(OwnerRequiredMixin, views.DeleteView):
+class ProductDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     queryset = Product.objects.all()
     template_name = "products/product-delete.html"
     success_url = reverse_lazy("product_list")
@@ -216,7 +216,7 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         return self.render_to_response(self.get_context_data(formset=formset, product_pk=product_id))
 
 
-class ProductFormulaDeleteView(OwnerRequiredMixin, views.DeleteView):
+class ProductFormulaDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     """
     Clear session data for deleted formula
     """
@@ -231,7 +231,7 @@ class ProductFormulaDeleteView(OwnerRequiredMixin, views.DeleteView):
         return reverse("product_details", kwargs={"pk": self.request.session.get("product_id")})
 
 
-class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin, views.FormView):
+class ProductCalculateNaturalContentView(auth_mixins.LoginRequiredMixin, CalculateSaveMixin, views.FormView):
     """
     This view is used to calculate and also update product formulations.
 
