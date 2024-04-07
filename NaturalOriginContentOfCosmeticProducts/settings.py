@@ -7,11 +7,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["4b5e-87-118-169-61.ngrok-free.app", 'localhost']
+ALLOWED_HOSTS = ["noccalculator.azurewebsites.net"]
 
-CSRF_TRUSTED_ORIGINS = ["https://4b5e-87-118-169-61.ngrok-free.app", 'https://localhost:8002']
+CSRF_TRUSTED_ORIGINS = ["https://noccalculator.azurewebsites.net"]
 
 INSTALLED_APPS = [
 
@@ -66,10 +66,10 @@ WSGI_APPLICATION = 'NaturalOriginContentOfCosmeticProducts.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "natural_origin_content_db",
-        "USER": "user_1",
-        "PASSWORD": "1111",
-        "HOST": "127.0.0.1",
+        "NAME": "noccalculator-database",
+        "USER": "lkngwbwfsd",
+        "PASSWORD": "s2isXu2qL$ZUV8LM",
+        "HOST": "noccalculator-server.postgres.database.azure.com",
         "PORT": "5432",
     }
 }
