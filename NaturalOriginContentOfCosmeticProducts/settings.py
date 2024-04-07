@@ -9,9 +9,13 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["noccalculator.azurewebsites.net"]
+if not DEBUG:
+    ALLOWED_HOSTS = ["noccalculator.azurewebsites.net"]
 
-CSRF_TRUSTED_ORIGINS = ["https://noccalculator.azurewebsites.net"]
+    CSRF_TRUSTED_ORIGINS = ["https://noccalculator.azurewebsites.net"]
+
+else:
+    ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
 
@@ -63,16 +67,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NaturalOriginContentOfCosmeticProducts.wsgi.application'
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "noccalculator-database",
-        "USER": "lkngwbwfsd",
-        "PASSWORD": "s2isXu2qL$ZUV8LM",
-        "HOST": "noccalculator-server.postgres.database.azure.com",
-        "PORT": "5432",
+if not DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "noccalculator-database",
+            "USER": "lkngwbwfsd",
+            "PASSWORD": "s2isXu2qL$ZUV8LM",
+            "HOST": "noccalculator-server.postgres.database.azure.com",
+            "PORT": "5432",
+        }
     }
-}
+
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "natural_origin_content_db",
+            "USER": "user_1",
+            "PASSWORD": "1111",
+            "HOST": "127.0.0.1",
+            "PORT": "5432",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -105,7 +122,7 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = BASE_DIR / 'static'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
