@@ -29,7 +29,6 @@ INSTALLED_APPS = [
 
     # third party apps
     'whitenoise.runserver_nostatic',
-
     # project apps
     'NaturalOriginContentOfCosmeticProducts.raw_materials.apps.RawMaterialConfig',
     'NaturalOriginContentOfCosmeticProducts.products.apps.ProductsConfig',
@@ -123,7 +122,7 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = BASE_DIR / 'static'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
