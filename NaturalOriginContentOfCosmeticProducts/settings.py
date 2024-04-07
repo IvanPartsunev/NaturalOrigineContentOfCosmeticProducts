@@ -24,16 +24,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third party apps
-
+    'whitenoise.runserver_nostatic',
     # project apps
     'NaturalOriginContentOfCosmeticProducts.raw_materials.apps.RawMaterialConfig',
     'NaturalOriginContentOfCosmeticProducts.products.apps.ProductsConfig',
     'NaturalOriginContentOfCosmeticProducts.accounts.apps.UserAccountConfig',
 ]
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,4 +109,3 @@ AUTH_USER_MODEL = "accounts.AccountModel"
 
 LOGIN_REDIRECT_URL = reverse_lazy("index")
 LOGIN_URL = reverse_lazy("account_login")
-
