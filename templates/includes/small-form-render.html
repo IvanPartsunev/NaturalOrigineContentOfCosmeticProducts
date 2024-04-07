@@ -1,15 +1,23 @@
 {% for field in form %}
     <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
     <div class="field-container form-row">
-        
-        <input
+        {% if field.widget_type == "select" %}
+            <select class="form-field box-shadow-inset" name="raw_material" id="select_material">
+                <option value="">Select</option>
+                {% for option in field.subwidgets %}
+                    {{ option }}
+                {% endfor %}
+            </select>
+        {% else %}
+            <input
                 type="{{ field.widget_type }}"
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 value="{{ field.initial|default:"" }}"
-{#                placeholder="{{ field.label }}:"#}
                 class="form-field box-shadow-inset"
-        >
+            >
+        {% endif %}
+        
         {% if field.errors %}
             <ul class="error-list-2">
                 {% for error in field.errors %}

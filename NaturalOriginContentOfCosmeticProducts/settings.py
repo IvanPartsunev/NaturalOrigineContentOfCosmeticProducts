@@ -7,9 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
-if not DEBUG:
+if DEBUG:
     ALLOWED_HOSTS = ["noccalculator.azurewebsites.net"]
 
     CSRF_TRUSTED_ORIGINS = ["https://noccalculator.azurewebsites.net"]
@@ -67,7 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NaturalOriginContentOfCosmeticProducts.wsgi.application'
 
-if not DEBUG:
+if DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
