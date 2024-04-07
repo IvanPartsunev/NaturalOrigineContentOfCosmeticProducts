@@ -53,6 +53,9 @@ class RawMaterialDetailsView(FormMixin, views.DetailView):
 
 
 class RawMaterialUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
+    """
+    In GET method if material is selected from select raw material form, data for the raw material is loaded.
+    """
     queryset = RawMaterial.objects.all()
     form_class = RawMaterialForm
     template_name = "raw_materials/raw-material-update.html"
