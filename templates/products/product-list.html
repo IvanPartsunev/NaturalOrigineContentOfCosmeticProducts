@@ -19,6 +19,9 @@
             <div class="list-elem">
                 <div class="info-container">
                     <h4>{{ object.product_name }}</h4>
+                    <div class="info-row" id="edit-button">
+                        <a href="{% url 'product_update' object.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                    </div>
                     <p class="border-bottom"></p>
                     <p>Natural origin content:</p>
                     <br>
@@ -33,9 +36,9 @@
                         <button class="btn gradient-border-3 box-shadow-inset">
                             <a href="{% url 'product_details' object.pk %}">Details</a>
                         </button>
-                        <button class="btn gradient-border-3 box-shadow-inset">
-                            <a href="{% url 'product_update' object.pk %}">Change Name</a>
-                        </button>
+{#                        <button class="btn gradient-border-3 box-shadow-inset">#}
+{#                            <a href="{% url 'product_update' object.pk %}">Change Name</a>#}
+{#                        </button>#}
                     </div>
                 {% endif %}
             </div>

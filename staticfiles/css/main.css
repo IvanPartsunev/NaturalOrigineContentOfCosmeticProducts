@@ -98,7 +98,7 @@ form.card-3 {
 }
 
 div.list-elem p:last-of-type {
-    margin-block: 1.5em;
+    margin-block: 2.5em;
 }
 
 .info-container {
@@ -144,6 +144,7 @@ h2  {
 
 h4 {
     text-align: center;
+    word-wrap: break-word;
 }
 
 @media (max-width: 1000px) {
