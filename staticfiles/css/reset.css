@@ -16,7 +16,9 @@ select {
     border: none;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
     outline: none;
 }
 
@@ -37,11 +39,12 @@ a {
     text-decoration: none;
     color: rgb(84, 84, 84, 1);
     -webkit-tap-highlight-color: transparent;
-    transition: 0.3s transform ease;
+    transition: 0.3s font-size ease;
 }
 
 a:focus {
-    font-weight: 500;
+    color: black;
+    font-size: 1.1em;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

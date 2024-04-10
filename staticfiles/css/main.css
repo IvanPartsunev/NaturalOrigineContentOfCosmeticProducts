@@ -1,7 +1,7 @@
 main {
     display: flex;
     flex: 1 1 auto;
-    padding: 2em 2em 1em 3em;
+    padding: 2em 0 1em 3em;
     flex-direction: column;
     position: relative;
     min-height: 100vh;
@@ -56,6 +56,7 @@ main::before {
     flex-direction: column;
     align-items: center;
     width: 60%;
+    min-height: 50%;
     padding: 1em;
     gap: 1em;
     border-radius: 1em;

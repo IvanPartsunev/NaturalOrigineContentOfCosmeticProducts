@@ -18,8 +18,9 @@
             {% if user.is_authenticated %}
                 <p class="border-bottom"></p>
                 <div class="small-button-container">
-                    <button class="btn gradient-border-3 box-shadow-inset"><a
-                            href="{% url 'raw_material_update' pk=object.pk %}">Update</a></button>
+                    <button class="btn gradient-border-3 box-shadow-inset">
+                        <a href="{% url 'raw_material_update' pk=object.pk %}">Update</a>
+                    </button>
                 </div>
             {% endif %}
         </div>

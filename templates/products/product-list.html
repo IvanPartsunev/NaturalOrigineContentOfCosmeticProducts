@@ -22,7 +22,7 @@
                     <div class="info-row" id="edit-button">
                         <a href="{% url 'product_update' object.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
                     </div>
-                    <p class="border-bottom"></p>
+                    <div class="border-bottom"></div>
                     <p>Natural origin content:</p>
                     <br>
                     <p class="gradient-border-circle box-shadow">
@@ -30,7 +30,7 @@
                     </p>
                     <p>Updated on: {{ object.edited_on|date:"d.m.Y" }}</p>
                 </div>
-                <p class="border-bottom"></p>
+                <div class="border-bottom"></div>
                 {% if user.is_authenticated %}
                     <div class="btn-container">
                         <button class="btn gradient-border-3 box-shadow-inset">

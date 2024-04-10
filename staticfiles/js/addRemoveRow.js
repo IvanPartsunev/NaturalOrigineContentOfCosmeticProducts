@@ -1,7 +1,10 @@
 /* Event listeners: */
 
 document.querySelector("#add-row")
-    .addEventListener("click", () => addRow())
+    .addEventListener("click", (e) => {
+        e.preventDefault()
+        addRow()
+    })
 
 document.querySelectorAll("a#remove-row > i").forEach((elem) => {
     elem.addEventListener(
@@ -45,6 +48,7 @@ function removeRow(currForm) {
         currentForm.addEventListener("animationend", () => {
             currentForm.remove();
             calculateNatOriginContent();
+
         });
     }
 }

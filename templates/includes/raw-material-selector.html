@@ -1,13 +1,13 @@
-<div class="select-field">
-<select name="raw_material"
-        id="select_material"
->
-    <option value="">Select</option>
-    {% for material in existing_materials %}
-        <option value="{{ material.pk }}">
-            {{ material.trade_name }}
-        </option>
-
-    {% endfor %}
-</select>
+<div>
+    <select name="raw_material" id="select_material">
+    
+        <option value="">Select</option>
+    
+        {% for material in existing_materials %}
+            <option value="{{ material.pk }}">
+                {{ material.trade_name }}
+            </option>
+        {% endfor %}
+    
+    </select>
 </div>
