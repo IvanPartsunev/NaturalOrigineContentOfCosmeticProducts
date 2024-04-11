@@ -6,7 +6,7 @@
 
     <div class="holder">
         <h2>Products</h2>
-        <div class="btn-container">
+        <div class="btn-container large-button-container">
             <div class="btn-2"><a href="{% url 'product_create' %}">Create</a></div>
         </div>
 
@@ -18,10 +18,15 @@
 
             <div class="list-elem">
                 <div class="info-container">
-                    <h4>{{ object.product_name }}</h4>
-                    <div class="info-row" id="edit-button">
-                        <a href="{% url 'product_update' object.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                    <div class="icon-bar">
+                        <a href="{% url 'product_update' object.pk %}">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <a href="{% url 'product_delete' pk=object.pk %}">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
                     </div>
+                    <h4>{{ object.product_name }}</h4>
                     <div class="border-bottom"></div>
                     <p>Natural origin content:</p>
                     <br>
@@ -36,9 +41,9 @@
                         <button class="btn gradient-border-3 box-shadow-inset">
                             <a href="{% url 'product_details' object.pk %}">Details</a>
                         </button>
-{#                        <button class="btn gradient-border-3 box-shadow-inset">#}
-{#                            <a href="{% url 'product_update' object.pk %}">Change Name</a>#}
-{#                        </button>#}
+                        {#                        <button class="btn gradient-border-3 box-shadow-inset">#}
+                        {#                            <a href="{% url 'product_update' object.pk %}">Change Name</a>#}
+                        {#                        </button>#}
                     </div>
                 {% endif %}
             </div>

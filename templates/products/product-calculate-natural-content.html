@@ -19,6 +19,15 @@
             <div class="formset-container" id="container">
 
                 {% for form in formset %}
+                    <div class="" id="formula-labels-calc">
+                        {% if form.prefix == "form-0" %}
+                            <label for="row-num"></label>
+                            {% for field in form %}
+                                {{ field.label_tag }}
+                            {% endfor %}
+                            <label for="row-num"></label>
+                        {% endif %}
+                    </div>
                     <div class="form-row box-shadow swing-in-top-fwd" id="{{ form.prefix }}">
                         <div class="field-container raw-material-field">
                             {% include "includes/raw-material-selector.html" %}
@@ -63,8 +72,11 @@
                 <p>NOC:</p>
                 <p class="gradient-border-circle-2 box-shadow" id="noc-result">n/a %</p>
             </div>
-
-            <div class="btn-container">
+            {% if calculation_error %}
+                <p>{{ calculation_error }}</p>
+                <div class="border-bottom"></div>
+            {% endif %}
+            <div class="btn-container large-button-container">
                 <button class="btn-2" id="calculate" type="submit">Save</button>
                 <a class="btn-2" href="{% url 'product_list' %}">Don't save</a>
             </div>
@@ -75,10 +87,6 @@
             <p id="rm-sum-result">0</p>
             <p>%</p>
         </div>
-        {% if calculation_error %}
-            <p>{{ calculation_error }}</p>
-        {% endif %}
-
     </div>
 
     {% include "includes/calculate-natural-content-autofill.html" %}

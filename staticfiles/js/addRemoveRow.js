@@ -1,20 +1,25 @@
 /* Event listeners: */
 
 document.querySelector("#add-row")
-    .addEventListener("click", (e) => {
-        e.preventDefault()
-        addRow()
-    })
+    .addEventListener(
+        "click",
+        (event) => {
+            event.preventDefault()
+            addRow()
+        })
 
-document.querySelectorAll("a#remove-row > i").forEach((elem) => {
+document.querySelectorAll("a#remove-row").forEach((elem) => {
     elem.addEventListener(
         "click",
-        (event) => removeRow(
-            event.target
-                .parentElement
-                .parentElement
-                .parentElement
-        ))
+        (event) => {
+            event.preventDefault()
+            removeRow(
+                event.target
+                    .parentElement
+                    .parentElement
+            )
+        }
+    )
 })
 
 /* Base Functions: */
@@ -33,6 +38,8 @@ function addRow() {
     totalForms.value = Number(totalForms.value) + 1;
 
     document.querySelector("#container").appendChild(cloneForm);
+
+    cloneForm.scrollIntoView({behavior: "smooth"});
 }
 
 function removeRow(currForm) {

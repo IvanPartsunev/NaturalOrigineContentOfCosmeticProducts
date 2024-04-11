@@ -1,17 +1,23 @@
 .btn-container {
     display: flex;
     width: 100%;
-    height: 40px;
+    height: 2em;
     justify-content: center;
     gap: 0.2em;
     align-self: flex-end;
+}
+
+.large-button-container {
+    height: 2.5em;
+    width: 50%;
+    align-self: center;
 }
 
 .small-button-container {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 35px;
+    height: 2em;
     justify-content: center;
     margin-block: 1em;
 }
@@ -25,6 +31,7 @@
     color: black;
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
     linear-gradient(0deg, rgba(235, 246, 255, 0.7) 0%, rgba(59, 178, 184, 0.7) 0%, rgba(66, 230, 149, 0.7) 70%) border-box;
+    box-shadow: inset -3px -4px 20px -16px rgba(0, 0, 0, 0.8), 0 0 0.3em 0 rgba(0, 0, 0, 0.0);
     border-radius: 0.5em;
     border: 2px solid transparent;
     transition: box-shadow 0.3s ease, transform 0.1s ease;
@@ -38,7 +45,7 @@
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
     linear-gradient(0deg, rgba(157, 63, 251, 0.7) 0%, rgba(252, 70, 107, 0.7) 100%) border-box;
     border-radius: 1em;
-    box-shadow: inset 0 0 0.3em 0 rgba(0, 0, 0, 0.8), 0 0 0.3em 0 rgba(0, 0, 0, 0.1);
+    box-shadow: inset -3px -4px 20px -15px rgba(0, 0, 0, 0.8), 0 0 0.3em 0 rgba(0, 0, 0, 0.0);
     border: 2px solid transparent;
     transition: box-shadow 0.3s ease, transform 0.1s ease;
 }
@@ -48,39 +55,12 @@
 .btn:focus-within,
 .btn-2:focus-within {
     box-shadow: inset 0 0 0.1em 0 rgba(0, 0, 0, 0.1), 0 0 0.4em 0 rgba(0, 0, 0, 0.8);
+    color: black;
 }
 
 .btn:active,
 .btn-2:active {
     transform: scale(1.1);
-}
-
-.raw-material-delete {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    bottom: 22%;
-    left: 90%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    height: 3em;
-    width: auto;
-    aspect-ratio: 1;
-    padding: 0.1em;
-    background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)) padding-box,
-    linear-gradient(0deg, rgba(157, 63, 251, 0.7) 0%, rgba(252, 70, 107, 0.7) 100%) border-box;
-    border: 2px solid transparent;
-    transition: 0.3s transform ease, 0.2s box-shadow;
-}
-
-.raw-material-delete:hover {
-    transform: translate(-50%, -50%) scale(1.2);
-    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.5);
-}
-
-.raw-material-delete:active {
-    transform: translate(-50%, -50%) scale(1.5);
 }
 
 button#login-button,
@@ -89,16 +69,37 @@ button#register-button {
 }
 
 .pdf-icon {
+    display: block;
+    position: absolute;
     font-size: 2.5em;
     width: 1em;
-    height: auto;
-    position: absolute;
-    bottom: 5%;
-    right: 1%;
+    bottom: 0;
+    right: 0;
+    transform: translate(-50%, -50%);
 }
 
-.update-rm-button {
-    font-size: 1.5em;
+.icon-bar {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-bottom: 0.5em;
+}
+
+.icon-bar a {
+    color: rgb(84, 84, 84, 0.5);
+    transition: 0.3s color ease;
+    padding: 0.1em;
+}
+
+.icon-bar a:hover {
+    color: rgb(84, 84, 84, 1);
+}
+
+.icon-bar a:active,
+.icon-bar a:focus {
+    color: white;
+    background-color: rgba(84, 84, 84, 1);
+    border-radius: 0.3em;
 }
 
 div#edit-button {
@@ -123,14 +124,8 @@ div#edit-button {
         font-size: calc(1.3vw + 1.3vh);
     }
 
-    .raw-material-delete {
-        border: 1px solid transparent;
-        font-size: 1.2em;
-        height: 20%;
-        left: 88%;
-    }
-
-    .small-button-container {
+    .small-button-container,
+    .large-button-container {
         width: 100%;
     }
 }

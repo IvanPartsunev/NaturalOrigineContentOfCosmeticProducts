@@ -8,14 +8,23 @@ window.onload = () => {
 /* Event listeners: */
 
 document.querySelector("#noc-result")
-    .addEventListener("click", () => calculateNatOriginContent())
-
-document.querySelectorAll("input[type='number']").forEach((elem) => {
-        elem.addEventListener("blur", () => calculateNatOriginContent())
+    .addEventListener("click", (event) => {
+        event.preventDefault();
+        calculateNatOriginContent();
     })
 
+document.querySelectorAll("input[type='number']").forEach((elem) => {
+    elem.addEventListener("blur", (event) => {
+        event.preventDefault();
+        calculateNatOriginContent();
+    })
+})
+
 document.querySelectorAll("input[id*='raw_material_content']").forEach((elem) => {
-    elem.addEventListener("keyup", () => sumContent())
+    elem.addEventListener("keyup", (event) => {
+        event.preventDefault()
+        sumContent();
+    })
 })
 
 
@@ -91,14 +100,18 @@ function addEventListeners(form) {
     })
 
     form.lastElementChild
-        .querySelector("a#remove-row > i")
+        .querySelector("a#remove-row")
         .addEventListener(
             "click",
-            (event) => removeRow(
-                event.target
-                    .parentElement
-                    .parentElement
-                    .parentElement
-            )
+            (event) => {
+                event.preventDefault()
+                console.log(event.target.parentElement.parentElement.parentElement)
+                removeRow(
+                    event.target
+                        .parentElement
+                        .parentElement
+                        .parentElement
+                )
+            }
         );
 }

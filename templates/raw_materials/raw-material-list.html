@@ -6,8 +6,10 @@
 
     <div class="holder">
         <h2>Raw materials</h2>
-        <div class="btn-container">
-            <div class="btn-2 box-shadow-inset"><a href="{% url 'raw_material_create' %}">Create</a></div>
+        <div class="btn-container large-button-container">
+            <div class="btn-2 box-shadow-inset">
+                <a href="{% url 'raw_material_create' %}">Create</a>
+            </div>
         </div>
     </div>
 
@@ -16,6 +18,17 @@
         {% for object in object_list %}
 
             <div class="list-elem">
+                <div class="icon-bar">
+                    {% if user.is_staff %}
+                        <a href="{% url 'raw_material_update' object.pk %}">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <a href="{% url 'raw_material_delete' pk=object.pk %}">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    {% endif %}
+                </div>
+
                 <div class="info-container">
                     <h4>{{ object.trade_name }}</h4>
                     <p class="border-bottom"></p>
@@ -23,22 +36,14 @@
                     <div class="border-bottom"></div>
                     <p>natural content:</p>
                     <p>{{ object.natural_origin_content }} %</p>
-                     <div class="update-rm-button">
-                        <a href="{% url 'raw_material_update' object.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
-                    </div>
+
                 </div>
                 {% if user.is_authenticated %}
                     <div class="btn-container">
                         <button class="btn gradient-border-3 box-shadow-inset">
                             <a href="{% url 'raw_material_details' object.pk %}">Details</a>
                         </button>
-{#                        <button class="btn gradient-border-3 box-shadow-inset">#}
-{#                            <a href="{% url 'raw_material_update' object.pk %}">Update</a>#}
-{#                        </button>#}
                     </div>
-                {% endif %}
-                {% if user.is_staff %}
-                        <a class="raw-material-delete" href="{% url 'raw_material_delete' pk=object.pk %}"><i class="fa-solid fa-trash-can"></i></a>
                 {% endif %}
             </div>
 
@@ -49,7 +54,7 @@
     {% else %}
         <p>No raw materials are found.</p>
     {% endif %}
-    
+
     {% include  "includes/entrance-animation.html" %}
 
 {% endblock %}

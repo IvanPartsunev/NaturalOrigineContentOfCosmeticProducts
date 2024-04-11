@@ -1,5 +1,6 @@
 .form-container {
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     padding: 1em;
@@ -14,6 +15,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 1em;
+    width: 100%;
 }
 
 .small-form-container {
@@ -34,6 +36,7 @@
     margin-top: 0.2em;
     border-radius: 0.5em;
     overflow: hidden;
+    width: 100%;
     transition: 0.7s box-shadow ease;
 }
 
@@ -65,7 +68,8 @@
     flex: 1 1 15%;
 }
 
-.raw-material-field {
+.raw-material-field,
+#formula-labels-calc label:nth-child(1) {
     flex: 1 1 8%;
 }
 
@@ -122,10 +126,16 @@
 
 .add-field,
 .delete-field,
-.info-row {
-    display: block;
+.info-row,
+#formula-labels-calc label:nth-child(7) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 4%;
-    padding: 0.2em;
+}
+
+.add-field {
+    margin-top: 0.3em;
 }
 
 .add-field a {
@@ -145,6 +155,14 @@
     opacity: 1;
     transform: scale(1.1);
     color: rgba(217, 27, 27, 0.8);
+}
+
+.delete-field a i {
+    display: flex;
+    flex: 1 1;
+    justify-content: center;
+    width: 100%;
+    height: auto;
 }
 
 .add-field a:hover,
@@ -187,11 +205,11 @@
 
 .noc-container {
     display: flex;
+    flex: 1 1 20%;
     justify-content: right;
     align-items: center;
     width: 100%;
-    padding-inline: 1em;
-    font-size: 0.7em;
+    padding-inline: 0.5em;
     gap: 1em;
 }
 
@@ -218,30 +236,39 @@ div#details-btn-container {
     margin: 3em 0 0 0;
 }
 
-#formula-labels {
+#formula-labels,
+#formula-labels-calc {
     display: flex;
     width: 100%;
 }
 
 #formula-labels label:nth-child(2),
-#formula-labels label:nth-child(3) {
+#formula-labels label:nth-child(3),
+#formula-labels-calc label:nth-child(2),
+#formula-labels-calc label:nth-child(3) {
     flex: 1 1 26%;
     margin-top: auto;
 }
 
-#formula-labels label:nth-child(5) {
+#formula-labels label:nth-child(5),
+#formula-labels-calc label:nth-child(5) {
     flex: 1 1 15%;
     margin-top: auto;
 }
 
 #formula-labels label:first-child,
 #formula-labels label:nth-child(4),
+#formula-labels-calc label:nth-child(4),
+#formula-labels-calc label:nth-child(6),
 #formula-labels label:last-child {
     flex: 1 1 5%;
     text-align: end;
     margin-top: auto;
 }
 
+div#remove-row {
+    width: 100%;
+}
 
 @media (max-width: 800px) {
     .form-container {

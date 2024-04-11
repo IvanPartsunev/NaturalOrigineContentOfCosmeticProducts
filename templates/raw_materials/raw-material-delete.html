@@ -8,7 +8,7 @@
                 <p class="border-bottom"></p>
                 <p class="name-info">{{ object.trade_name }}</p>
             </div>
-            <form action="{% url 'raw_material_delete' pk=object.pk %}" method="post">
+            <form class="card-2" action="{% url 'raw_material_delete' pk=object.pk %}" method="post">
                 {% csrf_token %}
                 <div class="btn-container">
                     <button class="btn gradient-border-3 box-shadow-inset" type="submit"><a>Yes</a></button>

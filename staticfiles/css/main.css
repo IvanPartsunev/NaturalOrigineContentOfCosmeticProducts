@@ -26,6 +26,7 @@ main::before {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     position: relative;
     padding: 1em;
     margin-block: 1em;

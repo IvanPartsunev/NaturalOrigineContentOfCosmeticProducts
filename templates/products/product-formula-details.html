@@ -49,12 +49,14 @@
                 <p class="gradient-border-circle-2 box-shadow" id="noc-result">n/a %</p>
             </div>
 
-            <div class="btn-container" id="details-btn-container">
+            <div class="btn-container large-button-container" id="details-btn-container">
                 <a class="btn-2" href="{% url 'product_formula_update' pk=product_id %}?action=update">Update</a>
             </div>
-            <a class="pdf-icon" href="{% url 'product_formula_details' pk=product_id %}?pdf_export=true">
-                <i class="fa-regular fa-file-pdf"></i>
-            </a>
+            <div class="pdf-icon">
+                <a href="{% url 'product_formula_details' pk=product_id %}?pdf_export=true">
+                    <i class="fa-regular fa-file-pdf"></i>
+                </a>
+            </div>
         </form>
 
         <div class="sum-container">
@@ -63,7 +65,7 @@
             <p>%</p>
         </div>
     </div>
-    
+
     <script src="{% static 'js/calculateNaturalOrigin.js' %}"></script>
     <script src="{% static 'js/formulaDetails.js' %}"></script>
 

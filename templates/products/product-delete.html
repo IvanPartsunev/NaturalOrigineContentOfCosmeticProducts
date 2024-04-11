@@ -3,12 +3,12 @@
     <div class="holder">
         <div class="card box-shadow scale-in-center">
             <div class="info-container">
-                <h2>Delete</h2>
+                <h2>DELETE</h2>
                 <p>Are you sure you want to delete:</p>
                 <p class="border-bottom"></p>
                 <p class="name-info">{{ object.product_name }}</p>
             </div>
-            <form action="{% url 'product_delete' pk=object.pk %}" method="post">
+            <form class="card-2" action="{% url 'product_delete' pk=object.pk %}" method="post">
                 {% csrf_token %}
                 <div class="btn-container">
                     <button class="btn gradient-border-3 box-shadow-inset" type="submit"><a>Yes</a></button>

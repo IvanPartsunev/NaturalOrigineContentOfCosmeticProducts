@@ -22,7 +22,7 @@
                 <p>Joined on: {{ user.date_joined|date:"d.m.Y" }}</p>
                 <p class="border-bottom"></p>
             </div>
-            <div class="btn-container">
+            <div class="btn-container large-button-container">
                 <button class="btn gradient-border-3 box-shadow-inset">
                     <a href="{% url 'account_profile_update' pk=object.pk %}">Update</a>
                 </button>
