@@ -32,6 +32,7 @@ label {
 
 select {
     color: rgb(84, 84, 84, 1);
+    -webkit-appearance: none;
 }
 
 button {
@@ -65,7 +66,7 @@ input {
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  /*-webkit-appearance: none;*/
+  -webkit-appearance: none;
   appearance: none;
 }
 
