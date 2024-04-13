@@ -2,6 +2,7 @@
     <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
     <div class="field-container form-row">
         {% if field.widget_type == "select" %}
+                <div class="custom-select-2">
                 <select
                         name="{{ field.html_name }}"
                         id="{{ field.id_for_label }}"
@@ -17,6 +18,7 @@
                         </option>
                     {% endfor %}
                 </select>
+                </div>
         {% else %}
             <input
                     type="{{ field.widget_type }}"

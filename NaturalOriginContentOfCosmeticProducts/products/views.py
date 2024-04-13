@@ -1,5 +1,6 @@
 from django.core import exceptions
 from django.forms import formset_factory
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
@@ -8,7 +9,7 @@ from django.contrib.auth import mixins as auth_mixins
 
 from NaturalOriginContentOfCosmeticProducts.core.forms import SearchForm
 from NaturalOriginContentOfCosmeticProducts.products.forms import ProductCalculateNaturalContentForm, MyFormSet, \
-    ProductCreateForm
+    ProductCreateForm, ProductFormulaUpdateDescription
 from NaturalOriginContentOfCosmeticProducts.products.functions import export_pdf
 from NaturalOriginContentOfCosmeticProducts.products.mixins import CalculateSaveMixin, OwnerRequiredMixin
 from NaturalOriginContentOfCosmeticProducts.products.models import Product, ProductFormula
@@ -63,7 +64,7 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
     ordering = ["created_on"]
 
     def get_queryset(self):
-        queryset = Product.objects.filter(owner_id=self.request.user.pk).order_by("created_on")
+        queryset = Product.objects.filter(owner_id=self.request.user.pk).order_by("-created_on")
         search_query = self.request.GET.get("search_query")
         if search_query:
             queryset = queryset.filter(product_name__icontains=search_query)
@@ -135,7 +136,7 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
 
         old_formula = ProductFormula.objects.filter(product_id=product_id).first()
         if old_formula:
-            old_formula.objects.delete()
+            old_formula.is_active = False
 
         form.instance.product_id = product_id
         form.instance.is_active = True
@@ -219,6 +220,33 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         return self.render_to_response(self.get_context_data(formset=formset, product_pk=product_id))
 
 
+class ProductFormulaUpdateDescriptionView(OwnerRequiredMixin, views.UpdateView):
+    queryset = ProductFormula.objects.filter(is_active=True)
+    template_name = "products/product-formula-update.html"
+    form_class = ProductFormulaUpdateDescription
+    
+    def post(self, request, *args, **kwargs):
+
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        desc = form.data.get("formula_description")
+        form.instance.description = desc
+        form.save()
+        data = {
+            'success': True,
+            'message': 'Description updated successfully.'
+        }
+        return JsonResponse(data)
+
+    def form_invalid(self, form):
+        data = {
+            'success': False,
+            'errors': form.errors
+        }
+        return JsonResponse(data, status=400)
+
+
 class ProductFormulaDeleteView(OwnerRequiredMixin, views.DeleteView):
     """
     Clear session data for deleted formula
@@ -242,7 +270,6 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
 
     template_name = "products/product-calculate-natural-content.html"
     form_class = ProductCalculateNaturalContentForm
-    success_url = reverse_lazy("product_list")
 
     def get(self, request, *args, **kwargs):
         product_id = kwargs.get("pk")
@@ -331,6 +358,7 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
             context["existing_materials"] = existing_materials
             context["product_name"] = self.request.session.get("product_name")
             context["formula_description"] = self.request.session.get("formula_description")
+            context["formula_id"] = self.request.session.get("formula_id")
             context["action"] = action
 
         elif self.request.method == "POST":
@@ -338,9 +366,13 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
             context["existing_materials"] = existing_materials
             context["product_name"] = self.request.session.get("product_name")
             context["formula_description"] = self.request.session.get("formula_description")
+            context["formula_id"] = self.request.session.get("formula_id")
             context["action"] = action
 
         return context
+
+    def get_success_url(self):
+        return reverse("product_formula_details", kwargs={"pk": self.request.session.get("product_id")})
 
     def form_valid(self, formset):
         # TODO Product natural content to be saved in product formula, not directly in product.

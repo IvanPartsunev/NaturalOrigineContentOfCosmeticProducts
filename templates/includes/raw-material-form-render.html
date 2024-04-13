@@ -15,21 +15,23 @@
     {% elif field.widget_type == "select" %}
         <label for="{{ field.id_for_label }}">
             {{ field.label }}
-            <select
-                    name="{{ field.html_name }}"
-                    id="{{ field.id_for_label }}"
-                    class="select-field"
-            >
-                {% for choice in field.subwidgets %}
-                    <option
-                            class="option"
-                            value="{{ choice.data.value }}"
-                            {% if field.initial == choice.data.value %} selected {% endif %}
-                    >
-                        {{ choice.choice_label }}
-                    </option>
-                {% endfor %}
-            </select>
+            <div class="custom-select-2">
+                <select
+                        name="{{ field.html_name }}"
+                        id="{{ field.id_for_label }}"
+                        class="custom-select"
+                >
+                    {% for choice in field.subwidgets %}
+                        <option
+                                class="option"
+                                value="{{ choice.data.value }}"
+                                {% if field.initial == choice.data.value %} selected {% endif %}
+                        >
+                            {{ choice.choice_label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
         </label>
 
     {% elif field.widget_type == "number" %}

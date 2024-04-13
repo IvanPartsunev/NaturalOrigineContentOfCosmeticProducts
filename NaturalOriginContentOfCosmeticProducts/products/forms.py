@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.forms import formset_factory, BaseFormSet
 
-from NaturalOriginContentOfCosmeticProducts.products.models import Product
+from NaturalOriginContentOfCosmeticProducts.products.models import Product, ProductFormula
 from NaturalOriginContentOfCosmeticProducts.raw_materials.forms import RawMaterialForm
 from NaturalOriginContentOfCosmeticProducts.raw_materials.models import RawMaterial
 
@@ -15,6 +15,15 @@ class ProductCreateForm(forms.ModelForm):
         model = Product
         fields = [
             "product_name",
+        ]
+
+
+class ProductFormulaUpdateDescription(forms.ModelForm):
+
+    class Meta:
+        model = ProductFormula
+        fields = [
+            "description"
         ]
 
 

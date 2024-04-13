@@ -31,8 +31,10 @@ label {
 }
 
 select {
+    appearance: none;
     color: rgb(84, 84, 84, 1);
     -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 button {

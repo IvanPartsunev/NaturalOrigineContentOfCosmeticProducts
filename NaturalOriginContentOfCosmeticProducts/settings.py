@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
 if not DEBUG:
     ALLOWED_HOSTS = ["noccalculator.azurewebsites.net"]
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
 
     # third party apps
     'whitenoise.runserver_nostatic',
+    
     # project apps
     'NaturalOriginContentOfCosmeticProducts.raw_materials.apps.RawMaterialConfig',
     'NaturalOriginContentOfCosmeticProducts.products.apps.ProductsConfig',

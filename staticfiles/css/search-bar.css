@@ -6,6 +6,11 @@
     margin: 0 0 1em 0;
 }
 
+.search > label {
+    display: flex;
+    align-items: center;
+}
+
 .search-form {
     display: flex;
     width: 50%;

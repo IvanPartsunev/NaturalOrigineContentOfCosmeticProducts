@@ -52,22 +52,22 @@ div#list-prod:focus {
     transform: scale(1.1);
 }
 
-div#create-rm {
+div#list-prod {
     top: 0;
     left: 0;
 }
 
-div#list-rm {
+div#create-prod {
     top: 0;
     right: 0;
 }
 
-div#create-prod {
+div#list-rm {
     bottom: 0;
     left: 0;
 }
 
-div#list-prod {
+div#create-rm {
     bottom: 0;
     right: 0;
 }

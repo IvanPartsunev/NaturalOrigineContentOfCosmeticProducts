@@ -4,17 +4,23 @@
     <div class="holder">
         <div class="gradient-border-circle scale-in-center" id="home-container">
             {% if user.is_authenticated %}
-                <div class="gradient-border-circle-2 scale-in-center" id="create-rm"><a href="{% url 'raw_material_create' %}">Create
-                    Raw material</a></div>
-                <div class="gradient-border-circle-2 scale-in-center" id="list-rm"><a href="{% url "raw_material_list" %}">Raw
-                    materials</a></div>
-                <div class="gradient-border-circle-2 scale-in-center" id="create-prod"><a href="{% url 'product_create' %}">Create
-                    product</a></div>
-                <div class="gradient-border-circle-2 scale-in-center" id="list-prod"><a href="{% url 'product_list' %}">My products</a>
+                <div class="gradient-border-circle-2 scale-in-center" id="list-prod">
+                    <a href="{% url 'product_list' %}">My products</a>
                 </div>
+                <div class="gradient-border-circle-2 scale-in-center" id="create-prod">
+                    <a href="{% url 'product_create' %}">Create product</a>
+                </div>
+                <div class="gradient-border-circle-2 scale-in-center" id="create-rm">
+                    <a href="{% url 'raw_material_create' %}">Create Raw material</a>
+                </div>
+                <div class="gradient-border-circle-2 scale-in-center" id="list-rm">
+                    <a href="{% url "raw_material_list" %}">Raw materials</a>
+                </div>
+
             {% else %}
-                <div class="gradient-border-circle-2 scale-in-center" id="create-rm"><a href="{% url "raw_material_list" %}">Raw
-                    materials</a></div>
+                <div class="gradient-border-circle-2 scale-in-center" id="create-rm">
+                    <a href="{% url "raw_material_list" %}">Raw materials</a>
+                </div>
             {% endif %}
         </div>
     </div>

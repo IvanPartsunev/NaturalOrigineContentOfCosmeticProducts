@@ -21,6 +21,7 @@ def index(request):
 def about(request):
     return render(request, "core/about.html")
 
+
 def get_material_data_for_autofill(request):
 
     """

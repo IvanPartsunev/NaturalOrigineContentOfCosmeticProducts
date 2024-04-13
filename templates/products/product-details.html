@@ -10,12 +10,14 @@
                 {{ object.natural_content|default_if_none:"n/a" }} %
             </p>
 
-            <div class="info-row">
-                <a href="{% url 'product_formula_details' pk=object.pk %}" id="">
-                    <i class="fa-solid fa-circle-info"></i>
-                </a>
-            </div>
-
+            {% if latest_formula %}
+                <div class="info-row">
+                    <a href="{% url 'product_formula_details' pk=object.pk %}" id="">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+                </div>
+            {% endif %}
+        
             <div class="border-bottom"></div>
 
             {% if latest_formula %}

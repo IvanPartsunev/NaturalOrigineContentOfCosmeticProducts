@@ -1,10 +1,12 @@
 import os
+from datetime import date
+from urllib.parse import quote
 
 from django.http import HttpResponse
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import landscape, letter, A4
+from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import cm, inch
+from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, TableStyle, Table, PageTemplate, Image, Frame
@@ -12,22 +14,45 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, TableStyle, Table, 
 from NaturalOriginContentOfCosmeticProducts.settings import STATICFILES_DIRS
 
 
+def material_natural_type(nat_type):
+    types = {
+        "NA": "Natural",
+        "ND": "Natural derived",
+        "NN": "Non natural",
+    }
+
+    return types[nat_type]
+
+
 def export_pdf(product_formula_data):
     # Create a buffer object to write PDF data
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="product_formula_details.pdf"'
+
+    current_date = date.today().strftime('%Y-%m-%d')
+    product_name = product_formula_data.product.product_name
+
+    # Encode filename
+    encoded_filename = quote(f"{current_date} {product_name}.pdf")
+
+    response['Content-Disposition'] = f'attachment; filename="{encoded_filename}"'
     buffer = response
 
     page_size = landscape(A4)
-    left_margin = 0.5 * cm
-    right_margin = 0.5 * cm
+    left_margin = 1 * cm
+    right_margin = 1 * cm
     top_margin = 0.5 * cm
     bottom_margin = 0.5 * cm
 
     styles = getSampleStyleSheet()
 
-    doc = SimpleDocTemplate(buffer, pagesize=page_size, leftMargin=left_margin, rightMargin=right_margin,
-                            topMargin=top_margin, bottomMargin=bottom_margin)
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=page_size,
+        leftMargin=left_margin,
+        rightMargin=right_margin,
+        topMargin=top_margin,
+        bottomMargin=bottom_margin
+    )
 
     font_path = os.path.join(STATICFILES_DIRS[0], 'fonts', 'Roboto-Regular.ttf')
     pdfmetrics.registerFont(TTFont('Roboto', font_path))
@@ -46,12 +71,13 @@ def export_pdf(product_formula_data):
         fontSize=16,
         fontName="Roboto",
         spaceAfter=20,
-        alignment=1
+        alignment=1,
     )
 
     centered_style_desc = ParagraphStyle(
         name='CenteredStyle',
         fontSize=12,
+        fontName="Roboto",
         spaceAfter=20,
         alignment=1
     )
@@ -70,7 +96,7 @@ def export_pdf(product_formula_data):
         fontName="Roboto",
         spaceBefore=10,
         spaceAfter=10,
-        alignment=0
+        alignment=0,
     )
 
     # Add content to the PDF
@@ -82,49 +108,54 @@ def export_pdf(product_formula_data):
         Paragraph("", styles['Normal']),
     ]
 
-    data = [['#', 'Trade Name', 'INCI Name', 'Content %', 'Material Type %']]
+    data = [['#', 'Trade Name', 'INCI Name', '% in', 'Type', "noc %"]]
 
     for index, product in enumerate(product_formula_data.formula.all(), start=1):
+
         raw_material = product.raw_material
+        trade_name = Paragraph(raw_material.trade_name)
+        inci_name = Paragraph(raw_material.inci_name)
+
         row_num = str(index)
         raw_material_content = str(product.raw_material_content)
         natural_origin_content = str(raw_material.natural_origin_content)
-        data.append([row_num, raw_material.trade_name, raw_material.inci_name, raw_material_content,
-                     raw_material.material_type, natural_origin_content])
 
-    table_style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.white),
-                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                              ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                              ('FONTNAME', (0, 0), (-1, 0), 'Roboto'),
-                              ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                              ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                              ('GRID', (0, 0), (-1, -1), 0.1, colors.gray),
-                              ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-                              ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
-                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                              ('FONTNAME', (0, 0), (-1, 0), 'Roboto'),
-                              ('FONTSIZE', (0, 0), (-1, 0), 12),
-                              ('BACKGROUND', (0, 1), (-1, -1), colors.white),
-                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-                              ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-                              ('ALIGN', (0, 1), (-1, -1), 'LEFT'),
-                              ('FONTNAME', (0, 0), (-1, -1), 'Roboto'),
-                              ('GRID', (0, 0), (-1, -1), 0, colors.gray),
-                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-                              ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-                              ('SPAN', (1, 0), (1, 0)),
-                              ('SPAN', (4, 0), (5, 0)),
-                              ('WORDWRAP', (0, 0), (-1, -1))])  # Enable word wrap for all cells
+        material_type = material_natural_type(raw_material.material_type)
 
-    table = Table(data, splitByRow=True)  # Explicitly set splitByRow to True
+        data.append([
+            row_num,
+            trade_name,
+            inci_name,
+            raw_material_content,
+            material_type,
+            natural_origin_content
+        ])
+
+    table_style = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Roboto'),
+        ('FONTSIZE', (0, 0), (-1, 0), 12),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.gray),
+    ])
+
+    column_widths = [20, 300, 300, 50, 80, 40]
+
+    table = Table(data, colWidths=column_widths, repeatRows=1)
     table.setStyle(table_style)
 
     content.append(table)
 
     product_noc = product_formula_data.product.natural_content
     product_date = product_formula_data.product.edited_on
+
     content.append(Paragraph(f"Natural origin content of the product: {product_noc} %", style_noc))
     content.append(Paragraph(f"Date calculated: {product_date}", style_date))
+
     content.append(header_image)
 
     doc.build(content)

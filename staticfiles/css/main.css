@@ -63,6 +63,11 @@ main::before {
     border-radius: 1em;
 }
 
+.card-2 > p,
+.card-2 > h3 {
+    text-align: center;
+}
+
 .card-3 {
     padding: 1em;
     border-radius: 0.5em;
@@ -137,7 +142,30 @@ div.list-elem p:last-of-type {
     font-size: 0.8em;
 }
 
-h2  {
+.custom-select-1,
+.custom-select-2 {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-select-2 {
+    width: 100%;
+}
+
+.custom-select-1::after,
+.custom-select-2::after {
+    content: '\f078';
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+h2 {
     font-size: calc(1vw + 1vh);
     margin-bottom: 1em;
     width: 100%;

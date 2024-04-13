@@ -103,3 +103,5 @@ class OwnerRequiredMixin(auth_mixins.LoginRequiredMixin):
             raise exceptions.PermissionDenied
 
         return obj
+
+
