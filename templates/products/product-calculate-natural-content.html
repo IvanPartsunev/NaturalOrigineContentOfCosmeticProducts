@@ -7,9 +7,10 @@
         <div class="info-container">
             <h2>{{ product_name }}</h2>
             <p class="border-bottom"></p>
-            <div class="search">
+            <div class="info-container">
                 <label for="formula-desc">Description:</label>
-                <form class="search-form" action="{% url 'product_formula_update_description' pk=formula_id %}"
+                
+                <form class="search-form" action="{% url 'product_formula_update_description' pk=request.session.formula_id %}"
                       id="desc-update">
 
                     <input class="search-field" type="text" id="formula_description"
@@ -62,7 +63,7 @@
 
                             </div>
                         {% endfor %}
-                        <div class="delete-field">
+                        <div class="delete-field" id="">
                             <a href="#" id="remove-row"><i class="fa-solid fa-circle-minus"></i></a>
                         </div>
                     </div>
@@ -99,34 +100,8 @@
         </div>
     </div>
 
-    {% include "includes/calculate-natural-content-autofill.html" %}
+    {% include "includes/jQuery/calculate-natural-content-autofill.html" %}
+    {% include "includes/jQuery/product-formula-update-description.html" %}
     <script src="{% static 'js/addRemoveRow.js' %}"></script>
     <script src="{% static 'js/calculateNaturalOrigin.js' %}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#desc-submit').click(function () {
-                $('#desc-update').submit();
-            });
-
-            $('#desc-update').submit(function (event) {
-                event.preventDefault();
-                const formulaDescription = $('#formula_description').val();
-                let formData = $(this).serializeArray();
-                formData.push({name: 'formula_description', value: formulaDescription});
-                formData = $.param(formData);
-
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: formData,
-                    success: function (response) {
-                        console.log(response);
-                    },
-                    error: function (xhr, errmsg, err) {
-                        console.log(xhr.status + ": " + xhr.responseText);
-                    }
-                });
-            });
-        });
-    </script>
 {% endblock %}

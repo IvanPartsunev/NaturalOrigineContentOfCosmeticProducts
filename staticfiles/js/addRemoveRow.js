@@ -17,6 +17,7 @@ document.querySelectorAll("a#remove-row").forEach((elem) => {
                 event.target
                     .parentElement
                     .parentElement
+                    .parentElement
             )
         }
     )
@@ -45,8 +46,8 @@ function addRow() {
 function removeRow(currForm) {
     const currentForm = currForm
     const totalForms = document.querySelector(('#id_form-TOTAL_FORMS'))
-
-    if (currentForm.id !== "form-0" && totalForms.value > 1) {
+    console.log(currentForm)
+    if (currentForm.id.includes("form") && currentForm.id !== "form-0" && totalForms.value > 1) {
         totalForms.value = Number(totalForms.value) - 1;
 
         subtractContent(currentForm);
@@ -84,4 +85,26 @@ function removeErrors(form) {
     if (errors.length > 0) {
         errors.forEach((err) => err.remove());
     }
+}
+
+function addEventListeners(form) {
+    form.addEventListener("keyup", () => sumContent());
+    form.querySelectorAll("input[type='number']").forEach((elem) => {
+        elem.addEventListener("blur", () => calculateNatOriginContent())
+    })
+
+    form.lastElementChild
+        .querySelector("a#remove-row")
+        .addEventListener(
+            "click",
+            (event) => {
+                event.preventDefault()
+                removeRow(
+                    event.target
+                        .parentElement
+                        .parentElement
+                        .parentElement
+                )
+            }
+        );
 }

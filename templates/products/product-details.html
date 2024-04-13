@@ -7,12 +7,16 @@
         <div class="card-2 box-shadow gradient-border-4 scale-in-center">
             <h2>{{ object.product_name }}</h2>
             <p class="gradient-border-circle box-shadow-inset">
-                {{ object.natural_content|default_if_none:"n/a" }} %
+                {% if last_formula %}
+                	{{ last_formula.formula_natural_content|default_if_none:"n/a" }} %
+                {% else %}
+                    n/a %
+                {% endif %}
             </p>
 
-            {% if latest_formula %}
+            {% if last_formula %}
                 <div class="info-row">
-                    <a href="{% url 'product_formula_details' pk=object.pk %}" id="">
+                    <a href="{% url 'product_formula_details' pk=object.pk %}">
                         <i class="fa-solid fa-circle-info"></i>
                     </a>
                 </div>
@@ -20,12 +24,12 @@
         
             <div class="border-bottom"></div>
 
-            {% if latest_formula %}
-                <div>Description: {{ latest_formula.description|default_if_none:"" }}</div>
+            {% if last_formula %}
+                <div>Description: {{ last_formula.description|default_if_none:"" }}</div>
                 <div class="border-bottom"></div>
 
-                <div>Created on: {{ latest_formula.created_on|date:"d.m.Y" }}</div>
-                <div>Updated on: {{ latest_formula.edited_on|date:"d.m.Y" }}</div>
+                <div>Created on: {{ last_formula.created_on|date:"d.m.Y" }}</div>
+                <div>Updated on: {{ last_formula.edited_on|date:"d.m.Y" }}</div>
                 <div class="border-bottom"></div>
 
             {% else %}

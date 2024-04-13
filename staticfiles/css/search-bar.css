@@ -37,7 +37,9 @@ form.search-form:focus-within {
 
 .search-button {
     text-align: center;
+    font-size: 20px;
     width: 10%;
+    height: 1.5em;
     border-radius: 0 1em 1em 0;
     border: none;
     background: white;

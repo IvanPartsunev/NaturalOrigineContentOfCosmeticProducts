@@ -46,6 +46,7 @@ fieldContainers.forEach(container => {
 fieldContainers.forEach(container => {
     if (container.querySelector('[id*="material_type"]')) {
         container.classList.add('type-fields');
+        container.classList.add('custom-select-1');
     }
 });
 
@@ -93,25 +94,3 @@ function subtractContent(currentElem) {
     rmSum.innerText = String(currentRmSum - subtractValue);
 }
 
-function addEventListeners(form) {
-    form.addEventListener("keyup", () => sumContent());
-    form.querySelectorAll("input[type='number']").forEach((elem) => {
-        elem.addEventListener("blur", () => calculateNatOriginContent())
-    })
-
-    form.lastElementChild
-        .querySelector("a#remove-row")
-        .addEventListener(
-            "click",
-            (event) => {
-                event.preventDefault()
-                console.log(event.target.parentElement.parentElement.parentElement)
-                removeRow(
-                    event.target
-                        .parentElement
-                        .parentElement
-                        .parentElement
-                )
-            }
-        );
-}

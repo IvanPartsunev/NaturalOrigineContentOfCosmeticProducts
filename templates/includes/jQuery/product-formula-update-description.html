@@ -1,0 +1,27 @@
+<script>
+    $(document).ready(function () {
+        $('#desc-submit, #calculate').click(function () {
+            $('#desc-update').submit();
+        });
+
+        $('#desc-update').submit(function (event) {
+            event.preventDefault();
+            const formulaDescription = $('#formula_description').val();
+            let formData = $(this).serializeArray();
+            formData.push({name: 'formula_description', value: formulaDescription});
+            formData = $.param(formData);
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

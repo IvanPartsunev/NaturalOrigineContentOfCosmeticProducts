@@ -14,10 +14,12 @@ class CalculateSaveMixin:
     CALCULATION_ERROR_MESSAGE = "Sum of raw material's content should be between 100% and 103%!"
 
     @staticmethod
-    def save_not_existing_raw_materials(formset):
-        all_raw_materials = RawMaterial.objects.values_list("trade_name", flat=True)
+    def save_not_existing_raw_materials(formset, all_raw_materials):
+        raw_materials_name_list = list(all_raw_materials.values_list("trade_name", flat=True))
         for form in formset:
-            if form.cleaned_data.get("current_trade_name") in all_raw_materials:
+            current_raw_material = form.cleaned_data.get("current_trade_name")
+
+            if current_raw_material in raw_materials_name_list:
                 continue
             else:
                 form.save()
@@ -70,19 +72,22 @@ class CalculateSaveMixin:
 
         ProductFormulaRawMaterial.objects.bulk_create(raw_material_objects)
 
-    def calculate_product_natural_content(self, raw_materials):
+    def calculate_product_natural_content(self, raw_materials, all_raw_materials):
         product_raw_natural_content = []
         sum_off_raw_materials_content = 0
 
         for raw_material in raw_materials:
+
+            current_raw_material_name = raw_material.cleaned_data.get("current_trade_name")
             content_in_formulation = raw_material.cleaned_data.get("raw_material_content")
-            natural_origin_content = raw_material.cleaned_data.get("natural_origin_content")
+            natural_origin_content = all_raw_materials.get(trade_name=current_raw_material_name).natural_origin_content
 
             sum_off_raw_materials_content += content_in_formulation
             calculated = content_in_formulation * natural_origin_content / 100
             product_raw_natural_content.append(calculated)
 
-        if sum_off_raw_materials_content > self.MAXIMUM_SUM_OF_CONTENT or sum_off_raw_materials_content < self.MINIMUM_SUM_OF_CONTENT:
+        if (sum_off_raw_materials_content > self.MAXIMUM_SUM_OF_CONTENT
+                or sum_off_raw_materials_content < self.MINIMUM_SUM_OF_CONTENT):
             return None
 
         product_natural_content = (sum(product_raw_natural_content) / sum_off_raw_materials_content) * 100

@@ -1,0 +1,41 @@
+<script>
+    $(document).ready(function () {
+        $(document).on("change", "#select_material", function () {
+            const materialId = $(this).val();
+
+            if (materialId !== "") {
+                const currentElement = $(this)
+                const parentElement = $(this).parent().parent().parent();
+                const inputFields = parentElement.find("input");
+                console.log(inputFields)
+                const selectField = parentElement.find("select#id_material_type");
+                console.log(selectField)
+
+                $.ajax({
+                    url: "{% url 'raw_material_autofill' %}",
+                    type: "GET",
+                    data: {
+                        "raw_material_id": materialId
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        inputFields.eq(1).val(data["name"]);
+                        inputFields.eq(2).val(data["inci"]);
+                        selectField.find("option[value='" + data["type"] + "']").prop("selected", true);
+                        inputFields.eq(3).val(data["nat_content"]);
+
+                        setTimeout(function () {
+                            currentElement[0].selectedIndex = 0;
+                        }, 450);
+                    }
+                });
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        const defaultOptionText = "Select";
+
+        $("select[id*='material_type'] option[value='']").text(defaultOptionText);
+    });
+</script>

@@ -1,21 +1,16 @@
-from decouple import config
+import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "1") == "1"
 
-if not DEBUG:
-    ALLOWED_HOSTS = ["noccalculator.azurewebsites.net"]
-
-    CSRF_TRUSTED_ORIGINS = ["https://noccalculator.azurewebsites.net"]
-
-else:
-    ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(" ")
+CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS]
 
 INSTALLED_APPS = [
 
@@ -29,7 +24,7 @@ INSTALLED_APPS = [
 
     # third party apps
     'whitenoise.runserver_nostatic',
-    
+
     # project apps
     'NaturalOriginContentOfCosmeticProducts.raw_materials.apps.RawMaterialConfig',
     'NaturalOriginContentOfCosmeticProducts.products.apps.ProductsConfig',
@@ -68,29 +63,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NaturalOriginContentOfCosmeticProducts.wsgi.application'
 
-if not DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "noccalculator-database",
-            "USER": "lkngwbwfsd",
-            "PASSWORD": "s2isXu2qL$ZUV8LM",
-            "HOST": "noccalculator-server.postgres.database.azure.com",
-            "PORT": "5432",
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get('DATABASE_NAME'),
+        "USER": os.environ.get('DATABASE_USER'),
+        "PASSWORD": os.environ.get('DATABASE_PASSWORD'),
+        "HOST": os.environ.get('DATABASE_HOST'),
+        "PORT": os.environ.get('DATABASE_PORT'),
     }
-
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "natural_origin_content_db",
-            "USER": "user_1",
-            "PASSWORD": "1111",
-            "HOST": "127.0.0.1",
-            "PORT": "5432",
-        }
-    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

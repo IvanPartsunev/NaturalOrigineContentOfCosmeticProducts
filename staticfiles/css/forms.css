@@ -26,7 +26,8 @@
     margin-top: 1em;
 }
 
-.small-form-container button {
+.small-form-container button,
+.small-form-container a {
     margin-top: 2em;
 }
 
@@ -122,6 +123,14 @@
 .form-field:focus {
     border: none;
     box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.5);
+}
+
+textarea.form-field {
+    resize: none;
+    padding: 0.5em;
+    height: 10em;
+    border-radius: 0.5em;
+    margin-top: 0.5em;
 }
 
 .add-field,
@@ -225,7 +234,8 @@
     background-color: white;
     box-shadow: inset 0 -1px 5px 0 rgba(84, 84, 84, 0.4), 0 0 0.3em 0 rgba(0, 0, 0, 0);
     border-radius: 7px;
-    padding: 0.3em;
+    padding: 0.3em 1em 0.3em 1em;
+    width: 100%;
 }
 
 .field-container > #select_material {

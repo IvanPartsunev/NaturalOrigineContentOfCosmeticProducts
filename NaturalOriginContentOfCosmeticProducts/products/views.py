@@ -41,9 +41,9 @@ class ProductDetailsView(OwnerRequiredMixin, views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        """Obtain last formulation for the product"""
-        last_formula = self.object.product.last()
-        context["latest_formula"] = last_formula
+        """Obtain last active formulation for the product"""
+        last_formula = self.object.product.filter(is_active=True).first()
+        context["last_formula"] = last_formula
 
         product_name = self.object.product_name
         product_id = self.object.pk
@@ -64,7 +64,11 @@ class ProductListView(auth_mixins.LoginRequiredMixin, views.ListView):
     ordering = ["created_on"]
 
     def get_queryset(self):
-        queryset = Product.objects.filter(owner_id=self.request.user.pk).order_by("-created_on")
+        queryset = (Product.objects
+                    .prefetch_related("product")
+                    .filter(owner_id=self.request.user.pk)
+                    .order_by("-edited_on"))
+
         search_query = self.request.GET.get("search_query")
         if search_query:
             queryset = queryset.filter(product_name__icontains=search_query)
@@ -136,7 +140,7 @@ class ProductFormulaCreateView(auth_mixins.LoginRequiredMixin, views.CreateView)
 
         old_formula = ProductFormula.objects.filter(product_id=product_id).first()
         if old_formula:
-            old_formula.is_active = False
+            old_formula.delete()
 
         form.instance.product_id = product_id
         form.instance.is_active = True
@@ -159,8 +163,8 @@ class ProductFormulaDetailView(auth_mixins.LoginRequiredMixin, views.FormView):
         product_formula_data = (ProductFormula.objects
                                 .select_related("product")
                                 .prefetch_related("formula__raw_material")
-                                .filter(product_id=product_id, is_active=True)
-                                .order_by("id").first())
+                                .filter(product_id=product_id)
+                                .order_by("-id").first())
 
         if not product_formula_data:
             return self.render_to_response(self.get_context_data())
@@ -224,10 +228,6 @@ class ProductFormulaUpdateDescriptionView(OwnerRequiredMixin, views.UpdateView):
     queryset = ProductFormula.objects.filter(is_active=True)
     template_name = "products/product-formula-update.html"
     form_class = ProductFormulaUpdateDescription
-    
-    def post(self, request, *args, **kwargs):
-
-        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         desc = form.data.get("formula_description")
@@ -278,7 +278,7 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
         product_formula_data = (ProductFormula.objects
                                 .select_related("product")
                                 .prefetch_related("formula__raw_material")
-                                .filter(product_id=product_id, is_active=True).first() or None)
+                                .filter(product_id=product_id).order_by("-id").first() or None)
 
         if not product_formula_data:
             formset = MyFormSet()
@@ -358,7 +358,6 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
             context["existing_materials"] = existing_materials
             context["product_name"] = self.request.session.get("product_name")
             context["formula_description"] = self.request.session.get("formula_description")
-            context["formula_id"] = self.request.session.get("formula_id")
             context["action"] = action
 
         elif self.request.method == "POST":
@@ -366,7 +365,6 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
             context["existing_materials"] = existing_materials
             context["product_name"] = self.request.session.get("product_name")
             context["formula_description"] = self.request.session.get("formula_description")
-            context["formula_id"] = self.request.session.get("formula_id")
             context["action"] = action
 
         return context
@@ -378,10 +376,12 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
         # TODO Product natural content to be saved in product formula, not directly in product.
         #  In product natural content have to be saved manually, decided by the user in product update.
 
-        action = self.request.GET.get('action')
-        self.save_not_existing_raw_materials(formset)
+        all_raw_materials = RawMaterial.objects.filter(is_deleted=False)
 
-        product_natural_content = self.calculate_product_natural_content(formset)
+        action = self.request.GET.get('action')
+        self.save_not_existing_raw_materials(formset, all_raw_materials)
+
+        product_natural_content = self.calculate_product_natural_content(formset, all_raw_materials)
 
         if not product_natural_content:
             existing_materials = RawMaterial.objects.all()

@@ -10,14 +10,31 @@
 
             <form class="small-form-container" action="{% url 'product_formula_create' %}" method="post">
 
-                {% include "includes/small-form-render.html" %}
+                {% for field in form %}
+                    
+                    <label for="{{ field.id_for_label }}">Description:</label>
+                        <textarea name="{{ field.html_name }}"
+                                  id="{{ field.id_for_label }}"
+                                  class="form-field box-shadow-inset"
+                                  rows="4"
+                                  cols="50"></textarea>
+                    
+                {% endfor %}
 
                 {% csrf_token %}
                 <div class="small-button-container">
-                    <button class="btn gradient-border-3 box-shadow-inset">Calculate</button>
+                    <button class="btn gradient-border-3 box-shadow-inset">Create</button>
+                    <a onclick="goBack()" class="btn gradient-border-3 box-shadow-inset">Back</a>
                 </div>
             </form>
 
         </div>
     </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
 {% endblock %}

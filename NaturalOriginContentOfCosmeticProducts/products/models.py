@@ -100,12 +100,3 @@ class ProductFormulaRawMaterial(CreateUpdateMixin):
     def __str__(self):
         return f"Raw material for {self.formula}"
 
-    # def formatted_edited_on(self, obj):
-    #     return obj.edited_on.strftime("%d-%m-%Y")
-    #
-    # formatted_edited_on.short_description = "Edited On"
-    #
-    # def formatted_created_on(self, obj):
-    #     return obj.created_on.strftime("%d-%m-%Y")
-    #
-    # formatted_created_on.short_description = "Created On"

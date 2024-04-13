@@ -63,20 +63,21 @@ i {
 }
 
 input {
+    appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  appearance: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 li {
     list-style: none;
 }
-
-
 
 
 

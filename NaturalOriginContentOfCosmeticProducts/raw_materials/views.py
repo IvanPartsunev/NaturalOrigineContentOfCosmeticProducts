@@ -64,10 +64,10 @@ class RawMaterialUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
         return reverse("raw_material_details", kwargs={"pk": self.object.pk})
 
     def get_object(self, queryset=None):
-        initital_pk = self.request.GET.get("raw_material")
+        initital_name = self.request.POST.get("trade_name")
 
-        if self.request.method == "GET" and initital_pk:
-            obj = RawMaterial.objects.get(pk=initital_pk)
+        if self.request.method == "POST" and initital_name:
+            obj = RawMaterial.objects.get(trade_name=initital_name)
             return obj
         else:
             return super().get_object(queryset)
