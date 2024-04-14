@@ -7,22 +7,25 @@
 
             <h3>{{ product_name }}</h3>
             <div class="border-bottom"></div>
-
-            <form class="small-form-container" action="{% url 'product_formula_create' %}" method="post">
+            <p>If a new formula is created, the current formula will be deleted.</p>
+            <p>Make sure you want to create a new formula.</p>
+            <div class="border-bottom"></div>
+            <form class="form-container" action="{% url 'product_formula_create' %}" method="post">
 
                 {% for field in form %}
-                    
+
                     <label for="{{ field.id_for_label }}">Description:</label>
-                        <textarea name="{{ field.html_name }}"
-                                  id="{{ field.id_for_label }}"
-                                  class="form-field box-shadow-inset"
-                                  rows="4"
-                                  cols="50"></textarea>
-                    
+                    <textarea name="{{ field.html_name }}"
+                              id="{{ field.id_for_label }}"
+                              rows="4"
+                              cols="50"
+                              class="form-field box-shadow-inset"
+                    ></textarea>
+
                 {% endfor %}
 
                 {% csrf_token %}
-                <div class="small-button-container">
+                <div class="btn-container large-button-container">
                     <button class="btn gradient-border-3 box-shadow-inset">Create</button>
                     <a onclick="goBack()" class="btn gradient-border-3 box-shadow-inset">Back</a>
                 </div>

@@ -38,11 +38,11 @@
     border-radius: 0.5em;
     overflow: hidden;
     width: 100%;
-    transition: 0.7s box-shadow ease;
+    transition: 0.5s box-shadow ease;
 }
 
 .form-row:hover {
-    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0.3em 0 rgba(0, 0, 0, 0.8);
 }
 
 .form-row:focus-within {
@@ -129,8 +129,9 @@ textarea.form-field {
     resize: none;
     padding: 0.5em;
     height: 10em;
+    width: 80%;
     border-radius: 0.5em;
-    margin-top: 0.5em;
+    margin: 1em 0 3em 0;
 }
 
 .add-field,
