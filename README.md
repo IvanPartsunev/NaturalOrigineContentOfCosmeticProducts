@@ -14,26 +14,29 @@ Users will be able to get help using a contact form in a Contact section or dire
 
 The Project will be maintained and contributed only by the author.
 
+!(https://imgur.com/a/Y0EKWtC)
+
 # Functionality of the project:
 
 Free to use a database with all raw materials registered in the site.
 
+_Only for users with accounts:_
 Adding new raw materials in a database.
-Editing raw materials.
 
 Users are able to create a profile where to calculate natural origin content of products and store them.
 Users are able to store the full formulation in the database.
-Only the newest one is displayed.
+Users are able to edit formulation.
+Only one formula per product can be created.
+If a new formula is created, the previous one will be deleted.
+
+Users can export the formula to PDF file and store it locally.
+
+_Only for users with permissions:_
+Editing raw materials.
 
 # Future functionalities:
 
-Users will be able
-to choose to save only the result for natural origin content of your product or whole formula for further editing.
-This option will be given because cosmetic product formulations are intellectual property
-and users may not want to store them out of a company database.
+Working on additional functionality
+to store one than more formula per product and Users will be able to choose the main formula.
 
-User will be able to update existing formulations.
-
-Direct links of raw material for easier gathering of additional information.
-
-Exporting document with calculation results.
+Direct links of raw material for easier gathering of additional information using external API.
