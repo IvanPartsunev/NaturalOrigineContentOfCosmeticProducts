@@ -14,7 +14,22 @@ Users will be able to get help using a contact form in a Contact section or dire
 
 The Project will be maintained and contributed only by the author.
 
+_Home screen:_
 ![Home page screenshot](/staticfiles/img/screenshots/homescreen.png)
+
+_Raw materials page:_
+![Home page screenshot](/staticfiles/img/screenshots/raw_materials_page.png)
+
+_Products page:_
+![Home page screenshot](/staticfiles/img/screenshots/products_page.png)
+
+_Products formula details page:_
+![Home page screenshot](/staticfiles/img/screenshots/formula_details_page.png)
+
+_Products formula edit page:_
+![Home page screenshot](/staticfiles/img/screenshots/formula_edit_page.png)
+
+
 
 # Functionality of the project:
 
