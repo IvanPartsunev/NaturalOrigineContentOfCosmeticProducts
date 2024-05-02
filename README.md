@@ -14,7 +14,7 @@ Users will be able to get help using a contact form in a Contact section or dire
 
 The Project will be maintained and contributed only by the author.
 
-![Home page screenshot](https://static.vecteezy.com/system/resources/thumbnails/025/181/412/small/picture-a-captivating-scene-of-a-tranquil-lake-at-sunset-ai-generative-photo.jpg)
+![Home page screenshot](https://imgur.com/a/0bJUvWE)
 
 # Functionality of the project:
 
