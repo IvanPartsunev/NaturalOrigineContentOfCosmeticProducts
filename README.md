@@ -14,7 +14,7 @@ Users will be able to get help using a contact form in a Contact section or dire
 
 The Project will be maintained and contributed only by the author.
 
-!(https://imgur.com/a/Y0EKWtC)
+![Home page screenshot](https://imgur.com/a/Y0EKWtC)
 
 # Functionality of the project:
 
