@@ -6,7 +6,6 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 from django.contrib.auth import mixins as auth_mixins
 
-
 from NaturalOriginContentOfCosmeticProducts.core.forms import SearchForm
 from NaturalOriginContentOfCosmeticProducts.products.forms import ProductCalculateNaturalContentForm, MyFormSet, \
     ProductCreateForm, ProductFormulaUpdateDescription
@@ -34,7 +33,6 @@ class ProductCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 
 class ProductDetailsView(OwnerRequiredMixin, views.DetailView):
-
     queryset = Product.objects.prefetch_related("product")
     template_name = "products/product-details.html"
 
@@ -256,7 +254,6 @@ class ProductFormulaDeleteView(OwnerRequiredMixin, views.DeleteView):
     template_name = "products/product-formula-details.html"
 
     def get_success_url(self):
-
         self.request.session["formula_description"] = None
         self.request.session["formula_id"] = None
         return reverse("product_details", kwargs={"pk": self.request.session.get("product_id")})
@@ -321,31 +318,35 @@ class ProductCalculateNaturalContentView(OwnerRequiredMixin, CalculateSaveMixin,
         return self.render_to_response(self.get_context_data(formset=formset, action=action))
 
     def post(self, request, *args, **kwargs):
+        kw = kwargs
         formset = MyFormSet(request.POST)
         product_id = kwargs.get("pk")
         action = self.request.GET.get("action")
+        check = formset.is_valid()
+        if formset.is_valid():
+            if any(form.cleaned_data for form in formset):
+                old_formulation = (ProductFormula.objects
+                                   .select_related("product")
+                                   .filter(product_id=product_id, is_active=True)
+                                   .first())
 
-        if formset.is_valid() and any(form.cleaned_data for form in formset):
-            old_formulation = (ProductFormula.objects
-                               .select_related("product")
-                               .filter(product_id=product_id, is_active=True)
-                               .first())
+                if old_formulation:
+                    old_formulation.product.natural_content = "n/a %"
+                    old_formulation.is_active = False
+                    old_formulation.delete()
 
-            if old_formulation:
-                old_formulation.product.natural_content = "n/a %"
-                old_formulation.is_active = False
-                old_formulation.delete()
+            else:
+                existing_materials = RawMaterial.objects.all()
+                context = {
+                    "formset": formset,
+                    "existing_materials": existing_materials,
+                    "product_name": self.request.session.get("product_name"),
+                    "formula_description": self.request.session.get("formula_description"),
+                    "action": action,
+                }
+                return render(request, self.template_name, context)
+
             return self.form_valid(formset)
-        else:
-            existing_materials = RawMaterial.objects.all()
-            context = {
-                "formset": formset,
-                "existing_materials": existing_materials,
-                "product_name": self.request.session.get("product_name"),
-                "formula_description": self.request.session.get("formula_description"),
-                "action": action,
-            }
-            return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

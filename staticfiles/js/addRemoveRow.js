@@ -46,9 +46,11 @@ function addRow() {
 function removeRow(currForm) {
     const currentForm = currForm
     const totalForms = document.querySelector(('#id_form-TOTAL_FORMS'))
-    console.log(currentForm)
+    const initialForms = document.querySelector(('#id_form-INITIAL_FORMS'))
+
     if (currentForm.id.includes("form") && currentForm.id !== "form-0" && totalForms.value > 1) {
         totalForms.value = Number(totalForms.value) - 1;
+        initialForms.value = Number(initialForms.value) - 1;
 
         subtractContent(currentForm);
 
@@ -56,8 +58,10 @@ function removeRow(currForm) {
         currentForm.addEventListener("animationend", () => {
             currentForm.remove();
             calculateNatOriginContent();
-
+            updateFormIndices()
         });
+
+
     }
 }
 
@@ -107,4 +111,19 @@ function addEventListeners(form) {
                 )
             }
         );
+}
+
+function updateFormIndices() {
+    const forms = document.querySelectorAll('.form-row');
+
+    forms.forEach((form, index) => {
+
+        form.id = `form-${index}`;
+        form.querySelectorAll('input, select').forEach(input => {
+            const name = input.name.replace(/-\d+-/, `-${index}-`);
+            const id = input.id.replace(/-\d+-/, `-${index}-`);
+            input.name = name;
+            input.id = id;
+        });
+    });
 }

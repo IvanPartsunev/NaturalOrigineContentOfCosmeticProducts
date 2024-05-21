@@ -60,7 +60,6 @@ class ProductCalculateNaturalContentForm(RawMaterialForm):
         for key, field in self.fields.items():
             field = self.fields.get(key)
             field.widget.attrs.update({'placeholder': field.label})
-            # field.label = ""
 
     def clean_current_trade_name(self):
         data = self.cleaned_data.get("current_trade_name")
